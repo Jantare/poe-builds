@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Farm 3.30 · PoE Builds</title>
+<meta name="description" content="Como funciona o farm na 3.30 Covens of Umbra e quais mecânicas farmar em cada fase da liga.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+.loop{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;counter-reset:s;padding:0;margin:0;list-style:none}
+.loop li{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:12px;min-width:0;position:relative}
+.loop li::before{counter-increment:s;content:counter(s);font-family:var(--f-display);font-weight:700;font-size:22px;color:var(--accent);text-shadow:0 0 12px var(--glow);display:block;margin-bottom:4px}
+.loop b{display:block;margin-bottom:4px;color:#eae4d3}
+.loop p{font-size:13.5px;margin:0;color:var(--muted)}
+@media (max-width:860px){.loop{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.loop{grid-template-columns:1fr}}
+.mech{display:grid;gap:12px}
+.mcard{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:14px;display:grid;gap:8px;min-width:0}
+.mhead{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
+.mhead h3{font-family:var(--f-display);font-size:19px;color:#eae4d3;margin:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mgrid div{min-width:0}
+.mgrid h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 4px}
+.mgrid ul,.mgrid p{margin:0;font-size:14px}
+.mgrid ul{padding-left:18px;display:grid;gap:3px}
+@media (max-width:640px){.mgrid{grid-template-columns:1fr}}
+.stars{font-family:var(--f-mono);font-size:12px;color:var(--spark)}
+.fit td:first-child{white-space:normal}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="in">
+  <a class="brand" href="../">PoE Builds</a>
+  <div class="links"><a href="../">Início</a><a href="../#builds">Seguras</a><a href="../#youtube">YouTube</a><a href="../#apostas">Apostas</a><a href="./" aria-current="page">Farm</a><a href="../craft/">Craft</a><a href="../#ferramentas">Ferramentas</a></div>
+</div></header>
+
+<div class="wrap wide">
+<header>
+  <div class="eyebrow">Path of Exile 1 · 3.30 Covens of Umbra · endgame</div>
+  <h1>Farm na 3.30</h1>
+  <p class="lede">Como o loot e o Atlas funcionam agora, quais mecânicas farmar em cada fase da liga e qual combina com cada tipo de build.</p>
+  <p class="note"><strong>Antes do lançamento:</strong> as regras abaixo vêm das notas oficiais da 3.30.0. Os preços (Threads, currency, Viscera) só vão existir depois do dia 13. Nos primeiros dias, teste e compare antes de investir pesado numa estratégia só.</p>
+</header>
+<nav class="sec" aria-label="Seções"><a href="#loot">O que mudou</a><a href="#loop">Como funciona</a><a href="#mecanicas">Mecânicas</a><a href="#fases">Plano por fase</a><a href="#builds">Por build</a><a href="#cuidado">Cuidado</a></nav>
+
+<section id="loot">
+  <h2>O que mudou no loot</h2>
+  <div class="why">
+    <div><h3>Currency boa vem de monstro raro</h3><p>A rarity do monstro agora decide o tipo de currency. Monstros mágicos soltam currency "mágica" (Alteration, Transmutation). Raros, uniques e bosses soltam a "rara": Chaos, Divine, até Mirror.</p></div>
+    <div><h3>Fim do corte de 80%</h3><p>Raros e uniques tinham 80% menos chance de soltar currency. Isso acabou. A maior parte da currency valiosa agora sai deles.</p></div>
+    <div><h3>Quantidade virou Atlas Drops</h3><p>Os mods de quantidade nos mapas viraram "Atlas Drops": mais mapas, mais Threads e mais recurso de liga (splinters, Lifeforce, Hiveblood).</p></div>
+    <div><h3>Rarity do jogador mudou</h3><p>A rarity no seu equipamento ficou fraca para achar itens. Agora ela aumenta o tier dos itens mágicos e raros que caem. Magic Find clássico não é mais o caminho.</p></div>
+    <div><h3>Mecânicas não aparecem sozinhas</h3><p>Abyss, Breach, Legion, Blight, Ritual, Expedition, Ultimatum e as outras principais só aparecem se você usar Threads ou estiver numa Região Moldada.</p></div>
+    <div><h3>Itens com tier</h3><p>Do Ato 6 em diante, raros e mágicos caem com tier de 2 a 5. Tier alto dá mods melhores, mais qualidade, sockets e links. Tier 5 pode cair com +1 de item level ou fraturado.</p></div>
+  </div>
+</section>
+
+<section id="loop">
+  <h2>Como funciona o farm</h2>
+  <ol class="loop">
+    <li><b>Escolha a região</b><p>O Atlas já começa com 10 Regiões Moldadas, uma por tipo de Thread. Mapas dentro dela ganham Threads de graça daquele tipo.</p></li>
+    <li><b>Monte o mapa</b><p>Coloque o mapa e até 8 Threads no Map Device. Cada Thread garante a mecânica; quanto mais Threads, maior a chance de efeitos especiais fortes.</p></li>
+    <li><b>Limpe e mate o boss</b><p>Faça a mecânica, os encontros das Covens (que dão Fates) e mate o boss. Completar o objetivo da região dá +1 Thread grátis nos outros mapas dela.</p></li>
+    <li><b>Use os Fates</b><p>Invoque até 3 Fates no boss: mais difícil e mais loot. Dois Fates iguais triplicam a recompensa do primeiro. O boss com Fate pode soltar Viscera.</p></li>
+    <li><b>Reinvista</b><p>Threads vêm dos altares Eldritch, strongboxes, Tormented Heretics e do Kirac. Use nas próximas rodadas ou venda as que você não usa.</p></li>
+  </ol>
+  <p class="note" style="margin-top:12px"><strong>Astrolabes</strong> colocam uma Região Moldada do tipo que você quiser num mapa específico, com mais Threads grátis que as regiões padrão. <strong>Frayed Thread</strong> vira uma Thread aleatória. O keystone <strong>Unwavering Vision</strong> limita você a um tipo de Thread, transforma 75% das Threads que caem em gold e dá +2 Threads por mapa (passando do limite de 8).</p>
+</section>
+
+<section id="mecanicas">
+  <h2>Melhores mecânicas para farmar</h2>
+  <div class="mech">
+
+    <article class="mcard">
+      <div class="mhead"><h3>Beyond (demônios)</h3><div class="tags"><span class="pill ok">Começo e meio da liga</span><span class="pill new">Clear rápido</span></div></div>
+      <div class="mgrid">
+        <div><h4>Como funciona</h4><p>Os mapas podem ter um <b>Demonic Evocator</b>: ao ativar, os monstros abrem portais de Beyond quando morrem. Uniques abrem vários portais. Matar bosses de Beyond dá Demonic Power por 60s e pode abrir a entrada de um reino demoníaco.</p></div>
+        <div><h4>Por que é bom na 3.30</h4><ul><li>Muitos monstros raros e únicos, que agora soltam a currency boa.</li><li>Monstros do Beyond têm mais chance de soltar Tainted Currency.</li><li>Os portais não param de aparecer depois que você mata o boss do Beyond.</li></ul></div>
+      </div>
+    </article>
+
+    <article class="mcard">
+      <div class="mhead"><h3>Legion</h3><div class="tags"><span class="pill ok">Desde os mapas brancos</span><span class="pill new">Thread</span></div></div>
+      <div class="mgrid">
+        <div><h4>Como funciona</h4><p>Use Legion Threads. Você congela um exército de monstros, quebra os grupos e os generais e mata tudo antes do tempo acabar.</p></div>
+        <div><h4>Por que é bom na 3.30</h4><ul><li>Muitos raros de uma vez: currency boa e itens com tier.</li><li>Atlas Drops aumenta os splinters de Legion.</li><li>Quebrar monstros causa ~33% menos Schism.</li><li>Fácil de começar, sem preparação.</li></ul></div>
+      </div>
+    </article>
+
+    <article class="mcard">
+      <div class="mhead"><h3>Fates e Viscera (mecânica da liga)</h3><div class="tags"><span class="pill ok">A liga inteira</span><span class="pill warn">Precisa de build forte</span></div></div>
+      <div class="mgrid">
+        <div><h4>Como funciona</h4><p>Encontros das Covens nos mapas dão Fates. Você invoca até 3 no boss do mapa. Bosses com Fate soltam <b>Viscera</b>, que você empala no Wickerman para ter buffs permanentes por slot (cabeça, braço, corpo, perna).</p></div>
+        <div><h4>O que rende</h4><ul><li>Combos de Fates dão <b>support gems excepcionais</b> e itens únicos novos (frasco Dreadmaidens' Sacrament).</li><li>Fates "Grim" vão para os pinnacles e soltam as Viscera mais fortes, até a Coven Queen.</li><li>O personagem fica mais forte com o tempo.</li></ul></div>
+      </div>
+    </article>
+
+    <article class="mcard">
+      <div class="mhead"><h3>Pinnacles Eldritch e Templar Vaults</h3><div class="tags"><span class="pill ok">Meio e fim da liga</span><span class="pill warn">Bosser</span></div></div>
+      <div class="mgrid">
+        <div><h4>Como funciona</h4><p>Matar o <b>Searing Exarch</b> e o <b>Eater of Worlds</b> em cada quadrante do Atlas tem chance de abrir uma anomalia <b>Templar Vault</b>. As versões dentro de convites do Maven ou mapas do Valdo não contam.</p></div>
+        <div><h4>Por que é bom</h4><ul><li>2 pontos de Atlas por boss (antes 1); o Uber Elder dá 4.</li><li>Bosses sem o corte de 80% na currency.</li><li>Os altares Eldritch agora dão Threads: Eater (Breach, Legion, Blight, Ritual, Incursion) e Exarch (Abyss, Expedition, Betrayal, Bestiary, Ultimatum).</li></ul></div>
+      </div>
+    </article>
+
+    <article class="mcard">
+      <div class="mhead"><h3>Ultimatum</h3><div class="tags"><span class="pill ok">Mapas vermelhos</span><span class="pill warn">Build resistente</span></div></div>
+      <div class="mgrid">
+        <div><h4>Como funciona</h4><p>Rodadas de desafio com modificadores que vão piorando. Você pode parar e pegar a recompensa ou arriscar mais uma.</p></div>
+        <div><h4>Por que é bom na 3.30</h4><ul><li>As recompensas agora <b>continuam melhorando depois da rodada 10</b> (antes travavam na 10).</li><li>Ótimo para builds resistentes (Earthshatter, totens, RF).</li></ul></div>
+      </div>
+    </article>
+
+    <article class="mcard">
+      <div class="mhead"><h3>Expedition</h3><div class="tags"><span class="pill ok">Meio da liga</span><span class="pill new">Crafting</span></div></div>
+      <div class="mgrid">
+        <div><h4>Como funciona</h4><p>Você coloca explosivos e detona remanescentes e baús. Ganha artefatos para trocar com os NPCs da Expedition.</p></div>
+        <div><h4>O que mudou</h4><ul><li>A Gwennen não aposta mais itens: agora oferece "take a chance" num raro seu, por 1 Astragali.</li><li>Os Tormented Spirits perto da Expedition viram lápides que soltam mais spirits.</li><li>O remanescente de quantidade de itens foi removido.</li></ul></div>
+      </div>
+    </article>
+
+    <article class="mcard">
+      <div class="mhead"><h3>Harvest</h3><div class="tags"><span class="pill ok">Mapas altos</span><span class="pill new">Crafting</span></div></div>
+      <div class="mgrid">
+        <div><h4>Como funciona</h4><p>Não tem mais área separada. A <b>Sacred Flora</b> aparece no mapa: ao interagir, monstros saem das raízes e soltam Lifeforce. Em mapas altos, uma <b>Sacred Specimen</b> invoca um boss de Harvest.</p></div>
+        <div><h4>Por que é bom</h4><ul><li>A Lifeforce cai em pilhas maiores e mais rápido de pegar.</li><li>Crafts de resistência ficaram mais baratos (300 de dois tipos).</li><li>A Lifeforce vende bem para quem crafta.</li></ul></div>
+      </div>
+    </article>
+
+    <article class="mcard">
+      <div class="mhead"><h3>Renda passiva e extras</h3><div class="tags"><span class="pill ok">Sempre</span></div></div>
+      <div class="mgrid">
+        <div><h4>Kingsmarch e Heist</h4><ul><li>Os envios de minério e barras de Kingsmarch agora só dão currency rara.</li><li>O Whakano vende Contracts e Blueprints por gold.</li><li>Rogue Exiles têm muito mais rarity e XP.</li></ul></div>
+        <div><h4>Delirium e Incursion</h4><ul><li>As Delirium Orbs agora reforjam o mapa com % de Delirious: mais % dá mais recompensas.</li><li>No Templo de Atzoatl, a Atziri (sala Cradle of Creation) solta Soul Cores e Royal Visages, e os mapas dos baús caem corrompidos.</li></ul></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="fases">
+  <h2>Plano por fase</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Fase</th><th>O que farmar</th><th>Objetivo</th></tr></thead>
+    <tbody>
+      <tr><td>Mapas brancos (T1–T5)</td><td>Regiões Moldadas com Legion e Strongbox; Threads grátis; Kingsmarch</td><td>Completar o Atlas, juntar Threads, sem gastar currency</td></tr>
+      <tr><td>Mapas amarelos (T6–T10)</td><td>Beyond + Legion com 1–3 Threads; Fates leves (1–2)</td><td>Primeiras Divines, primeiras Viscera</td></tr>
+      <tr><td>Mapas vermelhos (T11–T16)</td><td>Escolha 2–3 mecânicas para especializar na árvore do Atlas; Ultimatum se a build aguentar; Harvest</td><td>Exarch e Eater (2 pontos cada) e Templar Vaults</td></tr>
+      <tr><td>Endgame</td><td>4–8 Threads por mapa; Fates pesados; Grim Fates nos pinnacles</td><td>Viscera de pinnacle, Coven Queen, support gems excepcionais</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="builds">
+  <h2>Qual farm combina com cada build</h2>
+  <div class="tbl fit"><table>
+    <thead><tr><th>Tipo de build</th><th>Builds do site</th><th>Farm recomendado</th></tr></thead>
+    <tbody>
+      <tr><td>Clear rápido</td><td><a href="../builds/trickster-spark.html">Trickster Spark</a>, <a href="../builds/rf-chieftain.html">RF Chieftain</a>, <a href="../builds/toxic-rain-pathfinder.html">Toxic Rain</a>, <a href="../builds/poison-srs-necromancer.html">Poison SRS</a></td><td>Beyond + Legion + Harvest. Fates leves e muitos mapas por hora.</td></tr>
+      <tr><td>Bosser resistente</td><td><a href="../builds/earthshatter-berserker.html">Earthshatter</a>, <a href="../builds/stormburst-hierophant.html">Storm Burst</a>, <a href="../builds/yt-ballista-hierophant.html">Ballista</a></td><td>Fates pesados, Ultimatum, pinnacles Eldritch e Templar Vaults.</td></tr>
+      <tr><td>DoT e minion</td><td><a href="../builds/trickster-ed.html">ED + Contagion</a>, <a href="../builds/yt-absolution-necromancer.html">Absolution</a>, <a href="../builds/yt-animate-weapon-necromancer.html">Animate Weapon</a></td><td>Legion e Expedition. Minions e DoT não precisam mirar nos packs.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="cuidado">
+  <h2>Cuidado</h2>
+  <div class="cols">
+    <div><h3 class="badc">Evite</h3><ul>
+      <li>Magic Find com rarity no personagem: ficou fraco.</li>
+      <li>Gastar muito em Threads antes de saber os preços.</li>
+      <li>Farm que depende de Mercenário: levou nerf pesado.</li>
+      <li>Fates pesados antes de a build estar pronta: o boss fica muito mais forte.</li>
+    </ul></div>
+    <div><h3 class="good">Faça</h3><ul>
+      <li>Venda as Threads que você não usa: todo mundo vai precisar.</li>
+      <li>Vendor de raros iguais: 2 = 1 Chaos, 3 = 1 Exalted.</li>
+      <li>Complete os objetivos das Regiões Moldadas para ganhar Threads grátis.</li>
+      <li>Mate os pinnacles cedo: 2 pontos de Atlas cada.</li>
+    </ul></div>
+  </div>
+</section>
+
+<footer>Regras do farm: <a href="https://www.pathofexile.com/forum/view-thread/4013680" target="_blank" rel="noopener">notas oficiais da 3.30.0</a>. Estratégias: <a href="https://www.aoeah.com/news/4918--poe-330-best-atlas-tree-thread--map-farming-strats-covens-of-umbra" target="_blank" rel="noopener">AoEAH</a>, <a href="https://www.iggm.com/news/poe-3-30-covens-of-umbra-best-currency-farming-strategies" target="_blank" rel="noopener">IGGM</a>, <a href="https://www.ssegold.com/poe-3-30-currency-farming-guide" target="_blank" rel="noopener">SSEGold</a>, <a href="https://timesaver.gg/blog/poe-3-30-league-start-currency-fast" target="_blank" rel="noopener">Timesaver</a>, <a href="https://outputlag.com/news/path-of-exile-3-30-covens-of-umbra-invoke-fate-cards-on-area-bosses-for-bigger-loot/" target="_blank" rel="noopener">OutputLag</a>.</footer>
+</div>
+</body>
+</html>
