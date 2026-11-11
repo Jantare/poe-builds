@@ -1,0 +1,56 @@
+name: Build bau.exe
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bau/bau.py'
+      - 'bau/app.html'
+      - 'assets/style.css'
+      - '.github/workflows/bau-exe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PyInstaller
+        run: python -m pip install pyinstaller==6.11.1
+
+      - name: Check the script loads
+        run: python -c "import ast,sys; ast.parse(open('bau/bau.py',encoding='utf-8').read())"
+
+      - name: Build bau.exe
+        run: >
+          pyinstaller --onefile --noconsole --name bau
+          --add-data "bau/app.html;."
+          --add-data "assets/style.css;."
+          bau/bau.py
+
+      - name: Move the bau-latest tag to this commit
+        shell: bash
+        run: |
+          git tag -f bau-latest
+          git push -f origin bau-latest
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: bau-latest
+          name: Meu Baú (bau.exe)
+          make_latest: true
+          files: dist/bau.exe
+          body: |
+            App "Meu Baú" do PoE Builds: valor do baú do Path of Exile 1 em Chaos e Divine.
+            Baixe o bau.exe, coloque numa pasta e dê dois cliques. Ele abre no seu navegador.
+            Gerado automaticamente a partir do código em bau/bau.py (commit ${{ github.sha }}).
+            Na primeira vez, o Windows pode avisar "O Windows protegeu o computador": clique em Mais informações > Executar assim mesmo.

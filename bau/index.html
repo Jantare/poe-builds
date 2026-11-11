@@ -4,84 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Meu Baú · PoE Builds</title>
-<meta name="description" content="Veja quanto vale o seu baú do Path of Exile em Chaos e Divine, aba por aba.">
+<meta name="description" content="App para ver quanto vale o seu baú do Path of Exile em Chaos e Divine, aba por aba.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="../assets/style.css">
 <style>
-.wrap.full{max-width:1320px}
-.top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-bottom:14px}
-@media (max-width:860px){.top{grid-template-columns:1fr}}
-.box{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:14px 16px;min-width:0}
-.box h2{font-size:20px;margin:0 0 6px}
-.boxhead{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.big{font-family:var(--f-display);font-size:34px;color:#efe9da;text-shadow:0 0 14px var(--glow);line-height:1.1}
-.sub{font-family:var(--f-mono);font-size:13px;color:var(--muted)}
-.delta.up{color:var(--ok)}.delta.down{color:var(--bad)}
-.seg{display:inline-flex;background:var(--sunken);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.seg button{font:inherit;font-size:12.5px;font-weight:600;padding:4px 10px;border:0;background:none;color:var(--muted);cursor:pointer}
-.seg button[aria-pressed="true"]{background:var(--accent-soft);color:#fff}
-.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px 14px;margin-top:8px}
-.cat{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:14px;min-width:0}
-.cat img,.cat .noimg{width:26px;height:26px;object-fit:contain;flex:none;border-radius:4px;background:var(--sunken)}
-.cat span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cat small{display:block;font-family:var(--f-body);font-size:11px;color:var(--muted)}
-.chart{width:100%;height:110px;display:block;margin-top:8px}
-.chart .ln{fill:none;stroke:var(--accent);stroke-width:2.5}
-.chart .ar{fill:var(--accent-soft);opacity:.6}
-.chart .pt{fill:var(--accent)}
-.chart .gl{stroke:var(--line);stroke-width:1}
-.chart text{fill:var(--muted);font:11px var(--f-mono)}
-.main{display:grid;grid-template-columns:230px minmax(0,1fr);gap:14px;align-items:start}
-@media (max-width:860px){.main{grid-template-columns:1fr}}
-.side{background:var(--surface);border:1px solid var(--wood);border-radius:10px;overflow:hidden;min-width:0}
-.side .seg{display:flex;border-radius:0;border:0;border-bottom:1px solid var(--line)}
-.side .seg button{flex:1;padding:8px}
-.tablist{max-height:620px;overflow:auto;padding:6px}
-.tabrow{display:grid;grid-template-columns:auto 12px minmax(0,1fr) auto;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;font-size:14px;cursor:pointer}
-.tabrow:hover{background:var(--sunken)}
-.tabrow .sw{width:12px;height:12px;border-radius:3px}
-.tabrow .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tabrow .vl{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
-.tabrow input{accent-color:var(--accent)}
-.tabrow.snap{grid-template-columns:minmax(0,1fr) auto}
-.tabrow.snap[aria-current="true"]{background:var(--accent-soft)}
-.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
-.bar input[type=search]{font:inherit;font-size:14px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg);min-width:0;flex:1 1 200px}
-.chip{font-family:var(--f-mono);font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 12px;background:var(--sunken)}
-.chip b{color:#fff}
-details.filt{position:relative}
-details.filt summary{list-style:none;cursor:pointer;font-size:14px;font-weight:600;border:1px solid var(--line);border-radius:6px;padding:7px 12px;background:var(--surface)}
-details.filt summary::-webkit-details-marker{display:none}
-details.filt .pop{position:absolute;z-index:5;top:110%;left:0;background:var(--surface);border:1px solid var(--wood);border-radius:8px;padding:12px;display:grid;gap:10px;width:250px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
-.pop label{display:grid;gap:4px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.pop select,.pop input[type=number]{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg)}
-.pop .ck{display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-size:14px;color:var(--fg)}
-.meta{margin-left:auto;font-size:13px;color:var(--muted)}
-.items{border:1px solid var(--wood);border-radius:10px;overflow:auto;background:var(--surface)}
-.items table{min-width:680px}
-.items th{cursor:pointer;user-select:none;white-space:nowrap}
-.items th[aria-sort="descending"]::after{content:" ▾"}.items th[aria-sort="ascending"]::after{content:" ▴"}
-.items td{vertical-align:middle;font-size:14px}
-.items td:first-child,.items th:first-child{width:40px;white-space:nowrap}
-.items input{accent-color:var(--accent);width:16px;height:16px}
-.nmcell{display:flex;align-items:center;gap:10px;min-width:0}
-.nmcell img,.nmcell .noicon{width:28px;height:28px;object-fit:contain;flex:none}
-.r0{color:#c8c8c8}.r1{color:#8888ff}.r2{color:#ffff77}.r3{color:#af6025}.r4{color:#1ba29b}.r5{color:#aa9e82}.r6{color:#d9e6f2}
-.tabcell{display:flex;align-items:center;gap:6px}
-.tabcell i{width:10px;height:10px;border-radius:2px;display:inline-block}
-.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
-th.num{text-align:right}
-.unpriced{color:var(--muted)}
-.more{display:block;margin:10px auto;font:inherit;font-weight:600;padding:8px 16px;border-radius:6px;border:1px solid var(--accent);background:none;color:var(--accent);cursor:pointer}
-.drop{border:2px dashed var(--wood-hi);border-radius:12px;padding:22px;text-align:center;display:grid;gap:10px;justify-items:center;background:rgba(17,38,74,.25)}
-.drop.over{border-color:var(--accent);box-shadow:0 0 24px var(--glow)}
-.drop p{margin:0;max-width:60ch}
-.steps2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
-.steps2 div{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:12px;font-size:14px;min-width:0}
-.steps2 b{display:block;color:var(--accent);font-family:var(--f-display);margin-bottom:4px}
-.steps2 code{font-family:var(--f-mono);font-size:12.5px;background:var(--sunken);padding:1px 5px;border-radius:4px}
-.demo-flag{color:var(--warn)}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:center}
+@media (max-width:820px){.hero{grid-template-columns:1fr}}
+.dl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.dl .treelink{font-size:16px;padding:12px 20px}
+.mock{border:1px solid var(--wood-hi);border-radius:12px;overflow:hidden;box-shadow:0 0 34px rgba(92,170,255,.22);background:var(--surface)}
+.mock .bar{display:flex;gap:6px;padding:8px 10px;background:#0b111e;border-bottom:1px solid var(--line)}
+.mock .bar i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.mock .in{padding:14px;display:grid;gap:10px}
+.mock .t{font-family:var(--f-display);font-size:26px;color:#efe9da}
+.mock .r{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;font-size:13px;padding:6px 8px;border-radius:6px;background:var(--sunken)}
+.mock .r b{font-family:var(--f-mono);font-weight:500}
+.mock .sw{width:10px;height:10px;border-radius:2px}
+.steps3{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.steps3 div{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:12px;font-size:14px;min-width:0}
+.steps3 b{display:block;color:var(--accent);font-family:var(--f-display);font-size:16px;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -90,248 +32,63 @@ th.num{text-align:right}
   <div class="links"><a href="../">Início</a><a href="../#builds">Seguras</a><a href="../#youtube">YouTube</a><a href="../#apostas">Apostas</a><a href="../farm/">Farm</a><a href="../craft/">Craft</a><a href="./" aria-current="page">Baú</a></div>
 </div></header>
 
-<div class="wrap full">
-<header>
-  <div class="eyebrow">Path of Exile 1 · valor do baú</div>
-  <h1>Meu Baú</h1>
-  <p class="lede">Quanto vale cada aba do seu baú em Chaos e Divine. O script roda no seu PC e lê o baú com o seu login; esta página só mostra o arquivo que ele gera. Nada é enviado para servidor nenhum.</p>
+<div class="wrap wide">
+<header class="hero">
+  <div>
+    <div class="eyebrow">Path of Exile 1 · app para Windows</div>
+    <h1>Meu Baú</h1>
+    <p class="lede">Quanto vale o seu baú em Chaos e Divine, aba por aba. Dois cliques no app e ele abre no seu navegador, já com tudo calculado. Sem instalar nada e sem terminal.</p>
+    <div class="dl">
+      <a class="treelink" href="https://github.com/Jantare/poe-builds/releases/latest/download/bau.exe">Baixar bau.exe</a>
+      <a class="treelink" style="background:none;color:var(--accent);border:1px solid var(--accent)" href="app.html?demo=1">Ver demonstração</a>
+    </div>
+    <p class="sub" style="margin-top:10px">Windows 10 ou 11 · preços do poe.ninja · o app roda só no seu computador</p>
+  </div>
+  <div class="mock" aria-hidden="true">
+    <div class="bar"><i></i><i></i><i></i></div>
+    <div class="in">
+      <div class="sub">Patrimônio</div>
+      <div class="t">17,8 divine</div>
+      <div class="r"><i class="sw" style="background:#c4a046"></i><span>Currency</span><b>16,3d</b></div>
+      <div class="r"><i class="sw" style="background:#50aa6e"></i><span>Gemas</span><b>1,5d</b></div>
+      <div class="r"><i class="sw" style="background:#965ac8"></i><span>Fragmentos</span><b>16c</b></div>
+    </div>
+  </div>
 </header>
 
-<section id="carregar" style="border-top:0;padding-top:0">
-  <div class="drop" id="drop">
-    <p><b>Arraste aqui o arquivo <code>latest.json</code></b> (e o <code>history.json</code> para ver o gráfico), da pasta <code>snapshots</code> do script.</p>
-    <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
-      <label class="treelink" for="file" style="cursor:pointer">Escolher arquivos</label>
-      <input id="file" type="file" accept=".json,application/json" multiple hidden>
-      <button type="button" class="treelink" id="demo" style="background:none;color:var(--accent);border:1px solid var(--accent)">Ver exemplo</button>
-    </div>
-    <p class="sub" id="loaded">Nenhum arquivo carregado.</p>
+<section>
+  <h2>Como usar</h2>
+  <div class="steps3">
+    <div><b>1. Baixe e abra</b>Baixe o <code>bau.exe</code>, coloque numa pasta (ex.: Documentos\Baú) e dê dois cliques. Ele abre uma página no seu navegador.</div>
+    <div><b>2. Conecte</b>Na página, informe a conta com o número (ex.: <code>Nome#1234</code>), a liga e o POESESSID. O passo a passo aparece ali mesmo.</div>
+    <div><b>3. Escolha as abas</b>Marque as abas que entram na conta e clique em <b>Salvar e atualizar</b>.</div>
+    <div><b>4. Atualize quando quiser</b>Depois de cada sessão de farm, clique em <b>Atualizar baú</b>. O gráfico mostra quanto você ganhou.</div>
   </div>
-  <details class="craft" style="margin-top:12px" id="how">
-    <summary><b>Como usar</b><span>baixar o script, configurar e rodar</span></summary>
-    <div class="craft-body">
-      <div class="steps2">
-        <div><b>1. Baixe</b>Baixe <a href="bau.py" download>bau.py</a> e <a href="bau.bat" download>bau.bat</a> para uma pasta. Precisa do <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">Python 3</a> instalado (marque "Add Python to PATH").</div>
-        <div><b>2. Rode</b>No Windows, dê dois cliques em <code>bau.bat</code>. Em outro sistema: <code>python3 bau.py</code>.</div>
-        <div><b>3. Configure</b>Na primeira vez ele pede: conta com número (ex.: <code>Nome#1234</code>), liga, POESESSID e quais abas ler. Para mudar depois: <code>bau.bat --config</code>.</div>
-        <div><b>4. Veja aqui</b>Ele cria <code>snapshots/latest.json</code> e <code>history.json</code>. Arraste os dois nesta página. Rode de novo depois de cada sessão de farm para ver o histórico.</div>
-      </div>
-      <details class="craft" style="margin-top:12px"><summary><b>Como pegar o POESESSID</b><span>passo a passo no navegador</span></summary><div class="craft-body"><ol style="margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px">
-        <li>Abra <a href="https://www.pathofexile.com" target="_blank" rel="noopener">pathofexile.com</a> <b>logado</b> na sua conta.</li>
-        <li>Aperte <b>F12</b> (ou botão direito na página → Inspecionar).</li>
-        <li>Clique na aba <b>Application</b> (<b>Aplicativo</b> em português). Se não aparecer, clique em <b>»</b>. No Firefox, a aba é <b>Armazenamento</b>.</li>
-        <li>Na esquerda: <b>Cookies</b> → <b>https://www.pathofexile.com</b>.</li>
-        <li>Clique na linha <b>POESESSID</b>, dê dois cliques no <b>Value</b> e aperte <b>Ctrl+C</b>. São 32 letras e números. Se não selecionar tudo, copie do quadro "Cookie Value" embaixo.</li>
-        <li>No script, quando ele pedir o POESESSID, <b>aperte só Enter</b>: ele pega o que você copiou. Ou cole com <b>Ctrl+V</b> (aparecem <code>****</code>) e aperte Enter. O script confirma mostrando só o começo e o fim do código.</li>
-      </ol><p class="note" style="margin-top:10px">O console (<code>document.cookie</code>) não mostra o POESESSID: ele é um cookie protegido. Use a aba Application.</p></div></details>
-      <p class="note" style="margin-top:12px"><strong>Segurança:</strong> o POESESSID é o cookie de login do pathofexile.com (F12 → Application → Cookies → POESESSID). Ele dá acesso total à sua conta. O script guarda só no seu computador (arquivo <code>bau_config.json</code>, se você aceitar salvar) e só manda para o site da GGG. Nunca cole o POESESSID em sites ou mande para outra pessoa. Se achar que vazou, saia da conta no site da GGG: isso invalida o cookie.</p>
-      <p class="note">Abas especiais de <strong>Mapas</strong> e de <strong>Uniques</strong> não são lidas por este acesso. Preços do <a href="https://poe.ninja/" target="_blank" rel="noopener">poe.ninja</a>; itens raros e bases não têm preço automático.</p>
-    </div>
-  </details>
 </section>
 
-<div id="app" hidden>
-  <div class="top">
-    <div class="box">
-      <div class="boxhead"><h2>Patrimônio</h2><span class="sub" id="when"></span></div>
-      <div class="big" id="total">0d</div>
-      <div class="sub" id="totalc"></div>
-      <svg class="chart" id="chart" viewBox="0 0 600 110" preserveAspectRatio="none" role="img" aria-label="Histórico do patrimônio em Divine"></svg>
-      <p class="sub" id="chartnote"></p>
-    </div>
-    <div class="box">
-      <div class="boxhead"><h2>Breakdown</h2><div class="seg" role="group" aria-label="Unidade"><button type="button" id="bd-d" aria-pressed="true">Divines</button><button type="button" id="bd-p" aria-pressed="false">Percentual</button></div></div>
-      <div class="cats" id="cats"></div>
-    </div>
+<section>
+  <h2>Primeira vez abrindo o .exe</h2>
+  <p>O app não tem assinatura digital paga, então o Windows pode mostrar <b>"O Windows protegeu o computador"</b>. Clique em <b>Mais informações</b> → <b>Executar assim mesmo</b>. Alguns antivírus estranham apps feitos em Python empacotado; o código está aberto em <a href="https://github.com/Jantare/poe-builds/tree/main/bau" target="_blank" rel="noopener">github.com/Jantare/poe-builds</a>, e o .exe é gerado automaticamente pelo GitHub a partir dele.</p>
+  <p class="note">O app fecha sozinho alguns minutos depois que você fecha a página, ou na hora pelo botão <b>Fechar o app</b>. As configurações e o histórico ficam na mesma pasta do <code>bau.exe</code>.</p>
+</section>
+
+<section>
+  <h2>Segurança</h2>
+  <div class="why">
+    <div><h3>Só no seu PC</h3><p>O app só aceita conexões do seu próprio computador e exige uma chave secreta gerada a cada abertura: outros sites não conseguem falar com ele.</p></div>
+    <div><h3>POESESSID</h3><p>É o cookie de login do site da GGG e dá acesso total à conta. O app guarda só no seu computador (se você marcar "Lembrar") e envia só para o pathofexile.com.</p></div>
+    <div><h3>Se vazar</h3><p>Saia da conta no site da GGG: isso invalida o cookie na hora. No app, "Esquecer POESESSID" apaga o salvo.</p></div>
+    <div><h3>Login oficial</h3><p>Estamos pedindo à GGG o registro do login oficial (OAuth). Quando aprovarem, o app passa a usar "Entrar com Path of Exile" e o POESESSID deixa de ser necessário.</p></div>
   </div>
+</section>
 
-  <div class="main">
-    <aside class="side">
-      <div class="seg" role="group" aria-label="Lista"><button type="button" id="v-tabs" aria-pressed="true">Abas</button><button type="button" id="v-snaps" aria-pressed="false">Snapshots</button></div>
-      <div class="tablist" id="tablist"></div>
-    </aside>
-    <div style="min-width:0">
-      <div class="bar">
-        <input type="search" id="q" placeholder="Buscar item" aria-label="Buscar item">
-        <details class="filt"><summary>Filtros</summary><div class="pop">
-          <label>Categoria<select id="fcat"><option value="">Todas</option></select></label>
-          <label>Valor mínimo (chaos)<input type="number" id="fmin" min="0" step="1" value="0"></label>
-          <label class="ck"><input type="checkbox" id="fhide"> Esconder itens sem preço</label>
-        </div></details>
-        <span class="chip">Total selecionado: <b id="seltotal">0</b></span>
-        <span class="meta" id="meta"></span>
-      </div>
-      <div class="items"><table>
-        <thead><tr><th><input type="checkbox" id="all" checked aria-label="Selecionar todos"></th><th data-k="name">Nome</th><th data-k="tab">Aba</th><th data-k="qty" class="num">Quantidade</th><th data-k="price" class="num">Preço</th><th data-k="total" class="num" aria-sort="descending">Total</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table></div>
-      <button type="button" class="more" id="more" hidden>Mostrar mais</button>
-    </div>
-  </div>
+<section>
+  <h2>Sem Windows ou prefere Python?</h2>
+  <p>Baixe <a href="bau.py" download>bau.py</a> e rode <code>python bau.py</code> (abre o mesmo app no navegador) ou <code>python bau.py --cli</code> (versão de terminal). Só usa a biblioteca padrão do Python 3.8+. Se você já tinha arquivos <code>latest.json</code> da versão antiga, <a href="app.html">abra o visualizador de arquivos</a>.</p>
+  <p class="sub">Limites: abas especiais de Mapas e de Uniques não são lidas por este acesso; itens raros e bases não têm preço automático.</p>
+</section>
+
+<footer>Preços: <a href="https://poe.ninja/" target="_blank" rel="noopener">poe.ninja</a>. Não é afiliado à Grinding Gear Games.</footer>
 </div>
-</div>
-
-<script>
-(function () {
-  'use strict';
-  var $ = function (id) { return document.getElementById(id); };
-  var S = { snaps: [], hist: [], cur: null, tabsOn: {}, off: {}, q: '', cat: '', min: 0, hide: false, sort: 'total', dir: -1, limit: 300, bdPct: false, view: 'tabs' };
-  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
-  function fmt(c) {
-    var d = S.cur ? S.cur.divine : 0;
-    if (d && Math.abs(c) >= d) return (c / d).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + 'd';
-    return (Math.abs(c) < 1 ? c.toLocaleString('pt-BR', { maximumSignificantDigits: 2 }) : Math.abs(c) < 10 ? c.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) : Math.round(c).toLocaleString('pt-BR')) + 'c';
-  }
-  function save() { try { localStorage.setItem('bau-state', JSON.stringify({ snaps: S.snaps.slice(-5), hist: S.hist })); } catch (e) {} }
-  function restore() { try { var o = JSON.parse(localStorage.getItem('bau-state') || 'null'); if (o && o.snaps && o.snaps.length) { S.snaps = o.snaps; S.hist = o.hist || []; return true; } } catch (e) {} return false; }
-
-  function addData(obj, name) {
-    if (Array.isArray(obj)) { S.hist = obj.filter(function (h) { return h && h.time && h.total != null; }); return 'histórico'; }
-    if (obj && obj.items && obj.tabs) {
-      S.snaps = S.snaps.filter(function (s) { return s.time !== obj.time; }).concat([obj]).sort(function (a, b) { return a.time < b.time ? -1 : 1; });
-      return 'snapshot';
-    }
-    throw new Error(name + ' não parece um arquivo do script.');
-  }
-  function histPoints() {
-    var pts = S.hist.map(function (h) { return { t: h.time, d: h.divine ? h.total / h.divine : 0 }; });
-    S.snaps.forEach(function (s) { if (!pts.some(function (p) { return p.t === s.time; })) pts.push({ t: s.time, d: s.divine ? s.total / s.divine : 0 }); });
-    return pts.sort(function (a, b) { return a.t < b.t ? -1 : 1; });
-  }
-  function select(snap) {
-    S.cur = snap; S.tabsOn = {}; S.off = {}; S.limit = 300;
-    snap.tabs.forEach(function (t) { S.tabsOn[t.i] = true; });
-    S.cats = {}; snap.items.forEach(function (it, i) { it._id = i; });
-    var cats = {}; snap.items.forEach(function (it) { cats[it.cat] = 1; });
-    $('fcat').innerHTML = '<option value="">Todas</option>' + Object.keys(cats).sort().map(function (c) { return '<option>' + esc(c) + '</option>'; }).join('');
-    render();
-  }
-  function visibleItems() {
-    var q = S.q.toLowerCase();
-    return S.cur.items.filter(function (it) {
-      return S.tabsOn[it.tab] && (!q || it.name.toLowerCase().indexOf(q) >= 0) && (!S.cat || it.cat === S.cat) &&
-        it.total >= S.min && !(S.hide && !it.price);
-    });
-  }
-  function render() {
-    var s = S.cur; if (!s) return;
-    $('app').hidden = false;
-    var tabOf = {}; s.tabs.forEach(function (t) { tabOf[t.i] = t; });
-    var inTabs = s.items.filter(function (it) { return S.tabsOn[it.tab]; });
-    var tot = inTabs.reduce(function (a, it) { return a + it.total; }, 0);
-    $('total').textContent = (s.divine ? (tot / s.divine).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) : 0) + ' divine';
-    $('totalc').innerHTML = Math.round(tot).toLocaleString('pt-BR') + ' chaos · Divine a ' + Math.round(s.divine) + 'c' + (s.demo ? ' · <span class="demo-flag">exemplo com itens fictícios</span>' : '');
-    $('when').textContent = new Date(s.time).toLocaleString('pt-BR') + ' · ' + s.league;
-    // breakdown
-    var cats = {}, icons = {};
-    inTabs.forEach(function (it) { cats[it.cat] = (cats[it.cat] || 0) + it.total; if (!icons[it.cat] && it.icon) icons[it.cat] = it.icon; });
-    $('cats').innerHTML = Object.keys(cats).filter(function (c) { return cats[c] > 0; }).sort(function (a, b) { return cats[b] - cats[a]; }).map(function (c) {
-      var v = S.bdPct ? (tot ? (cats[c] / tot * 100).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%' : '0%') : fmt(cats[c]);
-      return '<div class="cat">' + (icons[c] ? '<img src="' + esc(icons[c]) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">' : '<i class="noimg"></i>') + '<span>' + v + '<small>' + esc(c) + '</small></span></div>';
-    }).join('') || '<p class="sub">Nada com preço nas abas selecionadas.</p>';
-    // chart
-    var pts = histPoints();
-    var svg = $('chart');
-    if (pts.length < 2) { svg.innerHTML = ''; $('chartnote').textContent = 'Rode o script depois de cada sessão e carregue o history.json para ver a evolução.'; }
-    else {
-      var W = 600, H = 110, pad = 18, max = Math.max.apply(null, pts.map(function (p) { return p.d; })), min = Math.min.apply(null, pts.map(function (p) { return p.d; }));
-      if (max === min) { max += 1; min = Math.max(0, min - 1); }
-      var x = function (i) { return pad + i * (W - 2 * pad) / (pts.length - 1); }, y = function (v) { return H - pad - (v - min) / (max - min) * (H - 2 * pad); };
-      var line = pts.map(function (p, i) { return (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(p.d).toFixed(1); }).join('');
-      svg.innerHTML = '<line class="gl" x1="' + pad + '" x2="' + (W - pad) + '" y1="' + y(max) + '" y2="' + y(max) + '"/><line class="gl" x1="' + pad + '" x2="' + (W - pad) + '" y1="' + y(min) + '" y2="' + y(min) + '"/>' +
-        '<path class="ar" d="' + line + 'L' + x(pts.length - 1) + ' ' + (H - pad) + 'L' + pad + ' ' + (H - pad) + 'Z"/><path class="ln" d="' + line + '"/>' +
-        '<circle class="pt" cx="' + x(pts.length - 1) + '" cy="' + y(pts[pts.length - 1].d) + '" r="4"/>' +
-        '<text x="' + (W - pad) + '" y="12" text-anchor="end">' + max.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + 'd</text><text x="' + (W - pad) + '" y="' + (H - 4) + '" text-anchor="end">' + min.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + 'd</text>';
-      var dd = pts[pts.length - 1].d - pts[pts.length - 2].d;
-      $('chartnote').innerHTML = pts.length + ' snapshots · desde o anterior: <span class="delta ' + (dd >= 0 ? 'up' : 'down') + '">' + (dd >= 0 ? '+' : '') + dd.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' divine</span>';
-    }
-    // side list
-    if (S.view === 'tabs') {
-      $('tablist').innerHTML = s.tabs.map(function (t) {
-        var v = s.items.filter(function (it) { return it.tab === t.i; }).reduce(function (a, it) { return a + it.total; }, 0);
-        return '<label class="tabrow"><input type="checkbox" data-tab="' + t.i + '"' + (S.tabsOn[t.i] ? ' checked' : '') + '><i class="sw" style="background:' + esc(t.color) + '"></i><span class="nm">' + esc(t.name) + '</span><span class="vl">' + fmt(v) + '</span></label>';
-      }).join('');
-    } else {
-      $('tablist').innerHTML = S.snaps.slice().reverse().map(function (sn, k) {
-        return '<div class="tabrow snap" role="button" tabindex="0" data-snap="' + esc(sn.time) + '" aria-current="' + (sn === S.cur) + '"><span class="nm">' + esc(new Date(sn.time).toLocaleString('pt-BR')) + '</span><span class="vl">' + (sn.divine ? (sn.total / sn.divine).toFixed(1) + 'd' : '') + '</span></div>';
-      }).join('');
-    }
-    // table
-    var items = visibleItems();
-    items.sort(function (a, b) {
-      var k = S.sort, va = k === 'tab' ? (tabOf[a.tab] || {}).name : a[k], vb = k === 'tab' ? (tabOf[b.tab] || {}).name : b[k];
-      if (typeof va === 'string') return S.dir * va.localeCompare(vb);
-      return S.dir * ((va || 0) - (vb || 0));
-    });
-    var sel = items.filter(function (it) { return !S.off[it._id]; }).reduce(function (a, it) { return a + it.total; }, 0);
-    $('seltotal').textContent = fmt(sel);
-    $('meta').textContent = items.length + ' itens';
-    $('rows').innerHTML = items.slice(0, S.limit).map(function (it) {
-      var t = tabOf[it.tab] || {};
-      return '<tr><td><input type="checkbox" data-id="' + it._id + '"' + (S.off[it._id] ? '' : ' checked') + ' aria-label="Selecionar ' + esc(it.name) + '"></td>' +
-        '<td><div class="nmcell">' + (it.icon ? '<img src="' + esc(it.icon) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">' : '<i class="noicon"></i>') + '<span class="r' + (it.rarity || 0) + '">' + esc(it.name) + '</span></div></td>' +
-        '<td><span class="tabcell"><i style="background:' + esc(t.color || '#777') + '"></i>' + esc(t.name || it.tab) + '</span></td>' +
-        '<td class="num">' + Number(it.qty).toLocaleString('pt-BR') + '</td>' +
-        '<td class="num' + (it.price ? '' : ' unpriced') + '">' + (it.price ? fmt(it.price) : 'sem preço') + '</td>' +
-        '<td class="num' + (it.total ? '' : ' unpriced') + '">' + (it.total ? fmt(it.total) : '—') + '</td></tr>';
-    }).join('');
-    $('more').hidden = items.length <= S.limit;
-    $('all').checked = items.every(function (it) { return !S.off[it._id]; });
-    document.querySelectorAll('.items th[data-k]').forEach(function (th) { th.setAttribute('aria-sort', th.dataset.k === S.sort ? (S.dir < 0 ? 'descending' : 'ascending') : 'none'); });
-  }
-
-  function loadFiles(files) {
-    var msgs = [], pending = files.length;
-    if (!pending) return;
-    Array.prototype.forEach.call(files, function (f) {
-      var r = new FileReader();
-      r.onload = function () {
-        try { msgs.push(f.name + ' (' + addData(JSON.parse(r.result), f.name) + ')'); } catch (e) { msgs.push(f.name + ': ' + e.message); }
-        if (--pending === 0) {
-          $('loaded').textContent = 'Carregado: ' + msgs.join(', ');
-          if (S.snaps.length) { select(S.snaps[S.snaps.length - 1]); save(); $('how').open = false; }
-          else render();
-        }
-      };
-      r.readAsText(f);
-    });
-  }
-  // events
-  $('file').addEventListener('change', function (e) { loadFiles(e.target.files); });
-  var drop = $('drop');
-  ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
-  ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); }); });
-  drop.addEventListener('drop', function (e) { loadFiles(e.dataTransfer.files); });
-  $('demo').addEventListener('click', function () {
-    fetch('exemplo.json').then(function (r) { return r.json(); }).then(function (d) {
-      var base = d.total, t0 = new Date(d.time).getTime();
-      S.hist = [0.62, 0.71, 0.69, 0.84, 0.93].map(function (k, i) { return { time: new Date(t0 - (5 - i) * 3600e3).toISOString(), total: base * k, divine: d.divine }; });
-      S.snaps = []; addData(d, 'exemplo.json'); select(d);
-      $('loaded').textContent = 'Exemplo carregado (itens e histórico fictícios, preços reais da Standard).';
-    });
-  });
-  $('tablist').addEventListener('change', function (e) { var t = e.target.getAttribute('data-tab'); if (t != null) { S.tabsOn[t] = e.target.checked; render(); } });
-  $('tablist').addEventListener('click', function (e) {
-    var el = e.target.closest('[data-snap]'); if (!el) return;
-    var sn = S.snaps.filter(function (s) { return s.time === el.getAttribute('data-snap'); })[0]; if (sn) select(sn);
-  });
-  $('rows').addEventListener('change', function (e) { var id = e.target.getAttribute('data-id'); if (id != null) { if (e.target.checked) delete S.off[id]; else S.off[id] = 1; render(); } });
-  $('all').addEventListener('change', function (e) { visibleItems().forEach(function (it) { if (e.target.checked) delete S.off[it._id]; else S.off[it._id] = 1; }); render(); });
-  $('q').addEventListener('input', function (e) { S.q = e.target.value; S.limit = 300; render(); });
-  $('fcat').addEventListener('change', function (e) { S.cat = e.target.value; render(); });
-  $('fmin').addEventListener('input', function (e) { S.min = +e.target.value || 0; render(); });
-  $('fhide').addEventListener('change', function (e) { S.hide = e.target.checked; render(); });
-  $('more').addEventListener('click', function () { S.limit += 300; render(); });
-  document.querySelectorAll('.items th[data-k]').forEach(function (th) {
-    th.addEventListener('click', function () { var k = th.dataset.k; if (S.sort === k) S.dir *= -1; else { S.sort = k; S.dir = (k === 'name' || k === 'tab') ? 1 : -1; } render(); });
-  });
-  $('bd-d').addEventListener('click', function () { S.bdPct = false; this.setAttribute('aria-pressed', 'true'); $('bd-p').setAttribute('aria-pressed', 'false'); render(); });
-  $('bd-p').addEventListener('click', function () { S.bdPct = true; this.setAttribute('aria-pressed', 'true'); $('bd-d').setAttribute('aria-pressed', 'false'); render(); });
-  $('v-tabs').addEventListener('click', function () { S.view = 'tabs'; this.setAttribute('aria-pressed', 'true'); $('v-snaps').setAttribute('aria-pressed', 'false'); render(); });
-  $('v-snaps').addEventListener('click', function () { S.view = 'snaps'; this.setAttribute('aria-pressed', 'true'); $('v-tabs').setAttribute('aria-pressed', 'false'); render(); });
-  if (restore()) { select(S.snaps[S.snaps.length - 1]); $('loaded').textContent = 'Último baú carregado deste navegador.'; }
-  else $('how').open = true;
-})();
-</script>
 </body>
 </html>

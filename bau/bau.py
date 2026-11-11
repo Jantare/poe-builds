@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
 """
-Baú do PoE Builds: lê as abas do seu baú no Path of Exile 1 e calcula o valor em Chaos e Divine.
+Baú do PoE Builds: mostra quanto vale o seu baú do Path of Exile 1 em Chaos e Divine, aba por aba.
 
-- Roda no SEU computador. O POESESSID (cookie de login do site da GGG) nunca sai da sua máquina.
+- Abre um app no seu navegador (http://127.0.0.1:7373), só acessível do seu próprio computador.
+- O POESESSID (cookie de login do site da GGG) fica só nesta máquina e só é enviado ao pathofexile.com.
 - Preços: API pública de economia do poe.ninja (cache local de 15 minutos).
-- Gera snapshots/latest.json e snapshots/bau-AAAAMMDD-HHMMSS.json. Arraste esse arquivo na página
-  https://jantare.github.io/poe-builds/bau/ para ver as abas, os itens e o histórico.
+- Configuração, snapshots e histórico ficam na mesma pasta deste arquivo (ou do bau.exe).
 
-Uso:  python bau.py            (pergunta conta, liga e abas na primeira vez)
-      python bau.py --config   (refaz as perguntas)
-      python bau.py --demo     (gera um snapshot de exemplo com itens fictícios e preços reais)
+Uso:  bau.exe  ou  python bau.py   (abre o app no navegador)
+      python bau.py --cli          (versão de terminal)
+      python bau.py --demo         (gera exemplo.json com itens fictícios e preços reais)
 Só usa a biblioteca padrão do Python 3.8+.
 """
 import json, os, sys, time, getpass, re, urllib.request, urllib.parse, urllib.error, webbrowser
 from datetime import datetime
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+FROZEN = getattr(sys, 'frozen', False)  # rodando como bau.exe (PyInstaller)
+HERE = os.path.dirname(sys.executable if FROZEN else os.path.abspath(__file__))  # onde ficam config e snapshots
+BUNDLE = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))  # onde ficam app.html e style.css
 CONFIG = os.path.join(HERE, 'bau_config.json')
 CACHE = os.path.join(HERE, '.cache')
 SNAPS = os.path.join(HERE, 'snapshots')
@@ -40,6 +42,10 @@ CATEGORY = {  # nome mostrado no site
     'ClusterJewel': 'Jewels', 'Map': 'Mapas', 'BlightedMap': 'Mapas', 'UniqueMap': 'Mapas', 'ValdoMap': 'Mapas',
     'Invitation': 'Fragmentos', 'Memory': 'Atlas', 'IncursionTemple': 'Mapas', 'Incubator': 'Outros', 'Vial': 'Outros',
     'Wombgift': 'Outros', 'ForbiddenJewel': 'Jewels', 'ScryingOrb': 'Outros'}
+
+
+class BauError(Exception):
+    """Erro com mensagem para mostrar ao usuário."""
 
 
 # ---------------- visual do terminal ----------------
@@ -138,17 +144,19 @@ def http_json(url, headers=None, cache_name=None, max_age=900):
                 time.sleep(wait + 1)
                 continue
             if e.code in (401, 403):
-                raise SystemExit('Acesso negado pela GGG (401/403). Confira o POESESSID, a conta (Nome#1234) e se as abas do baú estão visíveis para você logado.')
+                raise BauError('Acesso negado pela GGG. Confira o POESESSID (pode ter expirado se você saiu da conta) e o nome da conta com o número, exatamente como no site (ex.: Hygopenido#4999).')
             if cache_name:  # preço: categoria que não existe nesta liga (ex.: Threads antes da 3.30)
                 return None
-            raise
+            if e.code == 404:
+                raise BauError('A GGG não achou essa conta ou liga. Confira o nome da conta com o número e a liga.')
+            raise BauError(f'A GGG respondeu com erro {e.code}. Tente de novo em alguns minutos.')
         except urllib.error.URLError as e:
             if cache_name:
                 warn(f'Sem resposta do poe.ninja para {cache_name}: {e.reason}')
                 return None
-            raise SystemExit(f'Sem conexão com a GGG: {e.reason}')
+            raise BauError(f'Sem conexão com o site da GGG: {e.reason}')
     else:
-        raise SystemExit('Muitas tentativas sem sucesso. Tente de novo em alguns minutos.')
+        raise BauError('A GGG limitou as requisições. Tente de novo em alguns minutos.')
     if cache_name:
         with open(path, 'w', encoding='utf-8') as f:
             json.dump(data, f)
@@ -511,7 +519,7 @@ def summary(snap, path):
     info('No site, arraste ' + BOLD('snapshots/latest.json') + ' e ' + BOLD('history.json') + ': ' + CYAN(SITE))
 
 
-def main():
+def cli_main():
     banner()
     if '--demo' in sys.argv:
         snap = demo()
@@ -521,7 +529,7 @@ def main():
         summary(snap, path)
         return
     cfg = load_config()
-    if '--config' in sys.argv or not cfg.get('account') or not cfg.get('tabs_text'):
+    if '--config' in sys.argv or not cfg.get('account') or not (cfg.get('tabs_text') or cfg.get('tabs')):
         cfg = setup(cfg)
     section('Lendo o baú')
     info(f"Conta {BOLD(cfg['account'])} · Liga {BOLD(cfg['league'])}")
@@ -530,6 +538,8 @@ def main():
     good('Preços carregados · Divine = ' + GOLD(f"{P['divine']:.0f}c"))
     tabs = get_tabs(cfg)
     want = cfg.get('tabs_text', 'todas')
+    if cfg.get('tabs'):
+        want = ','.join(str(i) for i in cfg['tabs'])
     sel = tabs if want.lower().startswith('tod') else [t for t in tabs if str(t['i']) in [x.strip() for x in want.split(',')]]
     items_by_tab, skipped = {}, []
     for k, t in enumerate(sel, 1):
@@ -546,6 +556,227 @@ def main():
     summary(snap, path)
     if ask('Abrir o site agora? (s/n)', 's').lower() == 's':
         webbrowser.open(SITE)
+
+
+# ---------------- app local (navegador) ----------------
+import threading, secrets, socket
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
+
+PORT = 7373
+TOKEN = secrets.token_urlsafe(24)
+LAST_PING = [time.time()]
+JOB = {'running': False, 'done': 0, 'total': 0, 'label': '', 'error': '', 'finished': None}
+LOG = os.path.join(HERE, 'bau.log')
+
+
+def log(msg):
+    try:
+        with open(LOG, 'a', encoding='utf-8') as f:
+            f.write(f"{datetime.now().isoformat(timespec='seconds')} {msg}\n")
+    except OSError:
+        pass
+
+
+def read_json(path, default):
+    try:
+        with open(path, encoding='utf-8') as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return default
+
+
+def public_config(cfg):
+    return {'account': cfg.get('account', ''), 'league': cfg.get('league', ''), 'tabs': cfg.get('tabs', []),
+            'has_session': bool(cfg.get('poesessid') or cfg.get('_session_only')), 'session_saved': bool(cfg.get('poesessid'))}
+
+
+def list_snapshots():
+    if not os.path.isdir(SNAPS):
+        return []
+    return sorted(f for f in os.listdir(SNAPS) if f.startswith('bau-') and f.endswith('.json'))
+
+
+def refresh_job(cfg):
+    JOB.update(running=True, done=0, total=0, label='Buscando preços no poe.ninja', error='', finished=None)
+    try:
+        P = load_prices(cfg['league'])
+        tabs = get_tabs(cfg)
+        want = set(cfg.get('tabs') or [t['i'] for t in tabs])
+        sel = [t for t in tabs if t['i'] in want]
+        JOB.update(total=len(sel))
+        items_by_tab = {}
+        for k, t in enumerate(sel, 1):
+            JOB.update(label=f"Lendo a aba {t['n']}", done=k - 1)
+            items_by_tab[t['i']] = stash_request(cfg, t['i'], 0).get('items', [])
+            JOB.update(done=k)
+        save_snapshot(build_snapshot(cfg, sel, items_by_tab, P))
+        JOB.update(label='Pronto', finished=datetime.now().isoformat(timespec='seconds'))
+    except BauError as e:
+        JOB.update(error=str(e))
+    except Exception as e:  # mostra o erro na página em vez de travar o app
+        log(f'erro na atualização: {e!r}')
+        JOB.update(error=f'Erro inesperado: {e}. Detalhes em bau.log.')
+    finally:
+        JOB['running'] = False
+
+
+class Handler(BaseHTTPRequestHandler):
+    cfg = None
+    server_version = 'Bau'
+
+    def log_message(self, *a):
+        pass
+
+    def _send(self, code, body, ctype='application/json; charset=utf-8'):
+        data = body if isinstance(body, bytes) else json.dumps(body, ensure_ascii=False).encode('utf-8')
+        self.send_response(code)
+        self.send_header('Content-Type', ctype)
+        self.send_header('Content-Length', str(len(data)))
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.end_headers()
+        self.wfile.write(data)
+
+    def _allowed(self, api):
+        host = (self.headers.get('Host') or '').split(':')[0]
+        if host not in ('127.0.0.1', 'localhost'):  # bloqueia DNS rebinding
+            return False
+        return (not api) or secrets.compare_digest(self.headers.get('X-Bau-Token', ''), TOKEN)
+
+    def _body(self):
+        n = int(self.headers.get('Content-Length') or 0)
+        if n > 100_000:
+            return {}
+        try:
+            return json.loads(self.rfile.read(n) or b'{}')
+        except ValueError:
+            return {}
+
+    def do_GET(self):
+        path = self.path.split('?', 1)[0]
+        api = path.startswith('/api/')
+        if not self._allowed(api):
+            return self._send(403, {'error': 'proibido'})
+        if path in ('/', '/index.html'):
+            html = open(os.path.join(BUNDLE, 'app.html'), encoding='utf-8').read()
+            html = html.replace('<!--BAU_LOCAL-->', f'<script>window.BAU_LOCAL={{token:{json.dumps(TOKEN)}}}</script>')
+            return self._send(200, html.encode('utf-8'), 'text/html; charset=utf-8')
+        if path == '/assets/style.css':
+            for c in (os.path.join(BUNDLE, 'style.css'), os.path.join(BUNDLE, '..', 'assets', 'style.css')):
+                if os.path.exists(c):
+                    return self._send(200, open(c, 'rb').read(), 'text/css; charset=utf-8')
+            return self._send(404, {'error': 'css'})
+        cfg = self.cfg
+        if path == '/api/state':
+            hist = read_json(os.path.join(SNAPS, 'history.json'), [])
+            latest = read_json(os.path.join(SNAPS, 'latest.json'), None)
+            leagues = []
+            try:
+                leagues = [l['id'] for l in (http_json(NINJA + '/leagues', cache_name='leagues', max_age=3600) or [])]
+            except Exception:
+                pass
+            return self._send(200, {'config': public_config(cfg), 'leagues': leagues, 'latest': latest, 'history': hist,
+                                    'snapshots': list_snapshots(), 'job': JOB})
+        if path == '/api/snapshot':
+            name = urllib.parse.parse_qs(self.path.split('?', 1)[-1]).get('f', [''])[0]
+            if name not in list_snapshots():
+                return self._send(404, {'error': 'snapshot não encontrado'})
+            return self._send(200, read_json(os.path.join(SNAPS, name), None))
+        if path == '/api/progress':
+            return self._send(200, JOB)
+        if path == '/api/ping':
+            LAST_PING[0] = time.time()
+            return self._send(200, {'ok': True})
+        return self._send(404, {'error': 'não encontrado'})
+
+    def do_POST(self):
+        path = self.path.split('?', 1)[0]
+        if not self._allowed(True):
+            return self._send(403, {'error': 'proibido'})
+        cfg, b = self.cfg, self._body()
+        try:
+            if path == '/api/connect':
+                acc, league, sess = (b.get('account') or '').strip(), (b.get('league') or '').strip(), (b.get('poesessid') or '').strip()
+                if sess.lower().startswith('poesessid='):
+                    sess = sess.split('=', 1)[1]
+                if not re.fullmatch(r'[^#\s]+#\d{4}', acc):
+                    return self._send(400, {'error': 'Use o nome da conta com o número, como aparece no site: Nome#1234.'})
+                if sess and not re.fullmatch(r'[0-9a-fA-F]{32}', sess):
+                    return self._send(400, {'error': f'Isso não parece um POESESSID: tem {len(sess)} caracteres. O certo são 32 letras e números (0-9, a-f).'})
+                cfg.update(account=acc, league=league or 'Standard')
+                if sess:
+                    cfg.pop('poesessid', None); cfg.pop('_session_only', None)
+                    cfg['poesessid' if b.get('save') else '_session_only'] = sess
+                elif not (cfg.get('poesessid') or cfg.get('_session_only')):
+                    return self._send(400, {'error': 'Cole o POESESSID.'})
+                tabs = get_tabs(cfg)
+                save_config({k: v for k, v in cfg.items() if not k.startswith('_')})
+                out = []
+                for t in tabs:
+                    c = t.get('colour') or {}
+                    out.append({'i': t['i'], 'name': t['n'], 'type': t.get('type', ''),
+                                'color': '#%02x%02x%02x' % (c.get('r', 120), c.get('g', 120), c.get('b', 120))})
+                return self._send(200, {'tabs': out, 'config': public_config(cfg)})
+            if path == '/api/tabs':
+                cfg['tabs'] = [int(i) for i in b.get('tabs', [])]
+                save_config({k: v for k, v in cfg.items() if not k.startswith('_')})
+                return self._send(200, {'config': public_config(cfg)})
+            if path == '/api/refresh':
+                if JOB['running']:
+                    return self._send(409, {'error': 'Já está atualizando.'})
+                if not (cfg.get('poesessid') or cfg.get('_session_only')) or not cfg.get('account'):
+                    return self._send(400, {'error': 'Conecte sua conta primeiro.'})
+                threading.Thread(target=refresh_job, args=(cfg,), daemon=True).start()
+                return self._send(200, {'started': True})
+            if path == '/api/forget':
+                cfg.pop('poesessid', None); cfg.pop('_session_only', None)
+                save_config({k: v for k, v in cfg.items() if not k.startswith('_')})
+                return self._send(200, {'config': public_config(cfg)})
+            if path == '/api/quit':
+                self._send(200, {'bye': True})
+                threading.Thread(target=self.server.shutdown, daemon=True).start()
+                return
+        except BauError as e:
+            return self._send(400, {'error': str(e)})
+        return self._send(404, {'error': 'não encontrado'})
+
+
+def already_running():
+    try:
+        with socket.create_connection(('127.0.0.1', PORT), timeout=0.5):
+            return True
+    except OSError:
+        return False
+
+
+def app_main():
+    if already_running():
+        webbrowser.open(f'http://127.0.0.1:{PORT}/')  # já aberto: só mostra de novo
+        return
+    Handler.cfg = load_config()
+    srv = ThreadingHTTPServer(('127.0.0.1', PORT), Handler)
+    def watchdog():  # fecha sozinho uns minutos depois que a página foi fechada
+        while True:
+            time.sleep(30)
+            if time.time() - LAST_PING[0] > 300 and not JOB['running']:
+                srv.shutdown(); return
+    threading.Thread(target=watchdog, daemon=True).start()
+    url = f'http://127.0.0.1:{PORT}/'
+    log('app iniciado em ' + url)
+    if not FROZEN:
+        print(f'Baú aberto em {url} (feche a página ou use "Fechar o app" para encerrar)')
+    webbrowser.open(url)
+    srv.serve_forever()
+
+
+def main():
+    if '--cli' in sys.argv or '--demo' in sys.argv:
+        try:
+            cli_main()
+        except BauError as e:
+            bad(str(e))
+        return
+    app_main()
 
 
 if __name__ == '__main__':
