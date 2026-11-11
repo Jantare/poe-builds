@@ -20,7 +20,6 @@ def head(title, desc, depth):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
-<meta property="og:image" content="https://jantare.github.io/poe-builds/assets/covens-of-umbra-1000.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="{up}assets/style.css">
@@ -154,10 +153,6 @@ index = head('PoE Builds', 'Builds de Path of Exile 3.30 com árvore, crafting e
   <h1>PoE Builds</h1>
   <p class="lede">Nossas builds para a liga, com árvore real, ascensão, gemas, equipamento, craft e leveling. Mais um simulador de craft com os pesos reais dos mods.</p>
 </header>
-<figure class="league-hero">
-  <img src="assets/covens-of-umbra-1000.webp" srcset="assets/covens-of-umbra-1000.webp 1000w, assets/covens-of-umbra.webp 2000w" sizes="(max-width: 1100px) 100vw, 1048px" width="2000" height="1125" alt="Arte oficial da liga Covens of Umbra: o Wickerman em chamas azuis ao lado dos destaques da liga — chefes personalizados com Fates, Empower Your Flesh, Threads no lugar de Scarabs, nova árvore do Atlas, rework de loot e de Beyond, Incursion, Expedition, Harvest e Mirage virando core.">
-  <figcaption>Path of Exile 3.30 · Covens of Umbra · lançamento em 13/11 · arte: Grinding Gear Games</figcaption>
-</figure>
 <section id="builds"><h2>Mais seguras</h2><p>As mais fortes da 3.29 que <b>não levaram nerf</b> na 3.30. Gemas, árvore e itens vêm do Path of Building dos autores dos guias.</p><div class="cards">{"".join(safe_cards)}</div></section>
 <section id="apostas"><h2>Apostas para a 3.30</h2><p>Builds pensadas para as mudanças da 3.30. Podem ser mais fortes, mas têm mais risco. A árvore é real; gemas e itens são rascunho.</p><div class="cards">{"".join(cards)}</div></section>
 <section id="craft"><h2>Simulador de Craft</h2>
