@@ -122,7 +122,10 @@ def setup(cfg):
     cfg['league'] = ask('Liga', cfg.get('league') or (ids[0] if ids else 'Standard'))
     print('\nO POESESSID é o cookie de login do pathofexile.com (F12 > Application > Cookies).')
     print('Ele dá acesso total à sua conta: nunca compartilhe. Ele fica só neste computador.')
-    sess = read_sessid('POESESSID (cole e aperte Enter; o texto não aparece. Enter vazio mantém o atual): ')
+    if cfg.get('poesessid') and ask('Já existe um POESESSID salvo. Trocar? (s/n)', 'n').lower() != 's':
+        sess = ''
+    else:
+        sess = read_sessid('POESESSID: ')
     if sess:
         cfg['poesessid'] = sess
     if cfg.get('poesessid') and ask('Salvar o POESESSID neste computador para não perguntar de novo? (s/n)', 's').lower() != 's':
@@ -137,6 +140,52 @@ def setup(cfg):
     return cfg
 
 
+def masked_input(prompt):
+    """Entrada que mostra * para cada caractere (Windows: msvcrt; outros: getpass sem eco)."""
+    try:
+        import msvcrt
+    except ImportError:
+        return getpass.getpass(prompt + '(o texto não aparece) ')
+    sys.stdout.write(prompt); sys.stdout.flush()
+    buf = []
+    while True:
+        ch = msvcrt.getwch()
+        if ch in ('\r', '\n'):
+            print(); return ''.join(buf)
+        if ch == '\x03':
+            raise KeyboardInterrupt
+        if ch == '\x16':  # Ctrl+V que o terminal não colou: lê a área de transferência
+            txt = clipboard_text()
+            buf.extend(txt); sys.stdout.write('*' * len(txt)); sys.stdout.flush(); continue
+        if ch in ('\b', '\x7f'):
+            if buf:
+                buf.pop(); sys.stdout.write('\b \b'); sys.stdout.flush()
+            continue
+        if ch in ('\x00', '\xe0'):  # teclas especiais (setas etc.)
+            msvcrt.getwch(); continue
+        buf.append(ch); sys.stdout.write('*'); sys.stdout.flush()
+
+
+def clipboard_text():
+    """Lê o texto copiado (Windows: PowerShell; macOS: pbpaste; Linux: xclip/wl-paste)."""
+    import subprocess
+    cmds = [['powershell', '-NoProfile', '-Command', 'Get-Clipboard'], ['pbpaste'],
+            ['wl-paste', '-n'], ['xclip', '-selection', 'clipboard', '-o']]
+    for c in cmds:
+        try:
+            out = subprocess.run(c, capture_output=True, text=True, timeout=8)
+            if out.returncode == 0 and out.stdout.strip():
+                return out.stdout.strip()
+        except (OSError, subprocess.SubprocessError):
+            continue
+    try:
+        import tkinter
+        r = tkinter.Tk(); r.withdraw(); t = r.clipboard_get(); r.destroy()
+        return (t or '').strip()
+    except Exception:
+        return ''
+
+
 def read_sessid(prompt):
     """Lê o POESESSID sem mostrar na tela e confirma o que recebeu (só começo e fim).
     Também aceita a variável de ambiente POESESSID."""
@@ -144,11 +193,17 @@ def read_sessid(prompt):
     if env:
         print('Usando o POESESSID da variável de ambiente.')
         return env
+    print('\nCopie o POESESSID no navegador (Value da linha POESESSID) e então:')
+    print('  - aperte só ENTER aqui para eu pegar o que você copiou, ou')
+    print('  - cole/digite aqui (aparecem * no lugar das letras) e aperte ENTER.')
     while True:
-        try:
-            s = getpass.getpass(prompt)
-        except Exception:  # alguns terminais não suportam entrada oculta
-            s = input(prompt.replace('o texto não aparece', 'o texto vai aparecer'))
+        s = masked_input('POESESSID: ')
+        if s == '':
+            s = clipboard_text()
+            if not s:
+                print('  Não achei nada copiado. Copie o Value do POESESSID e aperte Enter de novo, ou cole aqui.')
+                continue
+            print('  Peguei o que estava copiado.')
         s = s.strip().strip('"').strip("'")
         if s.lower().startswith('poesessid='):
             s = s.split('=', 1)[1]
