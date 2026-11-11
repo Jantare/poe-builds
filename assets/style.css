@@ -189,3 +189,6 @@ html{-webkit-text-size-adjust:100%}
 .card p{font-size:13.5px;color:var(--muted);margin:0}
 .pill{display:inline-block;font-size:11px;font-weight:600;border-radius:999px;padding:1px 8px;border:1px solid currentColor;width:max-content}
 .pill.ok{color:var(--ok)}.pill.warn{color:var(--warn)}.pill.new{color:var(--spark)}
+.league-hero{margin:4px 0 8px;display:grid;gap:8px}
+.league-hero img{display:block;width:100%;height:auto;max-width:100%;border-radius:12px;border:1px solid var(--line);background:#0b0d16}
+.league-hero figcaption{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
