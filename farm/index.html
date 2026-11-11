@@ -29,6 +29,9 @@
 @media (max-width:640px){.mgrid{grid-template-columns:1fr}}
 .stars{font-family:var(--f-mono);font-size:12px;color:var(--spark)}
 .fit td:first-child{white-space:normal}
+table.split{table-layout:fixed}
+table.split td{overflow-wrap:anywhere}
+table.split td:first-child{font-weight:500;color:#cfd8e8}
 </style>
 </head>
 <body>
@@ -163,8 +166,9 @@
   </ol>
 
   <h3 style="margin-top:18px">O que mudou na 3.30</h3>
-  <div class="tbl fit"><table>
-    <thead><tr><th style="width:52%">Mudança</th><th>O que significa para o farm</th></tr></thead>
+  <div class="tbl fit"><table class="split">
+    <colgroup><col style="width:38%"><col style="width:62%"></colgroup>
+    <thead><tr><th>Mudança</th><th>O que significa para o farm</th></tr></thead>
     <tbody>
       <tr><td>Blood-Filled Vessels só entram em mapas com Ritual Threads: <b>2 slots com 4+ Threads, 3 slots com 8</b></td><td>Para usar Vessels de boss, você precisa investir em Threads. Com 8 Threads, cabem 3 Vessels.</td></tr>
       <tr><td>Rerolls depois da primeira janela <b>não garantem mais</b> Audience with the King nem Waxen Soul; agora garantem <b>pelo menos 1 Omen</b></td><td>Reroll virou caça a Omen. Audience with the King ficou mais rara pelo reroll.</td></tr>
