@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from treelib import Tree, plan, svg
 from build_specs import SPECS
 from content import BUILDS, ASC_PT
+import gen_safe
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = Tree(sys.argv[1]); SPARK = open(sys.argv[2], encoding='utf-8').read()
 CRAFT = json.load(open(os.path.join(ROOT, 'data/craft/mods.json')))
@@ -26,7 +27,7 @@ def head(title, desc, depth):
 <body>
 <header class="topbar"><div class="in">
   <a class="brand" href="{up}">PoE Builds</a>
-  <div class="links"><a href="{up}">Início</a><a href="{up}#builds">Builds</a><a href="{up}craft/">Craft</a><a href="{up}#ferramentas">Ferramentas</a></div>
+  <div class="links"><a href="{up}">Início</a><a href="{up}#builds">Seguras</a><a href="{up}#apostas">Apostas</a><a href="{up}craft/">Craft</a><a href="{up}#ferramentas">Ferramentas</a></div>
 </div></header>
 '''
 
@@ -143,6 +144,7 @@ for b in BUILDS:
     cards.append(f'<a class="card" href="builds/{b["slug"]}.html"><span class="cls">{e(b["cls"])} · {e(b["asc"])}</span><h3>{e(b["name"])}</h3><p>{e(b["card"])}</p><span class="pill {tagcls}">{e(b["tag"])}</span></a>')
     print(b['slug'], PT[0]['total'], 'pontos')
 
+safe_cards = gen_safe.render_all(T, head)
 tools = re.search(r'<div class="toolgrid">.*?</div>\s*\n\s*\n', SPARK, re.S)
 toolgrid = tools.group(0) if tools else ''
 index = head('PoE Builds', 'Builds de Path of Exile 3.30 com árvore, crafting e leveling, mais um simulador de craft.', 0) + f'''<div class="wrap wide">
@@ -151,7 +153,8 @@ index = head('PoE Builds', 'Builds de Path of Exile 3.30 com árvore, crafting e
   <h1>PoE Builds</h1>
   <p class="lede">Nossas builds para a liga, com árvore real, ascensão, gemas, equipamento, craft e leveling. Mais um simulador de craft com os pesos reais dos mods.</p>
 </header>
-<section id="builds"><h2>Builds</h2><div class="cards">{"".join(cards)}</div></section>
+<section id="builds"><h2>Mais seguras</h2><p>As mais fortes da 3.29 que <b>não levaram nerf</b> na 3.30. Gemas, árvore e itens vêm do Path of Building dos autores dos guias.</p><div class="cards">{"".join(safe_cards)}</div></section>
+<section id="apostas"><h2>Apostas para a 3.30</h2><p>Builds pensadas para as mudanças da 3.30. Podem ser mais fortes, mas têm mais risco. A árvore é real; gemas e itens são rascunho.</p><div class="cards">{"".join(cards)}</div></section>
 <section id="craft"><h2>Simulador de Craft</h2>
   <a class="card" href="craft/" style="max-width:520px"><span class="cls">Ferramenta</span><h3>Simulador de Craft</h3><p>Escolha base, item level e método (Chaos, Alteration, Essência, afixo travado). Ele calcula a chance de sair os mods que você quer e o custo médio.</p><span class="pill new">Novo</span></a>
 </section>
