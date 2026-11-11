@@ -122,7 +122,7 @@ def setup(cfg):
     cfg['league'] = ask('Liga', cfg.get('league') or (ids[0] if ids else 'Standard'))
     print('\nO POESESSID é o cookie de login do pathofexile.com (F12 > Application > Cookies).')
     print('Ele dá acesso total à sua conta: nunca compartilhe. Ele fica só neste computador.')
-    sess = getpass.getpass('POESESSID (não aparece ao digitar; Enter para manter o atual): ').strip()
+    sess = read_sessid('POESESSID (cole e aperte Enter; o texto não aparece. Enter vazio mantém o atual): ')
     if sess:
         cfg['poesessid'] = sess
     if cfg.get('poesessid') and ask('Salvar o POESESSID neste computador para não perguntar de novo? (s/n)', 's').lower() != 's':
@@ -137,10 +137,34 @@ def setup(cfg):
     return cfg
 
 
+def read_sessid(prompt):
+    """Lê o POESESSID sem mostrar na tela e confirma o que recebeu (só começo e fim).
+    Também aceita a variável de ambiente POESESSID."""
+    env = os.environ.get('POESESSID', '').strip()
+    if env:
+        print('Usando o POESESSID da variável de ambiente.')
+        return env
+    while True:
+        try:
+            s = getpass.getpass(prompt)
+        except Exception:  # alguns terminais não suportam entrada oculta
+            s = input(prompt.replace('o texto não aparece', 'o texto vai aparecer'))
+        s = s.strip().strip('"').strip("'")
+        if s.lower().startswith('poesessid='):
+            s = s.split('=', 1)[1]
+        if not s:
+            return ''
+        if re.fullmatch(r'[0-9a-fA-F]{32}', s):
+            print(f'  Recebido: {s[:4]}...{s[-4:]} (32 caracteres)')
+            return s
+        print(f'  Isso não parece um POESESSID: recebi {len(s)} caracteres, o normal são 32 letras e números (0-9, a-f).')
+        print('  Copie de novo o "Value" da linha POESESSID e cole aqui (Ctrl+V, ou botão direito no cmd).')
+
+
 def session(cfg):
     s = cfg.get('poesessid') or cfg.get('_session_only')
     if not s:
-        s = getpass.getpass('POESESSID: ').strip()
+        s = read_sessid('POESESSID (cole e aperte Enter; o texto não aparece): ')
         cfg['_session_only'] = s
     return s
 

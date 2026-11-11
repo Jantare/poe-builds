@@ -116,6 +116,14 @@ th.num{text-align:right}
         <div><b>3. Configure</b>Na primeira vez ele pede: conta com número (ex.: <code>Nome#1234</code>), liga, POESESSID e quais abas ler. Para mudar depois: <code>bau.bat --config</code>.</div>
         <div><b>4. Veja aqui</b>Ele cria <code>snapshots/latest.json</code> e <code>history.json</code>. Arraste os dois nesta página. Rode de novo depois de cada sessão de farm para ver o histórico.</div>
       </div>
+      <details class="craft" style="margin-top:12px"><summary><b>Como pegar o POESESSID</b><span>passo a passo no navegador</span></summary><div class="craft-body"><ol style="margin:0;padding-left:20px;display:grid;gap:6px;font-size:14px">
+        <li>Abra <a href="https://www.pathofexile.com" target="_blank" rel="noopener">pathofexile.com</a> <b>logado</b> na sua conta.</li>
+        <li>Aperte <b>F12</b> (ou botão direito na página → Inspecionar).</li>
+        <li>Clique na aba <b>Application</b> (<b>Aplicativo</b> em português). Se não aparecer, clique em <b>»</b>. No Firefox, a aba é <b>Armazenamento</b>.</li>
+        <li>Na esquerda: <b>Cookies</b> → <b>https://www.pathofexile.com</b>.</li>
+        <li>Clique na linha <b>POESESSID</b>, dê dois cliques no <b>Value</b> e aperte <b>Ctrl+C</b>. São 32 letras e números. Se não selecionar tudo, copie do quadro "Cookie Value" embaixo.</li>
+        <li>No script, cole com <b>Ctrl+V</b> (no cmd antigo, <b>botão direito</b>) e aperte <b>Enter</b>. O texto não aparece ao colar; o script confirma mostrando só o começo e o fim.</li>
+      </ol><p class="note" style="margin-top:10px">O console (<code>document.cookie</code>) não mostra o POESESSID: ele é um cookie protegido. Use a aba Application.</p></div></details>
       <p class="note" style="margin-top:12px"><strong>Segurança:</strong> o POESESSID é o cookie de login do pathofexile.com (F12 → Application → Cookies → POESESSID). Ele dá acesso total à sua conta. O script guarda só no seu computador (arquivo <code>bau_config.json</code>, se você aceitar salvar) e só manda para o site da GGG. Nunca cole o POESESSID em sites ou mande para outra pessoa. Se achar que vazou, saia da conta no site da GGG: isso invalida o cookie.</p>
       <p class="note">Abas especiais de <strong>Mapas</strong> e de <strong>Uniques</strong> não são lidas por este acesso. Preços do <a href="https://poe.ninja/" target="_blank" rel="noopener">poe.ninja</a>; itens raros e bases não têm preço automático.</p>
     </div>
