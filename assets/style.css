@@ -174,7 +174,7 @@ html{-webkit-text-size-adjust:100%}
 .topbar .links a:hover,.topbar .links a[aria-current]{color:var(--fg);background:var(--sunken)}
 .wrap.wide{max-width:1080px}
 
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px}
 .card{display:grid;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;text-decoration:none;color:var(--fg);min-width:0}
 .card:hover{border-color:var(--accent)}
 .card .cls{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
@@ -218,3 +218,4 @@ nav.sec a:hover{border-color:var(--accent);box-shadow:0 0 12px var(--glow)}
 a{color:var(--accent)}
 ::selection{background:rgba(108,184,255,.35)}
 [hidden]{display:none!important}
+.card{grid-template-rows:auto auto 1fr auto;align-content:stretch}.card .pill{align-self:end}
