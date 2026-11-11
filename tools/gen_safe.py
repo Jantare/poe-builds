@@ -2,7 +2,7 @@
 import os, re, html, base64, struct, collections
 import xml.etree.ElementTree as ET
 from treelib import svg, CLASS_IDX
-from safe_content import SAFE
+from safe_content import SAFE, YT
 e = html.escape
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 clean = lambda s: re.sub(r'\^x[0-9A-Fa-f]{6}|\^\d', '', s or '').strip()
@@ -111,15 +111,15 @@ def page(T, b, head):
     legend = ''.join(f'<span><i class="sw" style="background:var({c})"></i>Fase {i+1}</span>' for i, c in enumerate(['--spark', '--accent', '--gem-g'][:len(b['phases'])]))
     return head(b['name'] + ' · PoE Builds', b['card'], 1) + f'''<div class="wrap">
 <header>
-  <div class="eyebrow">Path of Exile 1 · build segura da 3.29 · {e(b["cls"])}</div>
+  <div class="eyebrow">Path of Exile 1 · {e(b.get("eyebrow","build segura da 3.29"))} · {e(b["cls"])}</div>
   <h1>{e(b["name"])}</h1>
   <p class="lede">{e(b["lede"])}</p>
-  <div class="facts"><span class="fact">Classe: {e(b["cls"])} → {e(b["asc"])}</span><span class="fact">Guia: {e(b["author"])}</span></div>
+  <div class="facts"><span class="fact">Classe: {e(b["cls"])} → {e(b["asc"])}</span><span class="fact">{"Vídeo" if b.get("views") else "Guia"}: {e(b["author"])}</span>{f'<span class="fact">{e(b["views"])} visualizações</span>' if b.get("views") else ""}</div>
   <p class="note"><strong>Na 3.30:</strong> {e(b["change"])}</p>
-  <p class="note">Gemas, árvore e itens tirados do Path of Building do guia original. <a href="{e(b["guide"])}" target="_blank" rel="noopener">Abrir o guia</a> · <a href="{e(pob)}" target="_blank" rel="noopener">Abrir o PoB (pobb.in)</a></p>
+  <p class="note">Gemas, árvore e itens tirados do Path of Building do guia original. <a href="{e(b["guide"])}" target="_blank" rel="noopener">{"Assistir o vídeo" if b.get("views") else "Abrir o guia"}</a> · <a href="{e(pob)}" target="_blank" rel="noopener">Abrir o PoB (pobb.in)</a></p>
 </header>
 <nav class="sec" aria-label="Seções"><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#liga">Liga</a></nav>
-<section id="porque"><h2>Por que é seguro</h2><div class="why">{why}</div></section>
+<section id="porque"><h2>{"Por que vale a pena" if b.get("views") else "Por que é seguro"}</h2><div class="why">{why}</div></section>
 <section id="ascensao"><h2>Ascensão</h2><ol class="lab">{asc}</ol><p class="muted" style="font-size:13px;margin-top:8px">Ordem inferida das árvores de leveling do guia. Texto do jogo em inglês.</p></section>
 <section id="arvore"><h2>Árvore passiva</h2>
   <p>Árvore do guia (versão "{e(clean(specs[P["final"]].get("title")) or "principal")}"): <b>{P["total"]} pontos</b> com {len(P["mpick"])} masteries. Cada cor mostra em qual árvore de leveling do guia o nó aparece primeiro.</p>
@@ -136,10 +136,11 @@ def page(T, b, head):
 </div></body></html>
 '''
 
-def render_all(T, head):
+def render_all(T, head, builds=None, label='Segura'):
     cards = []
-    for b in SAFE:
+    for b in (SAFE if builds is None else builds):
+        if builds is not None: b.setdefault('eyebrow', 'build do YouTube para a 3.30')
         open(os.path.join(ROOT, 'builds', b['slug'] + '.html'), 'w', encoding='utf-8').write(page(T, b, head))
-        cards.append(f'<a class="card" href="builds/{b["slug"]}.html"><span class="cls">{e(b["cls"])} · {e(b["asc"])}</span><h3>{e(b["name"])}</h3><p>{e(b["card"])}</p><span class="pill ok">Segura · {e(b["author"].split(" (")[0])}</span></a>')
+        cards.append(f'<a class="card" href="builds/{b["slug"]}.html"><span class="cls">{e(b["cls"])} · {e(b["asc"])}</span><h3>{e(b["name"])}</h3><p>{e(b["card"])}</p><span class="pill {'new' if b.get('views') else 'ok'}">{e(label)} · {e(b["author"].split(" (")[0])}{(' · ' + e(b['views'])) if b.get('views') else ''}</span></a>')
         print(b['slug'], 'ok')
     return cards
