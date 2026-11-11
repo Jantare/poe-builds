@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+bau/.cache/
+bau/snapshots/
+bau/bau_config.json
