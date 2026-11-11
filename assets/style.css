@@ -1,23 +1,16 @@
 /* Layout: one reading column of guide sections, a sticky chip nav, tables and the tree diagram scroll inside their own boxes */
+/* Visual da liga Covens of Umbra: noite profunda, fogo espectral azul do Wickerman e molduras de madeira trançada. Tema único (escuro) por escolha. */
 :root{
-  --bg:#f4f3f8; --surface:#ffffff; --sunken:#ebe9f3; --fg:#1d1b29; --muted:#5d5a72; --line:#d9d6e6;
-  --accent:#3f4fd0; --accent-soft:#e3e6fb; --spark:#b7791f;
-  --gem-b:#3a6fd8; --gem-g:#2f9a57; --gem-r:#c8453b; --gem-w:#8a8798;
-  --ok:#2f8a55; --warn:#b26a12; --bad:#b83a32;
+  --bg:#070a12; --surface:#0e1422; --sunken:#151d30; --fg:#dfe6f2; --muted:#8f9bb3; --line:#232d45;
+  --accent:#6cb8ff; --accent-soft:#11264a; --spark:#c9a26a;
+  --wood:#5a3f27; --wood-hi:#a07a4c; --glow:rgba(92,170,255,.35);
+  --gem-b:#5aa2ff; --gem-g:#59c48a; --gem-r:#ff6f61; --gem-w:#9aa3b8;
+  --ok:#59c48a; --warn:#e2a24a; --bad:#ff6f61;
   --f-display:"Cinzel","Trajan Pro",Georgia,serif;
   --f-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#13121b; --surface:#1c1a27; --sunken:#242233; --fg:#ebe9f5; --muted:#a6a2bd; --line:#33304a;
-  --accent:#9fb0ff; --accent-soft:#272c52; --spark:#f0c060;
-  --gem-b:#6f9bff; --gem-g:#5cc485; --gem-r:#ef7a6f; --gem-w:#b9b6c8;
-  --ok:#5cc485; --warn:#e9a54a; --bad:#ef7a6f; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#13121b; --surface:#1c1a27; --sunken:#242233; --fg:#ebe9f5; --muted:#a6a2bd; --line:#33304a;
-  --accent:#9fb0ff; --accent-soft:#272c52; --spark:#f0c060;
-  --gem-b:#6f9bff; --gem-g:#5cc485; --gem-r:#ef7a6f; --gem-w:#b9b6c8;
-  --ok:#5cc485; --warn:#e9a54a; --bad:#ef7a6f; color-scheme:dark}
 
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6;margin:0}
@@ -192,3 +185,36 @@ html{-webkit-text-size-adjust:100%}
 .league-hero{margin:4px 0 8px;display:grid;gap:8px}
 .league-hero img{display:block;width:100%;height:auto;max-width:100%;border-radius:12px;border:1px solid var(--line);background:#0b0d16}
 .league-hero figcaption{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+
+/* ---- Covens of Umbra skin ---- */
+body{background:
+  radial-gradient(1100px 600px at 10% -10%, rgba(64,140,255,.20), transparent 60%),
+  radial-gradient(900px 520px at 100% 0%, rgba(120,90,210,.13), transparent 60%),
+  radial-gradient(1000px 700px at 50% 120%, rgba(40,90,180,.12), transparent 60%),
+  var(--bg);background-attachment:fixed}
+h1{background:linear-gradient(180deg,#f5f1e6 0%,#c9c1ae 55%,#8b8473 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(108,184,255,.30))}
+h2{color:#e9e3d2;text-shadow:0 0 16px rgba(108,184,255,.28)}
+.eyebrow{color:var(--accent)}
+.lede{color:#a9b4c9}
+section{border-top:1px solid transparent;border-image:linear-gradient(90deg,transparent,var(--wood-hi) 20%,var(--wood) 80%,transparent) 1}
+.topbar{background:rgba(7,10,18,.86);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid transparent;border-image:linear-gradient(90deg,transparent,var(--wood-hi),transparent) 1}
+.topbar .brand{color:#efe9da;text-shadow:0 0 12px var(--glow)}
+.topbar .links a:hover,.topbar .links a[aria-current]{color:#fff;background:var(--accent-soft)}
+.card,.why div,.act,.setup,details.craft,.tbl,.diagram,.fact,.lab li,.tool,.panel{border-color:var(--wood)!important;box-shadow:inset 0 1px 0 rgba(160,122,76,.18),0 6px 24px rgba(0,0,0,.35)}
+.card,.why div,.lab li,.tool{background:linear-gradient(180deg,#121a2c 0%,var(--surface) 100%)}
+.card:hover,.tool:hover{border-color:var(--accent)!important;box-shadow:0 0 0 1px var(--accent),0 0 22px var(--glow)}
+.card h3,.lab .node{color:#eae4d3}
+.lab .node{text-shadow:0 0 10px var(--glow)}
+.note{background:rgba(17,38,74,.45);border-left:2px solid var(--accent);color:#aab6cc}
+.fact{background:var(--sunken)}
+th{background:#111a2d}
+.treelink,.btn{box-shadow:0 0 18px var(--glow)}
+.treelink{color:#06101c}
+.btn{color:#06101c}
+nav.sec a{background:var(--sunken);border-color:var(--wood)}
+nav.sec a:hover{border-color:var(--accent);box-shadow:0 0 12px var(--glow)}
+.league-hero img{border:1px solid var(--wood-hi);box-shadow:0 0 0 1px rgba(0,0,0,.6),0 0 40px rgba(92,170,255,.28),0 18px 50px rgba(0,0,0,.6)}
+.pill.ok{color:var(--ok)}
+a{color:var(--accent)}
+::selection{background:rgba(108,184,255,.35)}
+[hidden]{display:none!important}

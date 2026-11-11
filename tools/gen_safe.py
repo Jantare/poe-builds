@@ -114,7 +114,7 @@ def page(T, b, head):
   <div class="eyebrow">Path of Exile 1 · build segura da 3.29 · {e(b["cls"])}</div>
   <h1>{e(b["name"])}</h1>
   <p class="lede">{e(b["lede"])}</p>
-  <div class="facts"><span class="fact">Classe: {e(b["cls"])} → {e(b["asc"])}</span><span class="fact">Guia: {e(b["author"])}</span><span class="fact">Nível do PoB: {e(root.find("Build").get("level"))}</span></div>
+  <div class="facts"><span class="fact">Classe: {e(b["cls"])} → {e(b["asc"])}</span><span class="fact">Guia: {e(b["author"])}</span></div>
   <p class="note"><strong>Na 3.30:</strong> {e(b["change"])}</p>
   <p class="note">Gemas, árvore e itens tirados do Path of Building do guia original. <a href="{e(b["guide"])}" target="_blank" rel="noopener">Abrir o guia</a> · <a href="{e(pob)}" target="_blank" rel="noopener">Abrir o PoB (pobb.in)</a></p>
 </header>
