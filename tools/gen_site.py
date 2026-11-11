@@ -5,6 +5,7 @@ from treelib import Tree, plan, svg
 from build_specs import SPECS
 from content import BUILDS, ASC_PT
 import gen_safe
+from videos import showcase
 import xml.sax.saxutils as sx
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = Tree(sys.argv[1]); SPARK = open(sys.argv[2], encoding='utf-8').read()
@@ -128,7 +129,8 @@ def build_page(b, P_tree):
   {notice}
   <p class="note"><strong>Rascunho:</strong> gemas e equipamento são um ponto de partida. Confirme no Path of Building e nos guias da comunidade quando a liga abrir.</p>
 </header>
-<nav class="sec" aria-label="Seções"><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#craft">Craft</a><a href="#atos">Leveling</a><a href="#liga">Liga</a></nav>
+<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#craft">Craft</a><a href="#atos">Leveling</a><a href="#liga">Liga</a></nav>
+{showcase(b["slug"], b["name"])}
 <section id="porque"><h2>Por que nessa liga</h2><div class="why">{why}</div></section>
 {tree_html}
 <section id="gemas"><h2>Gemas e links</h2>{gem_html(b["gems"])}</section>
@@ -142,7 +144,7 @@ def build_page(b, P_tree):
 <footer>Árvore e ascensão: dados da árvore do Path of Building (3.29; a 3.30 não mudou a árvore passiva). Patch: <a href="https://www.pathofexile.com/forum/view-thread/4013680" target="_blank" rel="noopener">notas oficiais da 3.30.0</a>.</footer>
 </div>
 <script src="../assets/checklist.js" data-key="{b["slug"]}"></script>
-<script src="../assets/pob.js"></script>
+<script src="../assets/pob.js"></script>\n<script src="../assets/video.js"></script>
 </body></html>
 '''
 
@@ -156,11 +158,11 @@ def spark_page(b, P_tree):
         ('Botas','Murder Boots',84,'chaos','MovementVelocity:2,ChanceToSuppressSpells:3'),('Jewel ES + crítico','Cobalt Jewel',84,'chaos','EnergyShieldForJewel:1,SpellCritMultiplierForJewel:1')])
     craft = craft.replace('<h2>Como craftar</h2>', f'<h2>Como craftar</h2>\n  <p><b>Simulador do site:</b></p><div class="presets" style="margin-bottom:12px">{sim}</div>', 1)
     body = '\n'.join([hdr,
-        '<nav class="sec" aria-label="Seções"><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#atos">Leveling</a><a href="#liga">Liga</a></nav>',
-        sect('porque'), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), sect('equipamento'), sect('alvos'), craft, sect('atos'), sect('liga')])
+        '<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#atos">Leveling</a><a href="#liga">Liga</a></nav>',
+        showcase(b['slug'], b['name']), sect('porque'), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), sect('equipamento'), sect('alvos'), craft, sect('atos'), sect('liga')])
     body = body.replace(re.search(r'<section id="ascensao">.*?</section>', body, re.S).group(0), sect('ascensao'))
     foot = re.search(r'<footer>.*?</footer>', SPARK, re.S).group(0)
-    return head(b['name'] + ' · PoE Builds', b['card'], 1) + '<div class="wrap">\n' + body + '\n' + foot + '\n</div>\n<script src="../assets/checklist.js" data-key="trickster-spark-330-checks"></script>\n<script src="../assets/pob.js"></script>\n</body></html>\n'
+    return head(b['name'] + ' · PoE Builds', b['card'], 1) + '<div class="wrap">\n' + body + '\n' + foot + '\n</div>\n<script src="../assets/checklist.js" data-key="trickster-spark-330-checks"></script>\n<script src="../assets/pob.js"></script>\n<script src="../assets/video.js"></script>\n</body></html>\n'
 
 os.makedirs(os.path.join(ROOT, 'builds'), exist_ok=True)
 cards = []
