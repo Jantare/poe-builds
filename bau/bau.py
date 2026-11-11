@@ -50,7 +50,15 @@ class BauError(Exception):
 
 # ---------------- visual do terminal ----------------
 def _enable_terminal():
-    """Liga cores ANSI e UTF-8 no console do Windows 10/11."""
+    """Liga cores ANSI e UTF-8 no console do Windows 10/11.
+    No bau.exe (sem janela) não existe console: sys.stdout/stderr vêm vazios (None)."""
+    has_console = sys.stdout is not None and sys.stderr is not None
+    if sys.stdout is None:
+        sys.stdout = open(os.devnull, 'w', encoding='utf-8')
+    if sys.stderr is None:
+        sys.stderr = open(os.devnull, 'w', encoding='utf-8')
+    if not has_console:
+        return False
     if os.name == 'nt':
         os.system('')  # ativa o modo VT do console
     for st in (sys.stdout, sys.stderr):
@@ -60,7 +68,11 @@ def _enable_terminal():
             pass
     if os.environ.get('FORCE_COLOR'):
         return True
-    return not os.environ.get('NO_COLOR') and (sys.stdout.isatty() or os.name == 'nt')
+    try:
+        tty = sys.stdout.isatty()
+    except Exception:
+        tty = False
+    return not os.environ.get('NO_COLOR') and (tty or os.name == 'nt')
 
 
 COLOR = _enable_terminal()

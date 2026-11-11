@@ -29,6 +29,26 @@ jobs:
       - name: Check the script loads
         run: python -c "import ast,sys; ast.parse(open('bau/bau.py',encoding='utf-8').read())"
 
+      - name: Smoke test without a console (like the .exe)
+        shell: bash
+        run: |
+          cp assets/style.css bau/style.css
+          cat > smoke.py <<'PY'
+          import sys, os, threading, time, urllib.request
+          sys.stdout = None; sys.stderr = None
+          sys.path.insert(0, 'bau')
+          import webbrowser; webbrowser.open = lambda *a, **k: True
+          import bau
+          bau.PORT = 7399
+          threading.Thread(target=bau.app_main, daemon=True).start(); time.sleep(3)
+          ok = urllib.request.urlopen('http://127.0.0.1:7399/').status == 200
+          open('smoke.txt', 'w').write('ok' if ok else 'fail')
+          PY
+          python smoke.py
+          cat smoke.txt
+          grep -q ok smoke.txt
+          rm bau/style.css smoke.py smoke.txt
+
       - name: Build bau.exe
         run: >
           pyinstaller --onefile --noconsole --name bau
