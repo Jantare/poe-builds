@@ -42,6 +42,79 @@ CATEGORY = {  # nome mostrado no site
     'Wombgift': 'Outros', 'ForbiddenJewel': 'Jewels', 'ScryingOrb': 'Outros'}
 
 
+# ---------------- visual do terminal ----------------
+def _enable_terminal():
+    """Liga cores ANSI e UTF-8 no console do Windows 10/11."""
+    if os.name == 'nt':
+        os.system('')  # ativa o modo VT do console
+    for st in (sys.stdout, sys.stderr):
+        try:
+            st.reconfigure(encoding='utf-8')
+        except Exception:
+            pass
+    if os.environ.get('FORCE_COLOR'):
+        return True
+    return not os.environ.get('NO_COLOR') and (sys.stdout.isatty() or os.name == 'nt')
+
+
+COLOR = _enable_terminal()
+def _c(code):
+    return (lambda t: f'\033[{code}m{t}\033[0m') if COLOR else (lambda t: str(t))
+BLUE, GOLD, GREEN, RED, GRAY, BOLD, CYAN = _c('38;2;108;184;255'), _c('38;2;214;178;110'), _c('38;2;89;196;138'), _c('38;2;255;111;97'), _c('38;2;143;155;179'), _c('1'), _c('38;2;160;220;255')
+
+
+def swatch(hexcolor):
+    if not COLOR or not hexcolor:
+        return '■'
+    r, g, b = int(hexcolor[1:3], 16), int(hexcolor[3:5], 16), int(hexcolor[5:7], 16)
+    return f'\033[38;2;{r};{g};{b}m■\033[0m'
+
+
+def banner():
+    w = 58
+    print()
+    print(BLUE('  ╔' + '═' * w + '╗'))
+    print(BLUE('  ║') + GOLD(BOLD('  B A Ú'.ljust(20))) + GRAY('PoE Builds · valor do seu baú'.rjust(w - 20 - 2))+ '  ' + BLUE('║'))
+    print(BLUE('  ║') + GRAY('  Chaos e Divine por aba, preços do poe.ninja'.ljust(w)) + BLUE('║'))
+    print(BLUE('  ╚' + '═' * w + '╝'))
+
+
+def section(title):
+    print('\n  ' + GOLD(BOLD(title)) + ' ' + BLUE('─' * max(4, 54 - len(title))))
+
+
+def info(msg):
+    print('  ' + GRAY('·') + ' ' + msg)
+
+
+def good(msg):
+    print('  ' + GREEN('✔') + ' ' + msg)
+
+
+def warn(msg):
+    print('  ' + GOLD('!') + ' ' + msg)
+
+
+def bad(msg):
+    print('  ' + RED('✖') + ' ' + msg)
+
+
+def progress(i, n, label):
+    width = 26
+    done = int(width * i / max(n, 1))
+    bar = BLUE('█' * done) + GRAY('░' * (width - done))
+    sys.stdout.write(f'\r  {bar} {i}/{n}  {label[:28]:<28}')
+    sys.stdout.flush()
+    if i >= n:
+        print()
+
+
+def fmt_val(c, divine):
+    if divine and c >= divine:
+        return f'{c / divine:,.1f}d'.replace(',', 'X').replace('.', ',').replace('X', '.')
+    return f'{c:,.0f}c'.replace(',', '.')
+
+
 def http_json(url, headers=None, cache_name=None, max_age=900):
     if cache_name:
         os.makedirs(CACHE, exist_ok=True)
@@ -61,7 +134,7 @@ def http_json(url, headers=None, cache_name=None, max_age=900):
         except urllib.error.HTTPError as e:
             if e.code == 429:
                 wait = int(e.headers.get('Retry-After') or 60)
-                print(f'  Limite de requisições da GGG. Esperando {wait}s...')
+                warn(f'Limite de requisições da GGG. Esperando {wait}s...')
                 time.sleep(wait + 1)
                 continue
             if e.code in (401, 403):
@@ -71,7 +144,7 @@ def http_json(url, headers=None, cache_name=None, max_age=900):
             raise
         except urllib.error.URLError as e:
             if cache_name:
-                print(f'  Sem resposta do poe.ninja para {cache_name}: {e.reason}')
+                warn(f'Sem resposta do poe.ninja para {cache_name}: {e.reason}')
                 return None
             raise SystemExit(f'Sem conexão com a GGG: {e.reason}')
     else:
@@ -108,20 +181,21 @@ def save_config(cfg):
 
 
 def ask(prompt, default=''):
-    v = input(f'{prompt}' + (f' [{default}]' if default else '') + ': ').strip()
+    v = input('  ' + BLUE('›') + ' ' + prompt + (GRAY(f' [{default}]') if default else '') + ': ').strip()
     return v or default
 
 
 def setup(cfg):
-    print('\n=== Configuração ===')
+    section('Configuração')
     cfg['account'] = ask('Nome da conta com o número (ex.: Fulano#1234)', cfg.get('account', ''))
     leagues = http_json(NINJA + '/leagues', cache_name='leagues', max_age=3600) or []
     ids = [l['id'] for l in leagues]
     if ids:
-        print('Ligas no poe.ninja:', ', '.join(ids))
+        info('Ligas no poe.ninja: ' + CYAN(', '.join(ids)))
     cfg['league'] = ask('Liga', cfg.get('league') or (ids[0] if ids else 'Standard'))
-    print('\nO POESESSID é o cookie de login do pathofexile.com (F12 > Application > Cookies).')
-    print('Ele dá acesso total à sua conta: nunca compartilhe. Ele fica só neste computador.')
+    section('Login (POESESSID)')
+    info('É o cookie de login do pathofexile.com: F12 > Application > Cookies > POESESSID.')
+    warn('Ele dá acesso total à sua conta. Nunca compartilhe. Fica só neste computador.')
     if cfg.get('poesessid') and ask('Já existe um POESESSID salvo. Trocar? (s/n)', 'n').lower() != 's':
         sess = ''
     else:
@@ -131,9 +205,11 @@ def setup(cfg):
     if cfg.get('poesessid') and ask('Salvar o POESESSID neste computador para não perguntar de novo? (s/n)', 's').lower() != 's':
         cfg['_session_only'] = cfg.pop('poesessid')
     tabs = get_tabs(cfg)
-    print('\nAbas do baú:')
+    section('Abas do baú')
     for t in tabs:
-        print(f"  {t['i']:>3}  {t['n']}  ({t['type']})")
+        c = t.get('colour') or {}
+        hx = '#%02x%02x%02x' % (c.get('r', 120), c.get('g', 120), c.get('b', 120))
+        print(f"   {GRAY(str(t['i']).rjust(3))}  {swatch(hx)} {t['n']}  {GRAY('(' + t.get('type', '') + ')')}")
     sel = ask('Quais abas ler? Números separados por vírgula, ou "todas"', cfg.get('tabs_text', 'todas'))
     cfg['tabs_text'] = sel
     save_config({k: v for k, v in cfg.items() if not k.startswith('_')})
@@ -191,29 +267,29 @@ def read_sessid(prompt):
     Também aceita a variável de ambiente POESESSID."""
     env = os.environ.get('POESESSID', '').strip()
     if env:
-        print('Usando o POESESSID da variável de ambiente.')
+        good('Usando o POESESSID da variável de ambiente.')
         return env
-    print('\nCopie o POESESSID no navegador (Value da linha POESESSID) e então:')
-    print('  - aperte só ENTER aqui para eu pegar o que você copiou, ou')
-    print('  - cole/digite aqui (aparecem * no lugar das letras) e aperte ENTER.')
+    info('Copie o ' + BOLD('Value') + ' da linha POESESSID no navegador e então:')
+    info(BOLD('ENTER') + ' aqui: eu pego o que você copiou, ou')
+    info('cole/digite (aparecem ' + BLUE('*') + ') e aperte ' + BOLD('ENTER') + '.')
     while True:
-        s = masked_input('POESESSID: ')
+        s = masked_input('  ' + BLUE('›') + ' POESESSID: ')
         if s == '':
             s = clipboard_text()
             if not s:
-                print('  Não achei nada copiado. Copie o Value do POESESSID e aperte Enter de novo, ou cole aqui.')
+                bad('Não achei nada copiado. Copie o Value do POESESSID e aperte Enter de novo, ou cole aqui.')
                 continue
-            print('  Peguei o que estava copiado.')
+            good('Peguei o que estava copiado.')
         s = s.strip().strip('"').strip("'")
         if s.lower().startswith('poesessid='):
             s = s.split('=', 1)[1]
         if not s:
             return ''
         if re.fullmatch(r'[0-9a-fA-F]{32}', s):
-            print(f'  Recebido: {s[:4]}...{s[-4:]} (32 caracteres)')
+            good(f'Recebido: {s[:4]}...{s[-4:]} ' + GRAY('(32 caracteres)'))
             return s
-        print(f'  Isso não parece um POESESSID: recebi {len(s)} caracteres, o normal são 32 letras e números (0-9, a-f).')
-        print('  Copie de novo o "Value" da linha POESESSID e cole aqui (Ctrl+V, ou botão direito no cmd).')
+        bad(f'Isso não parece um POESESSID: recebi {len(s)} caracteres, o normal são 32 letras e números (0-9, a-f).')
+        info('Copie de novo o "Value" da linha POESESSID e cole aqui.')
 
 
 def session(cfg):
@@ -404,38 +480,71 @@ def demo():
     return snap
 
 
+def summary(snap, path):
+    dv = snap['divine']
+    tabs = {t['i']: t for t in snap['tabs']}
+    by_tab = {}
+    for it in snap['items']:
+        by_tab[it['tab']] = by_tab.get(it['tab'], 0) + it['total']
+    top = max(by_tab.values() or [1]) or 1
+    section('Resultado')
+    for i, v in sorted(by_tab.items(), key=lambda kv: -kv[1]):
+        t = tabs.get(i, {})
+        bar = BLUE('▇' * max(1, int(18 * v / top))) if v else GRAY('·')
+        print(f"   {swatch(t.get('color'))} {t.get('name', i)[:22]:<22} {fmt_val(v, dv):>10}  {bar}")
+    best = sorted(snap['items'], key=lambda x: -x['total'])[:5]
+    if best and best[0]['total']:
+        section('Mais valiosos')
+        for it in best:
+            if it['total']:
+                print(f"   {GOLD('◆')} {it['name'][:34]:<34} {GRAY('x' + str(it['qty'])):>8} {fmt_val(it['total'], dv):>10}")
+    unpriced = sum(1 for it in snap['items'] if not it['price'])
+    total = snap['total']
+    print()
+    print(BLUE('  ┌' + '─' * 44 + '┐'))
+    chaos_txt = f'{total:,.0f}'.replace(',', '.')
+    line = f"TOTAL  {fmt_val(total, dv)}  ·  {chaos_txt} chaos"
+    print(BLUE('  │ ') + GOLD(BOLD(line.ljust(43))) + BLUE('│'))
+    print(BLUE('  │ ') + GRAY(f'Divine a {dv:.0f}c · {len(snap["items"])} itens · {unpriced} sem preço'.ljust(43)) + BLUE('│'))
+    print(BLUE('  └' + '─' * 44 + '┘'))
+    good('Snapshot salvo: ' + GRAY(os.path.relpath(path, HERE)))
+    info('No site, arraste ' + BOLD('snapshots/latest.json') + ' e ' + BOLD('history.json') + ': ' + CYAN(SITE))
+
+
 def main():
+    banner()
     if '--demo' in sys.argv:
         snap = demo()
         path = os.path.join(HERE, 'exemplo.json')
         with open(path, 'w', encoding='utf-8') as f:
             json.dump(snap, f, ensure_ascii=False)
-        print('Exemplo salvo em', path, '| total', round(snap['total']), 'c')
+        summary(snap, path)
         return
     cfg = load_config()
     if '--config' in sys.argv or not cfg.get('account') or not cfg.get('tabs_text'):
         cfg = setup(cfg)
-    print(f"\nConta: {cfg['account']} | Liga: {cfg['league']}")
-    print('Buscando preços no poe.ninja...')
+    section('Lendo o baú')
+    info(f"Conta {BOLD(cfg['account'])} · Liga {BOLD(cfg['league'])}")
+    info('Buscando preços no poe.ninja...')
     P = load_prices(cfg['league'])
-    print(f"  Divine = {P['divine']:.0f} chaos")
+    good('Preços carregados · Divine = ' + GOLD(f"{P['divine']:.0f}c"))
     tabs = get_tabs(cfg)
     want = cfg.get('tabs_text', 'todas')
     sel = tabs if want.lower().startswith('tod') else [t for t in tabs if str(t['i']) in [x.strip() for x in want.split(',')]]
-    items_by_tab = {}
-    for t in sel:
-        print(f"  Lendo aba {t['i']}: {t['n']}")
+    items_by_tab, skipped = {}, []
+    for k, t in enumerate(sel, 1):
+        progress(k - 1, len(sel), t['n'])
         data = stash_request(cfg, t['i'], 0)
         items_by_tab[t['i']] = data.get('items', [])
         if t.get('type') in ('MapStash', 'UniqueStash') and not items_by_tab[t['i']]:
-            print('    (abas de Mapas e de Uniques especiais não são lidas por este acesso)')
+            skipped.append(t['n'])
+        progress(k, len(sel), t['n'])
+    for n in skipped:
+        warn(f'"{n}": abas de Mapas e de Uniques especiais não são lidas por este acesso.')
     snap = build_snapshot(cfg, sel, items_by_tab, P)
     path = save_snapshot(snap)
-    d = snap['total'] / snap['divine'] if snap['divine'] else 0
-    print(f"\nTotal: {snap['total']:.0f} chaos = {d:.1f} divine")
-    print('Snapshot salvo em', path)
-    print('Abra', SITE, 'e arraste o arquivo snapshots/latest.json (ou history.json para o gráfico).')
-    if input('Abrir o site agora? (s/n) [s]: ').strip().lower() in ('', 's'):
+    summary(snap, path)
+    if ask('Abrir o site agora? (s/n)', 's').lower() == 's':
         webbrowser.open(SITE)
 
 
@@ -443,4 +552,4 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print('\nCancelado.')
+        print('\n  ' + GOLD('Cancelado.'))
