@@ -219,3 +219,7 @@ a{color:var(--accent)}
 ::selection{background:rgba(108,184,255,.35)}
 [hidden]{display:none!important}
 .card{grid-template-rows:auto auto 1fr auto;align-content:stretch}.card .pill{align-self:end}
+.pobbox{width:100%;min-height:90px;font-family:var(--f-mono);font-size:11px;background:var(--sunken);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:8px;margin-top:8px}
+.pobhow{font-size:13px;color:var(--muted);margin-top:6px}
+button.treelink{font:inherit;font-weight:600;cursor:pointer;border:0}
+button.treelink:disabled{opacity:.5;cursor:wait}

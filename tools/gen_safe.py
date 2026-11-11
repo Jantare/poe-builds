@@ -1,6 +1,6 @@
 """Pages for the safe 3.29 builds, built from the authors' Path of Building XML (data/pob/*.xml)."""
 import os, re, html, base64, struct, collections
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET, zlib
 from treelib import svg, CLASS_IDX
 from safe_content import SAFE, YT
 e = html.escape
@@ -97,8 +97,19 @@ def items_html(root):
             out.append(f'<details class="craft"{" open" if k == 0 else ""}><summary><b>{e(clean(st.get("title")) or "Equipamento")}</b></summary><div class="craft-body"><div class="tbl"><table><thead><tr><th>Slot</th><th>Item</th><th>Base</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div></div></details>')
     return '<div class="crafts">' + ''.join(out) + '</div>'
 
+def pob_button(slug):
+    return (f'<button type="button" class="treelink" data-pob="../data/pob/{slug}.txt" aria-controls="pob-{slug}">Copiar código do PoB</button>'
+            f'<textarea class="pobbox" id="pob-{slug}" hidden readonly aria-label="Código do Path of Building"></textarea>'
+            '<p class="pobhow">No Path of Building: <b>Import/Export Build</b> → cole o código (ou o link do pobb.in) em <b>Import from</b> → <b>Import</b>.</p>')
+
+def write_code(slug, xml_bytes):
+    code = base64.urlsafe_b64encode(zlib.compress(xml_bytes, 9)).decode()
+    open(os.path.join(ROOT, 'data/pob', slug + '.txt'), 'w').write(code)
+
 def page(T, b, head):
-    root = ET.parse(os.path.join(ROOT, 'data/pob', b['xml'])).getroot()
+    raw_xml = open(os.path.join(ROOT, 'data/pob', b['xml']), 'rb').read()
+    write_code(b['slug'], raw_xml)
+    root = ET.fromstring(raw_xml)
     P = build_P(T, b, root)
     N = T.N; specs = P['specs']
     phase_titles = [', '.join(clean(specs[i].get('title')) or 'Árvore' for i in g) for g in b['phases']]
@@ -123,7 +134,8 @@ def page(T, b, head):
 <section id="ascensao"><h2>Ascensão</h2><ol class="lab">{asc}</ol><p class="muted" style="font-size:13px;margin-top:8px">Ordem inferida das árvores de leveling do guia. Texto do jogo em inglês.</p></section>
 <section id="arvore"><h2>Árvore passiva</h2>
   <p>Árvore do guia (versão "{e(clean(specs[P["final"]].get("title")) or "principal")}"): <b>{P["total"]} pontos</b> com {len(P["mpick"])} masteries. Cada cor mostra em qual árvore de leveling do guia o nó aparece primeiro.</p>
-  <p><a class="treelink" href="{e(P["url"])}" target="_blank" rel="noopener">Abrir na árvore oficial</a> <a class="treelink" style="background:none;color:var(--accent);border:1px solid var(--accent)" href="{e(pob)}" target="_blank" rel="noopener">Importar no Path of Building</a></p>
+  <p><a class="treelink" href="{e(P["url"])}" target="_blank" rel="noopener">Abrir na árvore oficial</a> <a class="treelink" style="background:none;color:var(--accent);border:1px solid var(--accent)" href="{e(pob)}" target="_blank" rel="noopener">Abrir no pobb.in</a></p>
+  {pob_button(b["slug"])}
   <div class="diagram tree-real" role="img" aria-label="Árvore passiva da build.">{svg(T, P)}</div>
   <div class="legend">{legend}<span><i class="sw" style="background:var(--bad)"></i>Mastery</span></div>
   <div class="phases">{phases}</div>
@@ -133,7 +145,7 @@ def page(T, b, head):
 <section id="equipamento"><h2>Equipamento do guia</h2><p>"Raro" é item raro com os status do guia; abra o PoB para ver os mods de cada um.</p>{items_html(root)}</section>
 <section id="liga"><h2>Na Covens of Umbra</h2><div class="cols"><div><h3 class="good">Rode</h3><ul>{good}</ul></div><div><h3 class="badc">Cuidado</h3><ul>{bad}</ul></div></div></section>
 <footer>Build de {e(b["author"])}. Dados do <a href="{e(pob)}" target="_blank" rel="noopener">Path of Building do guia</a>; árvore desenhada com os dados 3.29 do Path of Building Community. Confira o guia original para detalhes de leveling e craft.</footer>
-</div></body></html>
+</div><script src="../assets/pob.js"></script></body></html>
 '''
 
 def render_all(T, head, builds=None, label='Segura'):

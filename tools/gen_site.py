@@ -5,6 +5,7 @@ from treelib import Tree, plan, svg
 from build_specs import SPECS
 from content import BUILDS, ASC_PT
 import gen_safe
+import xml.sax.saxutils as sx
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = Tree(sys.argv[1]); SPARK = open(sys.argv[2], encoding='utf-8').read()
 CRAFT = json.load(open(os.path.join(ROOT, 'data/craft/mods.json')))
@@ -40,9 +41,34 @@ def craft_link(p, depth=1):
         assert g.split(':')[0] in groups, g
     return f'<a href="{"../"*depth}craft/?{e(urlencode({"base":base,"ilvl":ilvl,"m":m,"t":t}))}">{e(label)}</a>'
 
+
+SPARK_GEMS = [('Body Armour', ['Spark','Lightning Penetration','Increased Critical Strikes','Inspiration','Spell Echo','Added Lightning Damage']),
+              ('Boots', ['Flame Dash','Frostblink']), ('Gloves', ['Arcane Cloak','Conductivity']), ('Helmet', ['Zealotry','Wrath','Discipline'])]
+SLOTS = ['Body Armour','Helmet','Gloves','Boots','Weapon 1','Weapon 2']
+
+def bet_pob(slug, b, P):
+    """Minimal Path of Building XML for a bet build: class, ascendancy, tree and gem links."""
+    s = SPECS[slug]
+    cls_idx = list(T.D['classes']).index(next(c for c in T.D['classes'] if c['name'] == s['cls']))
+    asc_idx = [a['name'] for a in T.D['classes'][cls_idx]['ascendancies']].index(s['asc']) + 1
+    nodes = [k for k in P['alloc'] if k != P['start']] + list(P['mpick']) + list(P['asel'])
+    mast = ','.join('{%s,%s}' % (m, v[0]) for m, v in P['mpick'].items())
+    groups = SPARK_GEMS if b.get('spark') else [(SLOTS[i] if i < len(SLOTS) else '', [g.rstrip('*').split(':')[0] for g in gems]) for i, (role, sub, gems) in enumerate(b['gems'])]
+    skills = ''.join('<Skill enabled="true" slot="%s" mainActiveSkill="1">%s</Skill>' % (sx.escape(slot), ''.join(
+        '<Gem nameSpec=%s level="20" quality="0" enabled="true"/>' % sx.quoteattr(g) for g in gems)) for slot, gems in groups)
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<PathOfBuilding>'
+           f'<Build level="90" targetVersion="3_0" className="{s["cls"]}" ascendClassName="{s["asc"]}" mainSocketGroup="1" bandit="None"/>'
+           f'<Tree activeSpec="1"><Spec title={sx.quoteattr(b["name"])} treeVersion="3_29" classId="{cls_idx}" ascendClassId="{asc_idx}" nodes="{",".join(nodes)}" masteryEffects="{mast}"><URL>{sx.escape(P["url"])}</URL></Spec></Tree>'
+           f'<Skills activeSkillSet="1"><SkillSet id="1" title="Principal">{skills}</SkillSet></Skills>'
+           '<Items activeItemSet="1"><ItemSet id="1"/></Items>'
+           f'<Notes>{sx.escape(b["name"] + " - rascunho do site PoE Builds (3.30). Equipamento não incluído.")}</Notes>'
+           '</PathOfBuilding>')
+    gen_safe.write_code(slug, xml.encode('utf-8'))
+
 def tree_section(slug, b):
     s = SPECS[slug]
     P = plan(T, s['cls'], s['phases'], s['masteries'], s['asc'], s['ascn'])
+    bet_pob(slug, b, P)
     names = lambda ph: ', '.join(n for n in s['phases'][ph])
     c = P['counts']
     mrows = ''.join(f'<tr><td>{e(v[3])}</td><td>{e(v[1])}</td></tr>' for v in P['mpick'].values())
@@ -59,6 +85,7 @@ def tree_section(slug, b):
   <h2>Árvore passiva</h2>
   <p>Rota real montada com os dados da árvore: <b>{P['total']} pontos</b> com {len(P['mpick'])} masteries. Os pontos que sobrarem até o nível 100 ficam para jewels e ajustes. Cada cor é uma fase; os círculos vermelhos são masteries.</p>
   <p><a class="treelink" href="{e(P['url'])}" target="_blank" rel="noopener">Abrir na árvore oficial</a></p>
+  {gen_safe.pob_button(slug).replace('Copiar código do PoB','Copiar código do PoB (árvore + gemas)')}
   <p class="note">No <strong>Path of Building</strong>: Import/Export Build → cole o link da árvore oficial. Lá você ajusta a ordem dos pontos.</p>
   <div class="diagram tree-real" role="img" aria-label="Árvore passiva com a rota da build em três fases.">{svg(T, P)}</div>
   <div class="legend"><span><i class="sw" style="background:var(--spark)"></i>Fase 1</span><span><i class="sw" style="background:var(--accent)"></i>Fase 2</span><span><i class="sw" style="background:var(--gem-g)"></i>Fase 3</span><span><i class="sw" style="background:var(--bad)"></i>Mastery</span></div>
@@ -115,6 +142,7 @@ def build_page(b, P_tree):
 <footer>Árvore e ascensão: dados da árvore do Path of Building (3.29; a 3.30 não mudou a árvore passiva). Patch: <a href="https://www.pathofexile.com/forum/view-thread/4013680" target="_blank" rel="noopener">notas oficiais da 3.30.0</a>.</footer>
 </div>
 <script src="../assets/checklist.js" data-key="{b["slug"]}"></script>
+<script src="../assets/pob.js"></script>
 </body></html>
 '''
 
@@ -132,7 +160,7 @@ def spark_page(b, P_tree):
         sect('porque'), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), sect('equipamento'), sect('alvos'), craft, sect('atos'), sect('liga')])
     body = body.replace(re.search(r'<section id="ascensao">.*?</section>', body, re.S).group(0), sect('ascensao'))
     foot = re.search(r'<footer>.*?</footer>', SPARK, re.S).group(0)
-    return head(b['name'] + ' · PoE Builds', b['card'], 1) + '<div class="wrap">\n' + body + '\n' + foot + '\n</div>\n<script src="../assets/checklist.js" data-key="trickster-spark-330-checks"></script>\n</body></html>\n'
+    return head(b['name'] + ' · PoE Builds', b['card'], 1) + '<div class="wrap">\n' + body + '\n' + foot + '\n</div>\n<script src="../assets/checklist.js" data-key="trickster-spark-330-checks"></script>\n<script src="../assets/pob.js"></script>\n</body></html>\n'
 
 os.makedirs(os.path.join(ROOT, 'builds'), exist_ok=True)
 cards = []
