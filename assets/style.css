@@ -268,3 +268,4 @@ details.route summary::-webkit-details-marker{display:none}
 .actcard h4{color:var(--accent);font-family:var(--f-display);font-size:15px;letter-spacing:.03em;text-transform:none}
 .actcard:target{border-color:var(--accent);box-shadow:0 0 18px var(--glow)}
 .routefoot{display:grid;gap:6px}
+.route > .treelink,.route .routefoot > .treelink{justify-self:start}

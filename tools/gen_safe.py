@@ -4,6 +4,7 @@ import xml.etree.ElementTree as ET, zlib
 from treelib import svg, CLASS_IDX
 from safe_content import SAFE, YT
 from videos import showcase
+import updates_330
 e = html.escape
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 clean = lambda s: re.sub(r'\^x[0-9A-Fa-f]{6}|\^\d', '', s or '').strip()
@@ -130,7 +131,8 @@ def page(T, b, head):
   <p class="note"><strong>Na 3.30:</strong> {e(b["change"])}</p>
   <p class="note">Gemas, árvore e itens tirados do Path of Building do guia original. <a href="{e(b["guide"])}" target="_blank" rel="noopener">{"Assistir o vídeo" if b.get("views") else "Abrir o guia"}</a> · <a href="{e(pob)}" target="_blank" rel="noopener">Abrir o PoB (pobb.in)</a></p>
 </header>
-<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#liga">Liga</a></nav>
+<nav class="sec" aria-label="Seções"><a href="#novidades">3.30</a><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#liga">Liga</a></nav>
+{updates_330.section(b["slug"], write_code, pob_button, e)}
 {showcase(b["slug"], b["name"])}
 <section id="porque"><h2>{"Por que vale a pena" if b.get("views") else "Por que é seguro"}</h2><div class="why">{why}</div></section>
 <section id="ascensao"><h2>Ascensão</h2><ol class="lab">{asc}</ol><p class="muted" style="font-size:13px;margin-top:8px">Ordem inferida das árvores de leveling do guia. Texto do jogo em inglês.</p></section>

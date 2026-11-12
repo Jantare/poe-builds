@@ -6,6 +6,7 @@ from build_specs import SPECS
 from content import BUILDS, ASC_PT
 import gen_safe
 import leveling_routes
+import updates_330
 from videos import showcase
 import xml.sax.saxutils as sx
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,14 +54,17 @@ def bet_pob(slug, b, P):
     """Minimal Path of Building XML for a bet build: class, ascendancy, tree and gem links."""
     s = SPECS[slug]
     cls_idx = list(T.D['classes']).index(next(c for c in T.D['classes'] if c['name'] == s['cls']))
-    asc_idx = [a['name'] for a in T.D['classes'][cls_idx]['ascendancies']].index(s['asc']) + 1
+    ascs = T.D['classes'][cls_idx]['ascendancies']
+    ids = [a.get('id', a['name']) for a in ascs]
+    asc_idx = (ids.index(s['asc']) if s['asc'] in ids else [a['name'] for a in ascs].index(s['asc'])) + 1
+    asc_name = ascs[asc_idx - 1]['name']
     nodes = [k for k in P['alloc'] if k != P['start']] + list(P['mpick']) + list(P['asel'])
     mast = ','.join('{%s,%s}' % (m, v[0]) for m, v in P['mpick'].items())
     groups = SPARK_GEMS if b.get('spark') else [(SLOTS[i] if i < len(SLOTS) else '', [g.rstrip('*').split(':')[0] for g in gems]) for i, (role, sub, gems) in enumerate(b['gems'])]
     skills = ''.join('<Skill enabled="true" slot="%s" mainActiveSkill="1">%s</Skill>' % (sx.escape(slot), ''.join(
         '<Gem nameSpec=%s level="20" quality="0" enabled="true"/>' % sx.quoteattr(g) for g in gems)) for slot, gems in groups)
     xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<PathOfBuilding>'
-           f'<Build level="90" targetVersion="3_0" className="{s["cls"]}" ascendClassName="{s["asc"]}" mainSocketGroup="1" bandit="None"/>'
+           f'<Build level="90" targetVersion="3_0" className="{s["cls"]}" ascendClassName="{asc_name}" mainSocketGroup="1" bandit="None"/>'
            f'<Tree activeSpec="1"><Spec title={sx.quoteattr(b["name"])} treeVersion="3_29" classId="{cls_idx}" ascendClassId="{asc_idx}" nodes="{",".join(nodes)}" masteryEffects="{mast}"><URL>{sx.escape(P["url"])}</URL></Spec></Tree>'
            f'<Skills activeSkillSet="1"><SkillSet id="1" title="Principal">{skills}</SkillSet></Skills>'
            '<Items activeItemSet="1"><ItemSet id="1"/></Items>'
@@ -131,7 +135,8 @@ def build_page(b, P_tree):
   {notice}
   <p class="note"><strong>Rascunho:</strong> gemas e equipamento são um ponto de partida. Confirme no Path of Building e nos guias da comunidade quando a liga abrir.</p>
 </header>
-<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#craft">Craft</a><a href="#atos">Leveling</a><a href="#liga">Liga</a></nav>
+<nav class="sec" aria-label="Seções"><a href="#novidades">3.30</a><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#craft">Craft</a><a href="#atos">Leveling</a><a href="#liga">Liga</a></nav>
+{updates_330.section(b["slug"], gen_safe.write_code, gen_safe.pob_button, e)}
 {showcase(b["slug"], b["name"])}
 <section id="porque"><h2>Por que nessa liga</h2><div class="why">{why}</div></section>
 {tree_html}
@@ -166,8 +171,8 @@ def spark_page(b, P_tree):
         ('Botas','Murder Boots',84,'chaos','MovementVelocity:2,ChanceToSuppressSpells:3'),('Jewel ES + crítico','Cobalt Jewel',84,'chaos','EnergyShieldForJewel:1,SpellCritMultiplierForJewel:1')])
     craft = craft.replace('<h2>Como craftar</h2>', f'<h2>Como craftar</h2>\n  <p><b>Simulador do site:</b></p><div class="presets" style="margin-bottom:12px">{sim}</div>', 1)
     body = '\n'.join([hdr,
-        '<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#atos">Leveling</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#liga">Liga</a></nav>',
-        showcase(b['slug'], b['name']), sect('porque'), leveling_section(sect('atos')), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), sect('equipamento'), sect('alvos'), craft, sect('liga')])
+        '<nav class="sec" aria-label="Seções"><a href="#novidades">3.30</a><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#atos">Leveling</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#liga">Liga</a></nav>',
+        updates_330.section(b['slug'], gen_safe.write_code, gen_safe.pob_button, e), showcase(b['slug'], b['name']), sect('porque'), leveling_section(sect('atos')), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), sect('equipamento'), sect('alvos'), craft, sect('liga')])
     body = body.replace(re.search(r'<section id="ascensao">.*?</section>', body, re.S).group(0), sect('ascensao'))
     foot = re.search(r'<footer>.*?</footer>', SPARK, re.S).group(0)
     return head(b['name'] + ' · PoE Builds', b['card'], 1) + '<div class="wrap">\n' + body + '\n' + foot + '\n</div>\n<script src="../assets/checklist.js" data-key="trickster-spark-330-checks"></script>\n<script src="../assets/pob.js"></script>\n<script src="../assets/video.js"></script>\n</body></html>\n'

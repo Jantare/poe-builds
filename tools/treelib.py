@@ -97,7 +97,9 @@ def plan(T, cls, phases, masteries, asc, ascnotables):
         new=[x for x in reversed(p) if x not in asel]; asel+=new
         aorder.append((nm,len(new),' / '.join(an[tid].get('stats',[])).replace('\n',' ')))
     cls_idx=CLASS_IDX[cls]
-    asc_idx=[a['name'] for a in T.D['classes'][cls_idx]['ascendancies']].index(asc)+1
+    ascs=T.D['classes'][cls_idx]['ascendancies']
+    ids=[a.get('id', a['name']) for a in ascs]
+    asc_idx=(ids.index(asc) if asc in ids else [a['name'] for a in ascs].index(asc))+1
     nodes=[int(k) for k in alloc if k!=st]+[int(m) for m in mpick]+[int(a) for a in asel]
     b=struct.pack('>IBBB',6,cls_idx,asc_idx,len(nodes))+b''.join(struct.pack('>H',n) for n in nodes)+struct.pack('>B',0)
     b+=struct.pack('>B',len(mpick))+b''.join(struct.pack('>HH',e[0],int(m)) for m,e in mpick.items())

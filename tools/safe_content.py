@@ -33,7 +33,7 @@ SAFE = [
   why=[('Boss seguro','Os totens fazem o dano enquanto você desvia.'),('Charges sempre','Conviction of Power dá 4 Power e 4 Endurance Charges mínimas.'),('Sem nerf','Nada da build foi tocado na 3.30.'),('Barato','Raros simples bastam para começar.')],
   league=(['Bosses com Fate e pinnacles','Ultimatum de defender'],['Mapas muito abertos, onde andar com os totens fica lento'])),
  dict(slug='toxic-rain-pathfinder', xml='tr.xml', name='Toxic Rain Pathfinder', cls='Ranger', asc='Pathfinder',
-  author='PathofEvening (poe-vault)', guide='https://www.poe-vault.com/guides/toxic-rain-pathfinder-build-guide', pobb='NlUa8ZnB3YGK',
+  author='PathofEvening (poe-vault)', guide='https://www.poebuilds.cc/poe1/build/GsDMr2NZRao', pobb='SjBDpRIfM5tc',
   phases=[[0,1,2],[3,4],[5,6]], sets=None,
   card='Arco com DoT de Chaos. Rápido, tanque para arco e muito barato. Foi até buffada na 3.30.',
   lede='Toxic Rain e Caustic Arrow com dano de Chaos ao longo do tempo. Muita regeneração de vida, Petrified Blood e frascos sempre ativos. O PoB tem árvore e gemas do Ato 1 ao endgame.',
@@ -44,7 +44,7 @@ SAFE = [
 
 YT = [
  dict(slug='yt-ballista-hierophant', xml='yt-ballista.xml', name='Explosive Arrow Ballista Hierophant', cls='Templar', asc='Hierophant',
-  author='POEGuy', guide='https://www.youtube.com/watch?v=zt5mwZTlRVI', pobb='zY5__MKcIUfb', views='60,8 mil',
+  author='POEGuy', guide='https://www.youtube.com/watch?v=ds53La1IMD4', pobb='kQGOsJn7IbQX', views='60,8 mil',
   phases=[[0,1],[2],[3,4]],
   card='O vídeo de league start mais visto da 3.30. Holy Flame Totem nos Atos 1–3 e Explosive Arrow em Ballista do Ato 3 em diante.',
   lede='Explosive Arrow disparada por Ballista Totems. No começo, Holy Flame Totem com Ancestral Bond; do Ato 3 em diante, Explosive Arrow com Ballista Totem. O PoB tem árvore para cada fase, até mapas vermelhos e endgame.',

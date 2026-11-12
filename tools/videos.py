@@ -4,7 +4,7 @@ VIDEOS = {
  'earthshatter-berserker': ('LiTI4yHtQiY', 'Vídeo do guia do The Wanderer (3.29).'),
  'poison-srs-necromancer': ('SX_52aI8Pws', 'Vídeo do guia do BalorMage (3.29).'),
  'stormburst-hierophant': ('im34olxgw_I', 'Vídeo do Dsfarblarwaggle (3.29).'),
- 'toxic-rain-pathfinder': ('HwsaAGY8HdQ', 'Vídeo do guia do PathofEvening (3.29).'),
+ 'toxic-rain-pathfinder': ('GsDMr2NZRao', 'Vídeo do PathofEvening (3.30).'),
  'yt-ballista-hierophant': ('zt5mwZTlRVI', 'Vídeo do POEGuy (3.30).'),
  'yt-absolution-necromancer': ('zotrvisDIuU', 'Vídeo do Travic (3.30).'),
  'yt-cyclone-necromancer': ('8X_geKpgCs8', 'Vídeo do Duleblade (3.30).'),
