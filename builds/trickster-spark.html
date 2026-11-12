@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/nav.js" defer></script>
 </head>
 <body>
 <header class="topbar"><div class="in">
@@ -28,7 +29,7 @@
   </div>
   <p class="note"><strong>Antes de usar:</strong> a árvore e a ascensão vêm dos dados oficiais da GGG. O patch 3.30 não mudou a árvore passiva, só o texto de alguns nós do Trickster. Os nomes de alguns mods de item foram escritos de memória, e os valores de ES e resistência são alvos estimados.</p>
 </header>
-<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#atos">Leveling</a><a href="#liga">Liga</a></nav>
+<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#atos">Leveling</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#liga">Liga</a></nav>
 <section id="showcase"><h2>Showcase</h2><figure class="showcase"><div class="frame"><button type="button" class="yt" data-id="UIWNhYm03yg" aria-label="Assistir: Trickster Spark"><img src="https://i.ytimg.com/vi/UIWNhYm03yg/hqdefault.jpg" alt="Miniatura do vídeo de Trickster Spark" loading="lazy"><span></span></button></div><figcaption>Vídeo de referência: Spark Trickster contra Ubers (liga 3.26). Mostra a skill e o estilo; não é a nossa build exata. <a href="https://www.youtube.com/watch?v=UIWNhYm03yg" target="_blank" rel="noopener">Abrir no YouTube</a></figcaption></figure></section>
 <section id="porque">
   <h2>Por que nessa liga</h2>
@@ -38,6 +39,95 @@
     <div><h3>Bom em boss</h3><p>Em arena fechada os projéteis do Spark batem várias vezes no boss. Funciona bem contra bosses com Fate.</p></div>
     <div><h3>Itens buffados</h3><p>Malachai's Loop (Power Charges), Shavronne's Wrappings (recupera ES) e Doedre's Tongue (shock contra inimigo amaldiçoado).</p></div>
   </div>
+</section>
+<section id="atos">
+  <h2>Leveling</h2>
+  <p>O Spark é fraco nos primeiros atos: ele depende de crítico, de supports como Inspiration e Lightning Penetration e de arma de caster, que só chegam depois. O melhor é <b>upar com uma skill mais forte e trocar para o Spark no fim da campanha</b>.</p>
+  <div class="jump big" aria-label="Escolha a rota"><a href="#rota-cobra">1 · Cobra Lash → Poisonous Concoction</a><a href="#rota-magma">2 · Rolling Magma → Armageddon Brand</a><a href="#troca">3 · Troca para Spark</a><a href="#spark-direto">4 · Spark desde o Ato 1</a></div>
+  <div class="route" id="rota-cobra">
+  <div class="mhead"><h3>Cobra Lash → Poisonous Concoction</h3><div class="tags"><span class="pill ok">Recomendada</span><span class="pill">xRoGeSx · 3.30</span></div></div>
+  <p>A rota mais rápida e mais atual (feita para a 3.30). Cobra Lash nos primeiros minutos e Poisonous Concoction até o fim da campanha. A Poisonous Concoction usa cargas de frasco em vez de arma, então você nem precisa achar arma boa.</p>
+  <div class="cols"><div><h4 class="good">A favor</h4><ul><li>Mais rápida e mais forte nos atos</li><li>Vídeo e PoB da 3.30</li><li>Não depende de arma</li></ul></div><div><h4 class="badc">Contra</h4><ul><li>Árvore de veneno e projétil: na troca, ~63 pontos para devolver</li><li>Precisa de Dex e de frascos com cargas</li></ul></div></div>
+  <div class="jump" aria-label="Ir para o ato"><a href="#cobra-0">Ato 1 início</a><a href="#cobra-1">Ato 1 antes da Merveil</a><a href="#cobra-2">Ato 2</a><a href="#cobra-3">Ato 3</a><a href="#cobra-4">Ato 4</a><a href="#cobra-5">Ato 5</a><a href="#cobra-6">Ato 6</a><a href="#cobra-7">Ato 8</a><a href="#cobra-8">Ato 10</a><a href="#troca">Troca para Spark</a></div>
+  <div class="acts2"><div class="actcard" id="cobra-0"><h4>Ato 1 início</h4><div class="links"><span class="gem main">Cobra Lash</span><i class=chain></i><span class="gem">Momentum</span><i class=chain></i><span class="gem">Chance to Poison</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Frostblink</span></div></div><div class="actcard" id="cobra-1"><h4>Ato 1 antes da Merveil</h4><div class="links"><span class="gem main">Poisonous Concoction</span><i class=chain></i><span class="gem">Volley</span><i class=chain></i><span class="gem">Chance to Poison</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Frostblink</span><span class="gem">Precision</span><span class="gem">Withering Step</span></div></div><div class="actcard" id="cobra-2"><h4>Ato 2</h4><div class="links"><span class="gem main">Poisonous Concoction</span><i class=chain></i><span class="gem">Volley</span><i class=chain></i><span class="gem">Chance to Poison</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Frostblink</span><span class="gem">Precision</span><span class="gem">Withering Step</span><span class="gem">Blood Rage</span><span class="gem">Herald of Agony</span></div></div><div class="actcard" id="cobra-3"><h4>Ato 3</h4><div class="links"><span class="gem main">Poisonous Concoction</span><i class=chain></i><span class="gem">Volley</span><i class=chain></i><span class="gem">Void Manipulation</span><i class=chain></i><span class="gem">Multiple Projectiles</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Plague Bearer</span><span class="gem">Frostblink</span><span class="gem">Precision</span><span class="gem">Withering Step</span><span class="gem">Blood Rage</span><span class="gem">Haste</span><span class="gem">Despair</span></div></div><div class="actcard" id="cobra-4"><h4>Ato 4</h4><div class="links"><span class="gem main">Poisonous Concoction</span><i class=chain></i><span class="gem">Greater Volley</span><i class=chain></i><span class="gem">Void Manipulation</span><i class=chain></i><span class="gem">Greater Multiple Projectiles</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="gem">Plague Bearer</span><i class=chain></i><span class="gem">Increased Area of Effect</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Frostblink</span><span class="gem">Precision</span><span class="gem">Withering Step</span><span class="gem">Blood Rage</span><span class="gem">Haste</span><span class="gem">Despair</span></div></div><div class="actcard" id="cobra-5"><h4>Ato 5</h4><div class="links"><span class="gem main">Poisonous Concoction</span><i class=chain></i><span class="gem">Greater Volley</span><i class=chain></i><span class="gem">Void Manipulation</span><i class=chain></i><span class="gem">Greater Multiple Projectiles</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="gem">Plague Bearer</span><i class=chain></i><span class="gem">Increased Area of Effect</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Frostblink</span><span class="gem">Precision</span><span class="gem">Withering Step</span><span class="gem">Blood Rage</span><span class="gem">Haste</span><span class="gem">Despair</span></div></div><div class="actcard" id="cobra-6"><h4>Ato 6: General&#x27;s Cry</h4><div class="links"><span class="gem main">Poisonous Concoction</span><i class=chain></i><span class="gem">Greater Volley</span><i class=chain></i><span class="gem">Void Manipulation</span><i class=chain></i><span class="gem">Greater Multiple Projectiles</span></div><div class="links"><span class="gem">General&#x27;s Cry</span><i class=chain></i><span class="gem">Autoexertion</span><i class=chain></i><span class="gem">Cyclone</span><i class=chain></i><span class="gem">Withering Touch</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="gem">Plague Bearer</span><i class=chain></i><span class="gem">Increased Area of Effect</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Frostblink</span><span class="gem">Precision</span><span class="gem">Blood Rage</span><span class="gem">Haste</span><span class="gem">Despair</span><span class="gem">Desecrate</span></div></div><div class="actcard" id="cobra-7"><h4>Ato 8: crítico</h4><div class="links"><span class="gem main">Poisonous Concoction</span><i class=chain></i><span class="gem">Greater Volley</span><i class=chain></i><span class="gem">Void Manipulation</span><i class=chain></i><span class="gem">Greater Multiple Projectiles</span></div><div class="links"><span class="gem">General&#x27;s Cry</span><i class=chain></i><span class="gem">Autoexertion</span><i class=chain></i><span class="gem">Cyclone</span><i class=chain></i><span class="gem">Withering Touch</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="gem">Plague Bearer</span><i class=chain></i><span class="gem">Increased Area of Effect</span></div><div class="links"><span class="gem">Assassin&#x27;s Mark</span><i class=chain></i><span class="gem">Mark On Hit</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Frostblink</span><span class="gem">Precision</span><span class="gem">Blood Rage</span><span class="gem">Haste</span><span class="gem">Desecrate</span></div></div><div class="actcard" id="cobra-8"><h4>Ato 10</h4><div class="links"><span class="gem main">Poisonous Concoction</span><i class=chain></i><span class="gem">Greater Volley</span><i class=chain></i><span class="gem">Void Manipulation</span><i class=chain></i><span class="gem">Greater Multiple Projectiles</span></div><div class="links"><span class="gem">General&#x27;s Cry</span><i class=chain></i><span class="gem">Autoexertion</span><i class=chain></i><span class="gem">Cyclone</span><i class=chain></i><span class="gem">Withering Touch</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="gem">Plague Bearer</span><i class=chain></i><span class="gem">Increased Area of Effect</span></div><div class="links"><span class="gem">Assassin&#x27;s Mark</span><i class=chain></i><span class="gem">Mark On Hit</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Frostblink</span><span class="gem">Precision</span><span class="gem">Blood Rage</span><span class="gem">Haste</span><span class="gem">Desecrate</span></div></div></div>
+  <div class="routefoot">
+    <button type="button" class="treelink" data-pob="../data/pob/lvl-cobra.txt" aria-controls="pob-lvl-cobra">Copiar PoB desta rota</button><textarea class="pobbox" id="pob-lvl-cobra" hidden readonly aria-label="Código do Path of Building"></textarea><p class="pobhow">No Path of Building: <b>Import/Export Build</b> → cole o código (ou o link do pobb.in) em <b>Import from</b> → <b>Import</b>.</p>
+    <p class="sub">Fonte: <a href="https://www.poebuilds.cc/poe1/build/n0QfdZIqGLE" target="_blank" rel="noopener">guia de xRoGeSx</a> · <a href="https://pobb.in/qf2CPIx0WMfl" target="_blank" rel="noopener">PoB no pobb.in</a> · <a href="https://www.youtube.com/watch?v=n0QfdZIqGLE" target="_blank" rel="noopener">vídeo</a></p>
+  </div>
+  <figure class="showcase"><div class="frame"><button type="button" class="yt" data-id="n0QfdZIqGLE" aria-label="Assistir: Cobra Lash → Poisonous Concoction"><img src="https://i.ytimg.com/vi/n0QfdZIqGLE/hqdefault.jpg" alt="Miniatura do vídeo de Cobra Lash → Poisonous Concoction" loading="lazy"><span></span></button></div><figcaption>Vídeo do xRoGeSx: leveling de Shadow na 3.30 com Cobra Lash e Poisonous Concoction. <a href="https://www.youtube.com/watch?v=n0QfdZIqGLE" target="_blank" rel="noopener">Abrir no YouTube</a></figcaption></figure>
+</div><div class="route" id="rota-magma">
+  <div class="mhead"><h3>Rolling Magma → Armageddon Brand</h3><div class="tags"><span class="pill new">Troca mais suave</span><span class="pill">FearlessDumb0 · 3.23</span></div></div>
+  <p>Rolling Magma nos Atos 1–2 e Armageddon Brand do Ato 3 ao 10, já como Trickster. É feitiço, então a troca para o Spark muda menos coisas. O Maxroll também usa Armageddon Brand no guia de leveling de Shadow (campanha em menos de 3 horas).</p>
+  <div class="cols"><div><h4 class="good">A favor</h4><ul><li>Já é Trickster e feitiço</li><li>Menos pontos para devolver (~55)</li><li>Skills sem mudança na 3.30</li></ul></div><div><h4 class="badc">Contra</h4><ul><li>Guia da 3.23 (mecânica igual, mas confira as gemas)</li><li>Precisa de Fire Trap para os bosses</li></ul></div></div>
+  <div class="jump" aria-label="Ir para o ato"><a href="#magma-0">Ato 1</a><a href="#magma-1">Ato 2</a><a href="#magma-2">Ato 3</a><a href="#magma-3">Ato 4–6</a><a href="#magma-4">Ato 7–10</a><a href="#troca">Troca para Spark</a></div>
+  <div class="acts2"><div class="actcard" id="magma-0"><h4>Ato 1</h4><div class="links"><span class="gem main">Rolling Magma</span><i class=chain></i><span class="gem">Elemental Proliferation</span><i class=chain></i><span class="gem">Combustion</span></div><div class="links"><span class="gem">Bear Trap</span><i class=chain></i><span class="gem">Added Lightning Damage</span></div><div class="links"><span class="gem">Fire Trap</span><i class=chain></i><span class="gem">Added Cold Damage</span></div><div class="links"><span class="gem">Whirling Blades</span><i class=chain></i><span class="gem">Faster Attacks</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Flame Wall</span><span class="gem">Frostblink</span></div></div><div class="actcard" id="magma-1"><h4>Ato 2</h4><div class="links"><span class="gem main">Rolling Magma</span><i class=chain></i><span class="gem">Elemental Proliferation</span><i class=chain></i><span class="gem">Combustion</span></div><div class="links"><span class="gem">Fire Trap</span><i class=chain></i><span class="gem">Swift Assembly</span><i class=chain></i><span class="gem">Trap and Mine Damage</span></div><div class="links"><span class="gem">Bear Trap</span><i class=chain></i><span class="gem">Added Lightning Damage</span></div><div class="links"><span class="gem">Summon Skitterbots</span><i class=chain></i><span class="gem">Clarity</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Flame Dash</span><span class="gem">Wave of Conviction</span><span class="gem">Flame Wall</span></div></div><div class="actcard" id="magma-2"><h4>Ato 3</h4><div class="links"><span class="gem main">Armageddon Brand</span><i class=chain></i><span class="gem">Elemental Proliferation</span><i class=chain></i><span class="gem">Combustion</span></div><div class="links"><span class="gem">Fire Trap</span><i class=chain></i><span class="gem">Trap and Mine Damage</span><i class=chain></i><span class="gem">Swift Assembly</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="gem">Bear Trap</span><i class=chain></i><span class="gem">Added Lightning Damage</span></div><div class="links"><span class="gem">Summon Skitterbots</span><i class=chain></i><span class="gem">Clarity</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Flame Dash</span><span class="gem">Flammability</span><span class="gem">Wave of Conviction</span></div></div><div class="actcard" id="magma-3"><h4>Ato 4–6</h4><div class="links"><span class="gem main">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span><i class=chain></i><span class="gem">Leap Slam</span><i class=chain></i><span class="gem">Whirling Blades</span></div><div class="links"><span class="gem">Fire Trap</span><i class=chain></i><span class="gem">Trap and Mine Damage</span><i class=chain></i><span class="gem">Swift Assembly</span><i class=chain></i><span class="gem">Inspiration</span></div><div class="links"><span class="gem">Armageddon Brand</span><i class=chain></i><span class="gem">Elemental Proliferation</span><i class=chain></i><span class="gem">Combustion</span></div><div class="links"><span class="gem">Summon Skitterbots</span><i class=chain></i><span class="gem">Clarity</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Bear Trap</span><span class="gem">Flame Dash</span><span class="gem">Wave of Conviction</span><span class="gem">Flammability</span><span class="gem">Grace</span><span class="gem">Brand Recall</span></div></div><div class="actcard" id="magma-4"><h4>Ato 7–10</h4><div class="links"><span class="gem main">Whirling Blades</span><i class=chain></i><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Leap Slam</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="gem">Armageddon Brand</span><i class=chain></i><span class="gem">Combustion</span><i class=chain></i><span class="gem">Elemental Proliferation</span><i class=chain></i><span class="gem">Fire Penetration</span></div><div class="links"><span class="gem">Fire Trap</span><i class=chain></i><span class="gem">Trap and Mine Damage</span><i class=chain></i><span class="gem">Swift Assembly</span><i class=chain></i><span class="gem">Inspiration</span></div><div class="links"><span class="gem">Shield Charge</span><i class=chain></i><span class="gem">Faster Attacks</span><i class=chain></i><span class="gem">Momentum</span></div><div class="links"><span class="sub" style="margin-right:4px">Também:</span><span class="gem">Bear Trap</span><span class="gem">Flame Dash</span><span class="gem">Wave of Conviction</span><span class="gem">Summon Skitterbots</span><span class="gem">Flammability</span><span class="gem">Clarity</span><span class="gem">Brand Recall</span></div></div></div>
+  <div class="routefoot">
+    <button type="button" class="treelink" data-pob="../data/pob/lvl-magma.txt" aria-controls="pob-lvl-magma">Copiar PoB desta rota</button><textarea class="pobbox" id="pob-lvl-magma" hidden readonly aria-label="Código do Path of Building"></textarea><p class="pobhow">No Path of Building: <b>Import/Export Build</b> → cole o código (ou o link do pobb.in) em <b>Import from</b> → <b>Import</b>.</p>
+    <p class="sub">Fonte: <a href="https://www.poebuilds.cc/poe1/build/LXwLgREzSOI" target="_blank" rel="noopener">guia de FearlessDumb0</a> · <a href="https://pobb.in/_MDwwhrhEDrh" target="_blank" rel="noopener">PoB no pobb.in</a> · <a href="https://www.youtube.com/watch?v=LXwLgREzSOI" target="_blank" rel="noopener">vídeo</a></p>
+  </div>
+  <figure class="showcase"><div class="frame"><button type="button" class="yt" data-id="LXwLgREzSOI" aria-label="Assistir: Rolling Magma → Armageddon Brand"><img src="https://i.ytimg.com/vi/LXwLgREzSOI/hqdefault.jpg" alt="Miniatura do vídeo de Rolling Magma → Armageddon Brand" loading="lazy"><span></span></button></div><figcaption>Vídeo do FearlessDumb0 (3.23): league start de Trickster, com o leveling de Rolling Magma e Armageddon Brand. <a href="https://www.youtube.com/watch?v=LXwLgREzSOI" target="_blank" rel="noopener">Abrir no YouTube</a></figcaption></figure>
+</div>
+  <div class="route" id="troca">
+    <div class="mhead"><h3>Troca para Spark</h3><div class="tags"><span class="pill ok">Fim do Ato 10 ou primeiros mapas</span></div></div>
+    <ol class="steps">
+      <li>Durante a campanha, deixe o <b>Spark</b> num slot qualquer ganhando nível. Compre <b>Lightning Penetration, Inspiration e Increased Critical Strikes</b> (a Lilly Roth, no Ato 6, vende todas as gemas).</li>
+      <li>Faça a <b>Rune Dagger</b> com +1 nível de gemas de raio: receita de vendor com Rune Dagger + 2 gemas de raio somando 40% de qualidade.</li>
+      <li>Junte <b>Orbs of Regret</b>: são cerca de <b>63</b> pontos para devolver vindo da Cobra Lash e cerca de <b>55</b> vindo da Armageddon Brand (contando a árvore do Ato 10 de cada guia contra a nossa árvore do Spark). Na 3.30 a Orb of Regret também sai da receita de vendor de Bestiary.</li>
+      <li>Troque a árvore aos poucos: primeiro os nós de dano (crítico de feitiço, raio), depois os de defesa (ES). Use a <a href="#arvore">árvore do Spark</a> como guia.</li>
+      <li>Coloque o Spark no peito com 4–5 links e o equipamento de ES. Confira os <a href="#alvos">alvos de ES e resistência</a>. O Chaos Inoculation vem depois, com 4–5k de ES.</li>
+    </ol>
+  </div>
+  <details class="route" id="spark-direto"><summary><b>Spark desde o Ato 1 (mais lento)</b> <span class="sub">checklist antigo, para quem quer jogar só de Spark</span></summary>
+    
+  <p>O Spark é uma das melhores skills de leveling, então não precisa de transição de skill. As duas transições que importam são <b>sem crítico → crítico</b> (quando a arma tiver crítico) e <b>vida → Chaos Inoculation</b> (nos mapas).</p>
+  <div class="tools" style="margin-bottom:14px">
+    <div><b>Use um overlay de rota</b>O <a href="https://exilecompass.com/" target="_blank" rel="noopener">Exile Compass</a> ou o <a href="https://poe-leveling-overlay.pages.dev/" target="_blank" rel="noopener">PoE Leveling Overlay</a> mostram a rota zona por zona e importam a árvore do Path of Building. Importe o link da árvore desta página.</div>
+    <div><b>Velocidade de movimento</b>Receita de vendor: botas brancas + Quicksilver Flask + Orb of Augmentation = botas com 10% de movimento. Sempre com Quicksilver Flask.</div>
+    <div><b>Novidades da 3.30</b>Scroll of Wisdom por 15 de gold em qualquer cidade. Apostar itens com gold no meio da campanha ficou mais barato.</div>
+    <div><b>Bandits (Ato 2)</b>Ajude a <b>Alira</b>: multiplicador crítico, resistências e mana. É o melhor para Spark crítico.</div>
+  </div>
+  <div class="progress"><div class="meter"><i id="bar"></i></div><span id="count">0 de 0</span><button class="reset" id="reset" type="button">Limpar</button></div>
+  <p class="note" style="margin-bottom:12px">As marcações ficam salvas só neste aparelho e neste navegador.</p>
+  <div class="acts" id="acts">
+    <div class="act"><h3>Ato 1 <small>nível 1–13</small></h3>
+      <label><input type="checkbox" id="c1"><span>Matar o Hillock e comprar <b>Spark</b> com a Nessa. Se não aparecer para o Shadow, use Freezing Pulse até a Siosa (Ato 3), que vende as gemas dos atos 1–3</span></label>
+      <label><input type="checkbox" id="c2"><span>Spark + Added Lightning + Arcane Surge (3 links)</span></label>
+      <label><input type="checkbox" id="c3"><span>Pegar Quicksilver Flask no Tidal Island e fazer as botas de 10% de movimento</span></label>
+      <label><input type="checkbox" id="c19"><span>Flame Dash ou Frostblink assim que liberar</span></label>
+    </div>
+    <div class="act"><h3>Ato 2 <small>nível 13–23</small></h3>
+      <label><input type="checkbox" id="c4"><span>4-link: Spark + Added Lightning + Arcane Surge + Faster Projectiles</span></label>
+      <label><input type="checkbox" id="c20"><span>Bandits: ajudar a Alira</span></label>
+      <label><input type="checkbox" id="c5"><span>Árvore fase 1: Trickery, Coordination, Nimbleness</span></label>
+    </div>
+    <div class="act"><h3>Ato 3 <small>nível 23–33</small></h3>
+      <label><input type="checkbox" id="c6"><span>6 trials feitos e lab Normal: <b>Polymath</b></span></label>
+      <label><input type="checkbox" id="c7"><span>Rune Dagger ou varinha: receita de +1 nível de gemas de raio (2 gemas Lightning com 40% de qualidade somada)</span></label>
+      <label><input type="checkbox" id="c21"><span>Comprar Wrath e Zealotry quando o nível deixar</span></label>
+    </div>
+    <div class="act"><h3>Atos 4–5 <small>nível 33–45</small></h3>
+      <label><input type="checkbox" id="c8"><span>Trocar Arcane Surge por Lightning Penetration quando a mana aguentar</span></label>
+      <label><input type="checkbox" id="c9"><span>Resistências em ~75% antes do Kitava (Ato 5). Depois dele elas caem 30%</span></label>
+    </div>
+    <div class="act"><h3>Atos 6–7 <small>nível 45–60</small></h3>
+      <label><input type="checkbox" id="c10"><span>Lab Cruel: <b>One Step Ahead</b></span></label>
+      <label><input type="checkbox" id="c11"><span>Lilly Roth (Ato 6) vende todas as gemas: Inspiration, Spell Echo, Increased Critical Strikes</span></label>
+      <label><input type="checkbox" id="c22"><span><b>Transição para crítico:</b> com arma com chance de crítico, entra Increased Critical Strikes e os nós de crítico da fase 2</span></label>
+    </div>
+    <div class="act"><h3>Atos 8–10 <small>nível 60–70</small></h3>
+      <label><input type="checkbox" id="c12"><span>Lab Merciless: <b>Escape Artist</b></span></label>
+      <label><input type="checkbox" id="c13"><span>Resistências em 75% de novo antes do Kitava (Ato 10)</span></label>
+      <label><input type="checkbox" id="c14"><span>5-link do Spark e equipamento com ES</span></label>
+    </div>
+    <div class="act"><h3>Mapas <small>nível 70+</small></h3>
+      <label><input type="checkbox" id="c15"><span>6-link e Malachai's Loop</span></label>
+      <label><input type="checkbox" id="c16"><span><b>Transição para CI:</b> com 4–5k de ES, pegue Chaos Inoculation e troque um aura por Discipline</span></label>
+      <label><input type="checkbox" id="c17"><span>Uber Lab: <b>Soul Drinker</b></span></label>
+      <label><input type="checkbox" id="c18"><span>Supressão em 100%</span></label>
+    </div>
+  </div>
+
+  </details>
 </section>
 <section id="ascensao">
   <h2>Ascensão</h2>
@@ -208,56 +298,6 @@
       </div></details>
   </div>
   <p class="note" style="margin-top:12px">Os vídeos do YouTube são buscas prontas: não consegui assistir e escolher um vídeo específico daqui. Prefira os vídeos mais recentes (3.29 ou 3.30), porque as regras de craft mudaram nesta liga.</p>
-</section>
-<section id="atos">
-  <h2>Leveling acelerado</h2>
-  <p>O Spark é uma das melhores skills de leveling, então não precisa de transição de skill. As duas transições que importam são <b>sem crítico → crítico</b> (quando a arma tiver crítico) e <b>vida → Chaos Inoculation</b> (nos mapas).</p>
-  <div class="tools" style="margin-bottom:14px">
-    <div><b>Use um overlay de rota</b>O <a href="https://exilecompass.com/" target="_blank" rel="noopener">Exile Compass</a> ou o <a href="https://poe-leveling-overlay.pages.dev/" target="_blank" rel="noopener">PoE Leveling Overlay</a> mostram a rota zona por zona e importam a árvore do Path of Building. Importe o link da árvore desta página.</div>
-    <div><b>Velocidade de movimento</b>Receita de vendor: botas brancas + Quicksilver Flask + Orb of Augmentation = botas com 10% de movimento. Sempre com Quicksilver Flask.</div>
-    <div><b>Novidades da 3.30</b>Scroll of Wisdom por 15 de gold em qualquer cidade. Apostar itens com gold no meio da campanha ficou mais barato.</div>
-    <div><b>Bandits (Ato 2)</b>Ajude a <b>Alira</b>: multiplicador crítico, resistências e mana. É o melhor para Spark crítico.</div>
-  </div>
-  <div class="progress"><div class="meter"><i id="bar"></i></div><span id="count">0 de 0</span><button class="reset" id="reset" type="button">Limpar</button></div>
-  <p class="note" style="margin-bottom:12px">As marcações ficam salvas só neste aparelho e neste navegador.</p>
-  <div class="acts" id="acts">
-    <div class="act"><h3>Ato 1 <small>nível 1–13</small></h3>
-      <label><input type="checkbox" id="c1"><span>Matar o Hillock e comprar <b>Spark</b> com a Nessa. Se não aparecer para o Shadow, use Freezing Pulse até a Siosa (Ato 3), que vende as gemas dos atos 1–3</span></label>
-      <label><input type="checkbox" id="c2"><span>Spark + Added Lightning + Arcane Surge (3 links)</span></label>
-      <label><input type="checkbox" id="c3"><span>Pegar Quicksilver Flask no Tidal Island e fazer as botas de 10% de movimento</span></label>
-      <label><input type="checkbox" id="c19"><span>Flame Dash ou Frostblink assim que liberar</span></label>
-    </div>
-    <div class="act"><h3>Ato 2 <small>nível 13–23</small></h3>
-      <label><input type="checkbox" id="c4"><span>4-link: Spark + Added Lightning + Arcane Surge + Faster Projectiles</span></label>
-      <label><input type="checkbox" id="c20"><span>Bandits: ajudar a Alira</span></label>
-      <label><input type="checkbox" id="c5"><span>Árvore fase 1: Trickery, Coordination, Nimbleness</span></label>
-    </div>
-    <div class="act"><h3>Ato 3 <small>nível 23–33</small></h3>
-      <label><input type="checkbox" id="c6"><span>6 trials feitos e lab Normal: <b>Polymath</b></span></label>
-      <label><input type="checkbox" id="c7"><span>Rune Dagger ou varinha: receita de +1 nível de gemas de raio (2 gemas Lightning com 40% de qualidade somada)</span></label>
-      <label><input type="checkbox" id="c21"><span>Comprar Wrath e Zealotry quando o nível deixar</span></label>
-    </div>
-    <div class="act"><h3>Atos 4–5 <small>nível 33–45</small></h3>
-      <label><input type="checkbox" id="c8"><span>Trocar Arcane Surge por Lightning Penetration quando a mana aguentar</span></label>
-      <label><input type="checkbox" id="c9"><span>Resistências em ~75% antes do Kitava (Ato 5). Depois dele elas caem 30%</span></label>
-    </div>
-    <div class="act"><h3>Atos 6–7 <small>nível 45–60</small></h3>
-      <label><input type="checkbox" id="c10"><span>Lab Cruel: <b>One Step Ahead</b></span></label>
-      <label><input type="checkbox" id="c11"><span>Lilly Roth (Ato 6) vende todas as gemas: Inspiration, Spell Echo, Increased Critical Strikes</span></label>
-      <label><input type="checkbox" id="c22"><span><b>Transição para crítico:</b> com arma com chance de crítico, entra Increased Critical Strikes e os nós de crítico da fase 2</span></label>
-    </div>
-    <div class="act"><h3>Atos 8–10 <small>nível 60–70</small></h3>
-      <label><input type="checkbox" id="c12"><span>Lab Merciless: <b>Escape Artist</b></span></label>
-      <label><input type="checkbox" id="c13"><span>Resistências em 75% de novo antes do Kitava (Ato 10)</span></label>
-      <label><input type="checkbox" id="c14"><span>5-link do Spark e equipamento com ES</span></label>
-    </div>
-    <div class="act"><h3>Mapas <small>nível 70+</small></h3>
-      <label><input type="checkbox" id="c15"><span>6-link e Malachai's Loop</span></label>
-      <label><input type="checkbox" id="c16"><span><b>Transição para CI:</b> com 4–5k de ES, pegue Chaos Inoculation e troque um aura por Discipline</span></label>
-      <label><input type="checkbox" id="c17"><span>Uber Lab: <b>Soul Drinker</b></span></label>
-      <label><input type="checkbox" id="c18"><span>Supressão em 100%</span></label>
-    </div>
-  </div>
 </section>
 <section id="liga">
   <h2>Estratégia na liga</h2>

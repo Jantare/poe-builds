@@ -13,6 +13,8 @@ VIDEOS = {
  'trickster-ed': ('W9i9i4NZkNA', 'Vídeo de referência: Zizaran com Trickster de Essence Drain e Contagion (liga 3.26). Não é a nossa build exata.'),
  'warden-tinturas': ('9y0FlFp7OvU', 'Vídeo de referência: Lightning Strike Warden (liga 3.25). A ascensão da Warden mudou depois disso.'),
  'trickster-fireball': (None, 'A Fireball of Radiation é gema nova da 3.30 e ainda não tem vídeo de gameplay. Assim que a liga abrir, aparece aqui.'),
+ 'lvl-cobra': ('n0QfdZIqGLE', 'Vídeo do xRoGeSx: leveling de Shadow na 3.30 com Cobra Lash e Poisonous Concoction.'),
+ 'lvl-magma': ('LXwLgREzSOI', 'Vídeo do FearlessDumb0 (3.23): league start de Trickster, com o leveling de Rolling Magma e Armageddon Brand.'),
  'hierophant-ballista': (None, 'Ainda não achei vídeo de Artillery Ballista na 3.30. Para ver o estilo de totem de arco, veja a página do Explosive Arrow Ballista Hierophant do POEGuy.'),
 }
 def showcase(slug, name):

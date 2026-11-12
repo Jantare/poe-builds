@@ -5,6 +5,7 @@ from treelib import Tree, plan, svg
 from build_specs import SPECS
 from content import BUILDS, ASC_PT
 import gen_safe
+import leveling_routes
 from videos import showcase
 import xml.sax.saxutils as sx
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +26,7 @@ def head(title, desc, depth):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="{up}assets/style.css">
+<script src="{up}assets/nav.js" defer></script>
 </head>
 <body>
 <header class="topbar"><div class="in">
@@ -148,6 +150,12 @@ def build_page(b, P_tree):
 </body></html>
 '''
 
+def leveling_section(old_atos):
+    """Keeps the old Spark-from-act-1 checklist (inner part) inside the new routes section."""
+    inner = re.sub(r'^<section id="atos">\s*<h2>[^<]*</h2>', '', old_atos.strip())
+    inner = re.sub(r'</section>\s*$', '', inner)
+    return leveling_routes.section(inner)
+
 def spark_page(b, P_tree):
     P, tree_html = P_tree
     sect = lambda i: re.search(r'<section id="%s">.*?</section>' % i, SPARK, re.S).group(0)
@@ -158,8 +166,8 @@ def spark_page(b, P_tree):
         ('Botas','Murder Boots',84,'chaos','MovementVelocity:2,ChanceToSuppressSpells:3'),('Jewel ES + crítico','Cobalt Jewel',84,'chaos','EnergyShieldForJewel:1,SpellCritMultiplierForJewel:1')])
     craft = craft.replace('<h2>Como craftar</h2>', f'<h2>Como craftar</h2>\n  <p><b>Simulador do site:</b></p><div class="presets" style="margin-bottom:12px">{sim}</div>', 1)
     body = '\n'.join([hdr,
-        '<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#atos">Leveling</a><a href="#liga">Liga</a></nav>',
-        showcase(b['slug'], b['name']), sect('porque'), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), sect('equipamento'), sect('alvos'), craft, sect('atos'), sect('liga')])
+        '<nav class="sec" aria-label="Seções"><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#atos">Leveling</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#liga">Liga</a></nav>',
+        showcase(b['slug'], b['name']), sect('porque'), leveling_section(sect('atos')), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), sect('equipamento'), sect('alvos'), craft, sect('liga')])
     body = body.replace(re.search(r'<section id="ascensao">.*?</section>', body, re.S).group(0), sect('ascensao'))
     foot = re.search(r'<footer>.*?</footer>', SPARK, re.S).group(0)
     return head(b['name'] + ' · PoE Builds', b['card'], 1) + '<div class="wrap">\n' + body + '\n' + foot + '\n</div>\n<script src="../assets/checklist.js" data-key="trickster-spark-330-checks"></script>\n<script src="../assets/pob.js"></script>\n<script src="../assets/video.js"></script>\n</body></html>\n'
