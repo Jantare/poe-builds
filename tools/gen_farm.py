@@ -23,23 +23,27 @@ HEAD = '''<!doctype html>
 </div></header>
 '''
 import atlas_plan as AP
+from atlas_render import render as RENDER
+IMG = os.path.join(ROOT, 'farm', 'img'); os.makedirs(IMG, exist_ok=True)
 ATLAS = AP.Atlas()
-def node_rows(alloc, targets, prio):
+def node_rows(alloc, targets, prio, start=1):
     rows = []
-    for t in targets:
+    for i, t in enumerate(targets, start):
         k = ATLAS.find(t)
-        rows.append(f'<tr><td><b>{e(ATLAS.N[k]["name"])}</b><br><span class="pill {"ok" if prio==1 else "warn"}">{"Essencial" if prio==1 else "Extra"}</span></td><td>{AP.PT[t]}</td></tr>')
+        rows.append(f'<tr><td><span class="num">{i}</span> <b>{e(ATLAS.N[k]["name"])}</b><br><span class="pill {"ok" if prio==1 else "warn"}">{"Essencial" if prio==1 else "Extra"}</span></td><td>{AP.PT[t]}</td></tr>')
     return ''.join(rows)
 def atlas_section(slug, tips):
     ph = AP.STRATS[slug]
     alloc, per = ATLAS.plan(ph)
-    rows = node_rows(alloc, ph[0], 1) + node_rows(alloc, ph[1], 2)
+    rows = node_rows(alloc, ph[0], 1) + node_rows(alloc, ph[1], 2, len(ph[0]) + 1)
+    tg = [ATLAS.find(t) for p in ph for t in p]
+    RENDER(ATLAS, alloc, {k: i + 1 for i, k in enumerate(tg)}, os.path.join(IMG, slug + '.webp'))
     return f'''<section id="atlas"><h2>Pontos do Atlas</h2>
   <p class="note"><strong>Árvore oficial da 3.30</strong> (a GGG publicou antes da liga). Caminho a partir do centro: <b>{per[0]} pontos</b> para os essenciais e <b>+{per[1]}</b> para os extras. A árvore tem 150 pontos no total. Some com a <a href="./#atlas">base de sustento</a> (36 pontos).</p>
   <div class="tbl fit"><table class="split narrow"><colgroup><col style="width:34%"><col style="width:66%"></colgroup><thead><tr><th>Nó</th><th>O que faz</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p style="margin-top:12px"><a class="treelink" href="{ATLAS.url(alloc)}" target="_blank" rel="noopener">Abrir no site oficial (árvore do Atlas)</a></p>
   <p class="sub">Nós de escolha (Thread, exército, líder etc.) aparecem marcados no link; escolha a opção indicada na tabela ao clicar neles.</p>
-  <div class="diagram tree-real" role="img" aria-label="Árvore do Atlas com o caminho desta mecânica: essenciais em destaque, extras em outra cor.">{ATLAS.svg(alloc)}</div>
+  <figure class="atlasimg"><a href="img/{slug}.webp" target="_blank" rel="noopener"><img src="img/{slug}.webp" alt="Árvore do Atlas com o caminho desta mecânica aceso; os números batem com a tabela." loading="lazy"></a><figcaption>Arte oficial da árvore do Atlas. O caminho aceso é o que você pega; os números batem com a tabela. Toque para ampliar.</figcaption></figure>
   <h3 style="margin-top:14px">Dicas</h3><ul class="atl">{tips}</ul></section>'''
 
 def video(vid, cap):
@@ -87,8 +91,10 @@ EXTRA = ['Subtle Manipulations', 'Significant Troves', 'Blood Feud', 'Height of 
 MAIN = [AP.BASE, S['legion'][0], S['beyond'][0], S['ritual'][0], EXTRA]
 alloc, per = ATLAS.plan(MAIN)
 cum = [sum(per[:i + 1]) for i in range(len(per))]
-color = {0: 1, 1: 1, 2: 2, 3: 2, 4: 3, 5: 3}
-show = {k: color[p] for k, p in alloc.items()}
+phase_of = {}
+for i, grp in enumerate(MAIN, 1):
+    for t in grp: phase_of.setdefault(ATLAS.find(t), i)
+RENDER(ATLAS, alloc, phase_of, os.path.join(IMG, 'plano.webp'), max_w=2400)
 alt, per2 = ATLAS.plan([AP.BASE, S['ultimatum'][0], S['expedition'][0], ['Subtle Manipulations', 'Significant Troves']])
 def names(lst): return ', '.join(f'<b>{e(x.strip())}</b>' for x in lst)
 steps = [
@@ -98,7 +104,7 @@ steps = [
  ('4. Ritual', 'Mapas vermelhos', S['ritual'][0], 'Dextral Threads: escolha Ritual.', 'ritual.html'),
  ('5. Fechamento', 'Endgame', EXTRA, 'Blood Feud: escolha Karui ou Vaal.', None),
 ]
-rows = ''.join(f'<tr><td><b>{t}</b><br><span class="sub">{w}<br>{per[i]} pontos (total {cum[i]})</span></td>'
+rows = ''.join(f'<tr><td><span class="num">{i + 1}</span> <b>{t[3:]}</b><br><span class="sub">{w}<br>{per[i]} pontos (total {cum[i]})</span></td>'
                f'<td>{names(n)}. {d}{f" <a href={chr(34)}{l}#atlas{chr(34)}>Detalhes →</a>" if l else ""}</td></tr>'
                for i, (t, w, n, d, l) in enumerate(steps))
 HUB = f'''<!-- atlas:start -->
@@ -115,8 +121,7 @@ HUB = f'''<!-- atlas:start -->
   <p class="sub">Combina com as builds de clear do site (Spark, RF, Toxic Rain, SRS). Pegue na ordem: cada fase já funciona sozinha.</p>
   <div class="tbl fit"><table class="split narrow"><colgroup><col style="width:30%"><col style="width:70%"></colgroup><thead><tr><th>Fase</th><th>O que pegar</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p style="margin-top:12px"><a class="treelink" href="{ATLAS.url(alloc)}" target="_blank" rel="noopener">Abrir o plano completo no site oficial</a></p>
-  <div class="diagram tree-real" role="img" aria-label="Árvore do Atlas com o plano: base e Legion numa cor, Beyond e Ritual em outra, fechamento em uma terceira.">{ATLAS.svg(show)}</div>
-  <p class="sub">Cores: base e Legion · Beyond e Ritual · fechamento. Nos nós de escolha, selecione a opção indicada na tabela.</p>
+  <figure class="atlasimg"><a href="img/plano.webp" target="_blank" rel="noopener"><img src="img/plano.webp" alt="Árvore do Atlas com o plano completo aceso; o número em cada nó é a fase da tabela." loading="lazy"></a><figcaption>Arte oficial da árvore do Atlas. O número em cada nó é a fase da tabela. Nos nós de escolha, selecione a opção indicada. Toque para ampliar.</figcaption></figure>
   <h3 style="margin-top:16px">Alternativa para builds tanques: Ultimatum + Expedition ({sum(per2)} pontos)</h3>
   <p>Base de sustento ({per2[0]}) + <a href="ultimatum.html#atlas">Ultimatum</a> ({per2[1]}) + <a href="expedition.html#atlas">Expedition</a> ({per2[2]}) + Subtle Manipulations e Significant Troves ({per2[3]}). Use Dextral Threads para a mecânica principal. Boa para Earthshatter, Storm Burst e as builds de minion/DoT. <a href="{ATLAS.url(alt)}" target="_blank" rel="noopener">Abrir no site oficial</a>.</p>
 </section>
