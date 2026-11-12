@@ -243,6 +243,7 @@ ul.atl{margin:0;padding-left:18px;display:grid;gap:6px}
 table.split{table-layout:fixed}
 table.split td{overflow-wrap:anywhere}
 table.split td:first-child{font-weight:500;color:#cfd8e8}
+@media (max-width:640px){table.split.narrow{min-width:0}}
 /* ---- navegação: menu de seções preso no topo, âncoras sem esconder o título ---- */
 html{scroll-padding-top:calc(var(--topbar-h,58px) + var(--secnav-h,50px) + 12px);scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
