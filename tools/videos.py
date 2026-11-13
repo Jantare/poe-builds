@@ -9,6 +9,7 @@ VIDEOS = {
  'yt-absolution-necromancer': ('zotrvisDIuU', 'Vídeo do Travic (3.30).'),
  'yt-cyclone-necromancer': ('8X_geKpgCs8', 'Vídeo do Duleblade (3.30).'),
  'yt-animate-weapon-necromancer': ('WbDGNiNTJzI', 'Vídeo do Aleshxile (3.30).'),
+ 'yt-spark-saboteur': ('fN0Z-JV152M', 'Vídeo do Duleblade (3.30): parte 2 do Spark Saboteur, com mapa e Eater of Worlds.'),
  'trickster-spark': ('UIWNhYm03yg', 'Vídeo de referência: Spark Trickster contra Ubers (liga 3.26). Mostra a skill e o estilo; não é a nossa build exata.'),
  'trickster-ed': ('W9i9i4NZkNA', 'Vídeo de referência: Zizaran com Trickster de Essence Drain e Contagion (liga 3.26). Não é a nossa build exata.'),
  'warden-tinturas': ('9y0FlFp7OvU', 'Vídeo de referência: Lightning Strike Warden (liga 3.25). A ascensão da Warden mudou depois disso.'),

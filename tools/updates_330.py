@@ -1,7 +1,9 @@
 """Verificação 3.30 de cada build (12/11): o que a comunidade lançou e como fazer o leveling.
 Cada item: (título, autor, data, vídeo, pobb, xml em data/pob ou None, texto)."""
 U = {
- 'trickster-spark': dict(status='Rotas de leveling adicionadas', items=[],
+ 'trickster-spark': dict(status='Rotas de leveling adicionadas; nova alternativa de Spark com Saboteur', items=[
+   ('Alternativa: Spark Saboteur (triggerbot)', 'Duleblade', '4/11', 'fN0Z-JV152M', 'sRdSgfUWKvQn', None,
+    'Mesmo Spark com CI e Energy Shield, mas com Saboteur: a Arcanist Brand lança o Spark sozinha. No PoB de ~50 divines: 6,6 mil de ES, 93% de suppress e 4,1 milhões de DPS. Página completa em Do YouTube → Spark Saboteur.')],
    leveling='Suba com Cobra Lash → Poisonous Concoction (xRoGeSx, 3.30) ou Rolling Magma → Armageddon Brand e troque para Spark no fim da campanha. Detalhes na seção Leveling.'),
  'trickster-ed': dict(status='Saiu guia 3.30 da mesma skill (em Occultist)', items=[
    ('Essence Drain & Contagion Occultist', 'Goratha', '12/11', 'ACjUm3VMRBs', 'qmtZt-Dsx-gX', 'upd-qmtZt-Dsx-gX.xml',
@@ -47,6 +49,8 @@ U = {
    leveling='Já incluído: Holy Flame Totem nos Atos 1–3 e Explosive Arrow Ballista do Ato 3 ao 10.'),
  'yt-absolution-necromancer': dict(status='Sem mudanças desde o vídeo (já é da 3.30)', items=[], leveling='Já incluído: árvore e gemas por ato.'),
  'yt-cyclone-necromancer': dict(status='Sem mudanças desde o vídeo (já é da 3.30)', items=[], leveling='Já incluído: minions na campanha e Cyclone com Soulwrest no fim.'),
+ 'yt-spark-saboteur': dict(status='Vídeo da 3.30 (4/11); PoB ainda na árvore 3.29', items=[],
+   leveling='O PoB do Duleblade não tem leveling. Na campanha, use as rotas da Trickster Spark (Cobra Lash ou Rolling Magma) e troque para Spark com Arcanist Brand no fim dos atos; o autor dá uma dica de craft de trigger no Ato 9 (no vídeo, aos 1:44).'),
  'yt-animate-weapon-necromancer': dict(status='Sem mudanças desde o vídeo (já é da 3.30)', items=[],
    leveling='O PoB do Aleshxile é só do endgame. Na campanha, suba de Summon Raging Spirit como no guia de Poison SRS (mesmo Necromancer) e troque para Animate Weapon of Ranged Arms nos mapas.'),
 }
