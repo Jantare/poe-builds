@@ -133,3 +133,79 @@ if '<!-- atlas:start -->' in h:
 else:
     i = h.index('<section id="fases">'); h = h[:i] + HUB + '\n\n' + h[i:]
 open(ip, 'w').write(h); print('hub', per, cum[-1], per2)
+
+# ---- hub: farm combinations (between combos markers) ----
+SHR = ['Supplication', 'Syncretism', 'Drawn to Power', 'False Prophets']
+COMBOS = [
+ dict(key='legion-ritual', name='Legion → + Ritual → + Harvest', tag='O nosso combo', when='Do primeiro mapa ao endgame',
+  phases=[('Base de sustento', AP.BASE), ('Legion', S['legion'][0]), ('Ritual', S['ritual'][0]),
+          ('Harvest e fechamento', S['harvest'][0] + ['Outside Entities', 'Blood Feud', 'Subtle Manipulations'])],
+  threads='Comece com 1–3 Legion Threads. Quando tiver Ritual Threads, use as duas no mesmo mapa (por exemplo 4 + 4): com 4 Ritual Threads abrem 2 slots de Blood-filled Vessel. Harvest não tem Thread: os nós do Atlas fazem a Sacred Flora aparecer sozinha.',
+  why=['Os altares de Ritual revivem monstros que você já matou no mapa. A Legion solta dezenas de raros de uma vez, então o Ritual revive esses raros e dá muito Tribute (Exacting Tribute reduz a perda de Tribute dos revividos).',
+       'Outside Entities com a Viridian Wildwood: o Wisp\'s Blessing dá +50% de Tribute no Ritual.',
+       'Harvest entra no fim, sem gastar Thread: Lifeforce para vender ou craftar, e a Sacred Flora fortalece monstros com Wisps (mais loot).'],
+  build='Spark, RF, Toxic Rain, SRS: builds de clear que matam a Legion rápido e aguentam o último altar.'),
+ dict(key='shrines', name='Começo sem gastar: Shrines → Legion', tag='Primeiros dias', when='Atlas branco e amarelo, antes de ter Threads sobrando',
+  phases=[('Base de sustento', AP.BASE), ('Shrines', SHR), ('Legion', S['legion'][0])],
+  threads='Nenhuma no começo: os Shrines vêm só da árvore. Quando sobrarem Legion Threads (das Regiões Moldadas e dos altares do Eater), entram aos poucos.',
+  why=['Supplication põe mais Shrines no mapa, Syncretism deixa os buffs 30% mais fortes e com um efeito extra, e False Prophets dá um Apparition Shrine a mais.',
+       'Os buffs de Shrine deixam o clear mais rápido e mais seguro sem gastar nada. É o que mais criadores estão usando para completar o Atlas na 3.30, segundo os títulos dos vídeos (sirgog, Coolingmoon).',
+       'Drawn to Power põe packs extras perto dos Shrines: mais monstros, mais loot.'],
+  build='Qualquer build. Bom para completar o Atlas e juntar Threads.'),
+ dict(key='legion-beyond', name='Legion + Beyond', tag='Clear rápido', when='Mapas amarelos e vermelhos',
+  phases=[('Base de sustento', AP.BASE), ('Legion', S['legion'][0]), ('Beyond', S['beyond'][0]), ('Fechamento', S['legion'][1] + S['beyond'][1])],
+  threads='Só Legion Threads. O Beyond não tem Thread: os nós aumentam a chance do Demonic Evocator.',
+  why=['Cada monstro morto pode abrir um portal de Beyond. A Legion mata dezenas de monstros de uma vez, então os portais aparecem em sequência.',
+       'Na 3.30 os demônios raros e uniques do Beyond soltam a currency boa, e matar o boss do Beyond dá Demonic Power por 60s.',
+       'Cuidado: os uniques do Beyond batem forte. Pegue Height of Horror e True Terrors só quando a build aguentar.'],
+  build='Spark e Toxic Rain (muito clear). Precisa de defesa razoável.'),
+ dict(key='ritual-harvest', name='Ritual + Harvest', tag='Mais tranquilo', when='Mapas vermelhos',
+  phases=[('Base de sustento', AP.BASE), ('Ritual', S['ritual'][0]), ('Harvest', S['harvest'][0]), ('Fechamento', ['Outside Entities', 'Blended Realities', 'Rich Soil', 'Verdant Lands'])],
+  threads='Ritual Threads (8 para 3 slots de Vessel). Harvest e Wildwood vêm da árvore.',
+  why=['O Ritual dá Omens (na 3.30, rerolar sempre gera pelo menos uma) e o Harvest dá Lifeforce para vender ou craftar.',
+       'Outside Entities com a Viridian Wildwood (+50% de Tribute) e Blended Realities com a Sacred Flora.',
+       'Ritmo mais calmo que a Legion: bom para builds mais lentas ou mais tanques.'],
+  build='RF, Earthshatter, Storm Burst, builds de minion.'),
+]
+
+def combo_html(c):
+    ph = [p for _, p in c['phases']]
+    alloc, per = ATLAS.plan(ph)
+    cum = [sum(per[:i + 1]) for i in range(len(per))]
+    badges = {}
+    for i, grp in enumerate(ph, 1):
+        for t in grp: badges.setdefault(ATLAS.find(t), i)
+    RENDER(ATLAS, alloc, badges, os.path.join(IMG, f'combo-{c["key"]}.webp'), max_w=2200)
+    rows = ''.join(f'<tr><td><span class="num">{i + 1}</span> <b>{e(n)}</b><br><span class="sub">{per[i]} pontos (total {cum[i]})</span></td>'
+                   f'<td>{names(g)}.</td></tr>' for i, (n, g) in enumerate(c['phases']))
+    why = ''.join(f'<li>{e(w)}</li>' for w in c['why'])
+    return f'''<div class="route" id="combo-{c["key"]}">
+  <div class="mhead"><h3>{e(c["name"])}</h3><div class="tags"><span class="pill ok">{e(c["tag"])}</span><span class="pill">{cum[-1]} de 150 pontos</span></div></div>
+  <p class="sub">{e(c["when"])}</p>
+  <p><b>Threads:</b> {e(c["threads"])}</p>
+  <h4 style="margin-top:6px">Por que combina</h4><ul class="atl">{why}</ul>
+  <div class="tbl fit" style="margin-top:10px"><table class="split narrow"><colgroup><col style="width:30%"><col style="width:70%"></colgroup><thead><tr><th>Fase</th><th>Nós</th></tr></thead><tbody>{rows}</tbody></table></div>
+  <p style="margin-top:10px"><a class="treelink" href="{ATLAS.url(alloc)}" target="_blank" rel="noopener">Abrir no site oficial</a></p>
+  <figure class="atlasimg"><a href="img/combo-{c["key"]}.webp" target="_blank" rel="noopener"><img src="img/combo-{c["key"]}.webp" alt="Árvore do Atlas do combo {e(c["name"])}; o número em cada nó é a fase." loading="lazy"></a><figcaption>O número em cada nó é a fase da tabela. Pegue na ordem: cada fase já funciona sozinha. Toque para ampliar.</figcaption></figure>
+  <p class="sub" style="margin-top:8px"><b>Builds:</b> {e(c["build"])}</p>
+</div>'''
+
+jump = ''.join(f'<a href="#combo-{c["key"]}">{e(c["name"])}</a>' for c in COMBOS)
+CH = f'''<!-- combos:start -->
+<section id="combos">
+  <h2>Combinações de farm</h2>
+  <p>Na 3.30 dá para usar até 3 tipos de Thread no mesmo mapa (até 8 Threads no total), e Harvest, Beyond e Shrines vêm só da árvore. Estes combos juntam mecânicas que se ajudam. Cada um está em fases: comece pela primeira e vá somando.</p>
+  <p class="note"><strong>Ainda é teoria:</strong> a liga acabou de abrir. Os combos seguem as regras das notas oficiais e a árvore oficial; o ganho real só aparece depois dos primeiros dias de farm.</p>
+  <div class="jump">{jump}</div>
+  {"".join(combo_html(c) for c in COMBOS)}
+</section>
+<!-- combos:end -->'''
+h = open(ip).read()
+if '<!-- combos:start -->' in h:
+    a = h.index('<!-- combos:start -->'); b = h.index('<!-- combos:end -->') + len('<!-- combos:end -->')
+    h = h[:a] + CH + h[b:]
+else:
+    i = h.index('<!-- atlas:end -->') + len('<!-- atlas:end -->'); h = h[:i] + '\n\n' + CH + h[i:]
+if '<a href="#combos">' not in h:
+    h = h.replace('<a href="#atlas">Atlas</a>', '<a href="#atlas">Atlas</a><a href="#combos">Combos</a>', 1)
+open(ip, 'w').write(h); print('combos', len(COMBOS))
