@@ -442,7 +442,7 @@ th.num{text-align:right}
       if (j.running) return setTimeout(poll, 600);
       setBusy(false);
       if (j.error) { showErr(j.error); $('sync').textContent = ''; return; }
-      showErr(''); loadState();
+      showErr(''); loadState().then(function () { if (j.warn) showErr(j.warn); });
     }).catch(function (e) { setBusy(false); showErr(e.message); });
   }
   function refresh() {

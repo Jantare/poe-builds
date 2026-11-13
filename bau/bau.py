@@ -212,8 +212,7 @@ def ask(prompt, default=''):
 def setup(cfg):
     section('Configuração')
     cfg['account'] = ask('Nome da conta com o número (ex.: Fulano#1234)', cfg.get('account', ''))
-    leagues = http_json(NINJA + '/leagues', cache_name='leagues', max_age=3600) or []
-    ids = [l['id'] for l in leagues]
+    ids = list_leagues()
     if ids:
         info('Ligas no poe.ninja: ' + CYAN(', '.join(ids)))
     cfg['league'] = ask('Liga', cfg.get('league') or (ids[0] if ids else 'Standard'))
@@ -338,6 +337,24 @@ def get_tabs(cfg):
 # ---------------- preços ----------------
 def norm(s):
     return re.sub(r'\s+', ' ', (s or '').strip().lower())
+
+
+def list_leagues():
+    """Ligas de trade: lista oficial da GGG (tem a liga nova desde o primeiro minuto) + as do poe.ninja."""
+    out = []
+    try:
+        ggg = http_json('https://www.pathofexile.com/api/leagues?type=main', cache_name='leagues_ggg', max_age=900) or []
+        ids = [l['id'] for l in ggg if 'SSF' not in l['id'] and 'Ruthless' not in l['id'] and 'Solo Self' not in l['id']]
+        out = [i for i in ids if i not in ('Standard', 'Hardcore')] + [i for i in ids if i in ('Standard', 'Hardcore')]
+    except Exception:
+        pass
+    try:
+        for l in http_json(NINJA + '/leagues', cache_name='leagues', max_age=900) or []:
+            if l['id'] not in out:
+                out.append(l['id'])
+    except Exception:
+        pass
+    return out or ['Standard']
 
 
 def load_prices(league):
@@ -620,7 +637,7 @@ def list_snapshots():
 
 
 def refresh_job(cfg):
-    JOB.update(running=True, done=0, total=0, label='Buscando preços no poe.ninja', error='', finished=None)
+    JOB.update(running=True, done=0, total=0, label='Buscando preços no poe.ninja', error='', warn='', finished=None)
     try:
         P = load_prices(cfg['league'])
         tabs = get_tabs(cfg)
@@ -633,6 +650,8 @@ def refresh_job(cfg):
             items_by_tab[t['i']] = stash_request(cfg, t['i'], 0).get('items', [])
             JOB.update(done=k)
         save_snapshot(build_snapshot(cfg, sel, items_by_tab, P))
+        if not P['exchange'] and not P['items']:
+            JOB['warn'] = f"O poe.ninja ainda não tem preços da liga {cfg['league']} (costuma levar algumas horas depois da abertura). Os itens foram lidos, mas aparecem sem preço. Atualize o baú de novo mais tarde."
         JOB.update(label='Pronto', finished=datetime.now().isoformat(timespec='seconds'))
     except BauError as e:
         JOB.update(error=str(e))
@@ -693,11 +712,7 @@ class Handler(BaseHTTPRequestHandler):
         if path == '/api/state':
             hist = read_json(os.path.join(SNAPS, 'history.json'), [])
             latest = read_json(os.path.join(SNAPS, 'latest.json'), None)
-            leagues = []
-            try:
-                leagues = [l['id'] for l in (http_json(NINJA + '/leagues', cache_name='leagues', max_age=3600) or [])]
-            except Exception:
-                pass
+            leagues = list_leagues()
             return self._send(200, {'config': public_config(cfg), 'leagues': leagues, 'latest': latest, 'history': hist,
                                     'snapshots': list_snapshots(), 'job': JOB, 'pricecheck': pricecheck_state(cfg)})
         if path == '/api/snapshot':
