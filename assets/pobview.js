@@ -77,3 +77,10 @@
   window.addEventListener('hashchange', fromHash);
   fromHash();
 })();
+/* botão "Copiar" dos regex de vendor */
+document.addEventListener('click', function (ev) {
+  var b = ev.target.closest && ev.target.closest('.rxcopy'); if (!b) return;
+  var t = b.getAttribute('data-rx'), done = function () { b.textContent = 'Copiado'; setTimeout(function () { b.textContent = 'Copiar'; }, 2000); };
+  if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () { window.prompt('Copie o regex:', t); });
+  else window.prompt('Copie o regex:', t);
+});

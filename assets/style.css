@@ -317,3 +317,10 @@ td a.buy{margin:2px 0}
 .itrow .itbase{display:block;font-size:12px;color:var(--muted)}
 .itbuy{text-align:right;max-width:100%}
 @media (max-width:560px){.itbuy{text-align:left}}
+/* regex de vendor */
+.rx{border:1px solid var(--wood);border-radius:8px;background:var(--bg);padding:10px 12px;margin:10px 0;display:grid;gap:6px;min-width:0}
+.rxh{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}.rxh b{color:var(--accent)}
+.rxrow{display:flex;gap:8px;align-items:center;min-width:0}
+.rxrow code{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0;flex:1;min-width:0;overflow-x:auto;white-space:nowrap;font-family:var(--f-mono);font-size:13.5px;background:var(--sunken);border:1px solid var(--line);border-radius:6px;padding:7px 9px;color:#f0d28c}
+.rxcopy{font:inherit;font-weight:600;font-size:13px;padding:7px 12px;border:0;border-radius:6px;background:var(--accent);color:#06101c;cursor:pointer;flex:none}
+.rx p{margin:0}

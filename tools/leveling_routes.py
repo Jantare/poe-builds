@@ -8,13 +8,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 clean = lambda s: re.sub(r'\^x[0-9A-Fa-f]{6}|\^\d', '', s or '').strip()
 
 ROUTES = [
- dict(key='cobra', name='Cobra Lash → Poisonous Concoction', tag='Recomendada', xml='lvl-cobra.xml', author='xRoGeSx', league='3.30',
+ dict(key='cobra', regex=('"-\\w-.-|[rgw]-[gw]-[gw]|d mov|to attacks"', 'qualquer 4 links, 3 links verdes (PConc) ou vermelho + 2 verdes (Shield Charge), botas com movimento e anéis/amuleto/aljava com dano em ataques (a PConc é um ataque e ganha esse dano mesmo sem usar arma)'), name='Cobra Lash → Poisonous Concoction', tag='Recomendada', xml='lvl-cobra.xml', author='xRoGeSx', league='3.30',
       video='n0QfdZIqGLE', guide='https://www.poebuilds.cc/poe1/build/n0QfdZIqGLE', pobb='qf2CPIx0WMfl', refund=63,
       sets=lambda t: t.lower().startswith('act'),
       intro='A rota mais rápida e mais atual (feita para a 3.30). Cobra Lash nos primeiros minutos e Poisonous Concoction até o fim da campanha. A Poisonous Concoction usa cargas de frasco em vez de arma, então você nem precisa achar arma boa.',
       pros=['Mais rápida e mais forte nos atos', 'Vídeo e PoB da 3.30', 'Não depende de arma'],
       cons=['Árvore de veneno e projétil: na troca, ~63 pontos para devolver', 'Precisa de Dex e de frascos com cargas']),
- dict(key='magma', name='Rolling Magma → Armageddon Brand', tag='Troca mais suave', xml='lvl-magma.xml', author='FearlessDumb0', league='3.23',
+ dict(key='magma', regex=('"-\\w-.-|[bw]-[bw]-[bw]|d mov|to spells|fire sp"', 'qualquer 4 links, 3 links azuis (Rolling Magma / Armageddon Brand), botas com movimento, armas com dano em feitiço e +nível de gemas de feitiço de fogo'), name='Rolling Magma → Armageddon Brand', tag='Troca mais suave', xml='lvl-magma.xml', author='FearlessDumb0', league='3.23',
       video='LXwLgREzSOI', guide='https://www.poebuilds.cc/poe1/build/LXwLgREzSOI', pobb='_MDwwhrhEDrh', refund=55,
       sets=lambda t: t.lower().startswith('act'),
       intro='Rolling Magma nos Atos 1–2 e Armageddon Brand do Ato 3 ao 10, já como Trickster. É feitiço, então a troca para o Spark muda menos coisas. O Maxroll também usa Armageddon Brand no guia de leveling de Shadow (campanha em menos de 3 horas).',
@@ -43,6 +43,12 @@ def act_label(title):
     t = t.replace(' through ', '–').replace('Generals Cry', "General's Cry").replace('Adding Crit', 'crítico').replace('Pre-PCONC', 'início').replace('PCONC ( Right before Meriveil )', 'antes da Merveil')
     return t
 
+def regex_box(rx, why, title='Regex de vendor'):
+    n = len(rx)
+    return (f'<div class="rx"><div class="rxh"><b>{e(title)}</b><span class="sub">cole na busca da loja do NPC · {n} de 50 caracteres</span></div>'
+            f'<div class="rxrow"><code>{e(rx)}</code><button type="button" class="rxcopy" data-rx="{e(rx, quote=True)}">Copiar</button></div>'
+            f'<p class="sub">Marca: {e(why)}.</p></div>')
+
 def route_html(r):
     with open(os.path.join(ROOT, 'data/pob', r['xml']), 'rb') as f:
         gen_safe.write_code('lvl-' + r['key'], f.read())
@@ -56,6 +62,7 @@ def route_html(r):
   <p>{e(r["intro"])}</p>
   <div class="cols"><div><h4 class="good">A favor</h4><ul>{pros}</ul></div><div><h4 class="badc">Contra</h4><ul>{cons}</ul></div></div>
   {acts}
+  {regex_box(*r['regex'])}
   <div class="routefoot">
     {gen_safe.pob_button('lvl-' + r['key']).replace('Copiar código do PoB', 'Copiar PoB desta rota')}
     <p class="sub">Fonte: <a href="{e(r["guide"])}" target="_blank" rel="noopener">guia de {e(r["author"])}</a> · <a href="https://pobb.in/{e(r["pobb"])}" target="_blank" rel="noopener">PoB no pobb.in</a> · <a href="https://www.youtube.com/watch?v={e(r["video"])}" target="_blank" rel="noopener">vídeo</a></p>
@@ -72,6 +79,7 @@ def section(old_spark_checklist):
   {routes}
   <div class="route" id="troca">
     <div class="mhead"><h3>Troca para Spark</h3><div class="tags"><span class="pill ok">Fim do Ato 10 ou primeiros mapas</span></div></div>
+    {regex_box('"-\\w-.-|[bw]-[bw]-[bw]|d mov|to spells|ning sp"', 'qualquer 4 links, 3 links azuis (Spark + Lightning Penetration + Inspiration/crítico), botas com movimento, armas com dano em feitiço e +nível de gemas de feitiço de raio', 'Regex de vendor para o Spark')}
     <ol class="steps">
       <li>Durante a campanha, deixe o <b>Spark</b> num slot qualquer ganhando nível. Compre <b>Lightning Penetration, Inspiration e Increased Critical Strikes</b> (a Lilly Roth, no Ato 6, vende todas as gemas).</li>
       <li>Faça a <b>Rune Dagger</b> com +1 nível de gemas de raio: receita de vendor com Rune Dagger + 2 gemas de raio somando 40% de qualidade.</li>
