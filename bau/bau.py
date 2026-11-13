@@ -819,8 +819,13 @@ def selftest_precos():
         c = precheck.Checker(lambda lg: P, price_item, log)
         c.P, c.P_league, c.P_time = P, 'Standard', time.time()
         c.test(precheck.SAMPLE)
-        time.sleep(2.5)
+        for _ in range(40):  # até 10 s
+            time.sleep(0.25)
+            if c.last or c.error:
+                break
         out.append('window ' + ('ok' if c.last and c._thread.is_alive() else 'fail'))
+        if c.error:
+            out.append(c.error)
     except Exception as e:
         out.append('error ' + repr(e))
     with open(os.path.join(HERE, 'selftest.txt'), 'w', encoding='utf-8') as f:

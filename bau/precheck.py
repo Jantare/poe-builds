@@ -153,6 +153,7 @@ class Checker:
         self.P_time = 0
         self.last = None  # último resultado, para a página do app
         self.status = 'desligado'
+        self.error = ''
         self._thread = None
         self._q = []  # pedidos vindos de outras threads (executados na thread do tk)
 
@@ -197,6 +198,14 @@ class Checker:
         return None
 
     def _run(self):
+        try:
+            self._run_tk()
+        except Exception as e:  # registra o motivo (aparece no bau.log e no autoteste)
+            import traceback
+            self.error = traceback.format_exc()
+            self.log('precheck: janela falhou: ' + self.error)
+
+    def _run_tk(self):
         if sys.platform == 'win32':
             try:
                 import ctypes
@@ -243,8 +252,10 @@ class Checker:
                             self._show(t)
             if self.hide_at and time.time() > self.hide_at:
                 self.win.withdraw(); self.hide_at = 0
-        except Exception as e:
-            self.log(f'precheck: {e!r}')
+        except Exception:
+            import traceback
+            self.error = traceback.format_exc()
+            self.log('precheck: ' + self.error)
         self.root.after(250, self._tick)
 
     def _show(self, text):
