@@ -137,13 +137,15 @@ open(ip, 'w').write(h); print('hub', per, cum[-1], per2)
 # ---- hub: farm combinations (between combos markers) ----
 SHR = ['Supplication', 'Syncretism', 'Drawn to Power', 'False Prophets']
 COMBOS = [
- dict(key='legion-ritual', name='Legion → + Ritual → + Harvest', tag='O nosso combo', when='Do primeiro mapa ao endgame',
-  phases=[('Base de sustento', AP.BASE), ('Legion', S['legion'][0]), ('Ritual', S['ritual'][0]),
-          ('Harvest e fechamento', S['harvest'][0] + ['Outside Entities', 'Blood Feud', 'Subtle Manipulations'])],
-  threads='Comece com 1–3 Legion Threads. Quando tiver Ritual Threads, use as duas no mesmo mapa (por exemplo 4 + 4): com 4 Ritual Threads abrem 2 slots de Blood-filled Vessel. Harvest não tem Thread: os nós do Atlas fazem a Sacred Flora aparecer sozinha.',
-  why=['Os altares de Ritual revivem monstros que você já matou no mapa. A Legion solta dezenas de raros de uma vez, então o Ritual revive esses raros e dá muito Tribute (Exacting Tribute reduz a perda de Tribute dos revividos).',
-       'Outside Entities com a Viridian Wildwood: o Wisp\'s Blessing dá +50% de Tribute no Ritual.',
-       'Harvest entra no fim, sem gastar Thread: Lifeforce para vender ou craftar, e a Sacred Flora fortalece monstros com Wisps (mais loot).'],
+ dict(key='legion-ritual', name='Shrines → Legion → Ritual (+ Harvest leve)', tag='O nosso combo', when='Do primeiro mapa ao endgame',
+  phases=[('Base de sustento', AP.BASE), ('Shrines', ['Supplication', 'Syncretism', 'Drawn to Power']), ('Legion', S['legion'][0]), ('Ritual', S['ritual'][0]),
+          ('Harvest leve', ['Call of the Grove', 'Doubling Season']),
+          ('Fechamento', ['Outside Entities', 'Blood Feud', 'Subtle Manipulations', 'Significant Troves'])],
+  threads='Só Legion e Ritual. Comece com 1–3 Legion Threads; quando tiver Ritual Threads, use as duas no mesmo mapa (por exemplo 4 + 4: com 4 Ritual Threads abrem 2 slots de Blood-filled Vessel). Shrines e Harvest não têm Thread: vêm da árvore.',
+  why=['Shrines custam só 12 pontos e deixam o clear mais rápido e mais seguro desde o primeiro mapa: mais Shrines (Supplication), buffs 30% mais fortes com um efeito extra (Syncretism) e packs a mais perto deles (Drawn to Power).',
+       'Os altares de Ritual revivem monstros que você já matou no mapa. A Legion solta dezenas de raros de uma vez, então o Ritual revive esses raros e dá muito Tribute (Exacting Tribute reduz a perda de Tribute dos revividos).',
+       'Harvest leve: na 3.30 ele acontece dentro do mapa, sem descer no bosque, então não atrasa. Dois nós baratos (Call of the Grove e Doubling Season) fazem ele aparecer mais e render mais Lifeforce.',
+       'Fechamento: Outside Entities com a Viridian Wildwood (+50% de Tribute no Ritual), Blood Feud (exército da Legion), Subtle Manipulations (20% de chance de não gastar as Threads) e Significant Troves (mais Threads dos uniques).'],
   build='Spark, RF, Toxic Rain, SRS: builds de clear que matam a Legion rápido e aguentam o último altar.'),
  dict(key='shrines', name='Começo sem gastar: Shrines → Legion', tag='Primeiros dias', when='Atlas branco e amarelo, antes de ter Threads sobrando',
   phases=[('Base de sustento', AP.BASE), ('Shrines', SHR), ('Legion', S['legion'][0])],
