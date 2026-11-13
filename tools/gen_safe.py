@@ -6,6 +6,7 @@ from safe_content import SAFE, YT
 from videos import showcase
 import updates_330
 import pobview
+import trade
 e = html.escape
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 clean = lambda s: re.sub(r'\^x[0-9A-Fa-f]{6}|\^\d', '', s or '').strip()
@@ -94,10 +95,15 @@ def items_html(root):
             nm, base = lines[1], (lines[2] if len(lines) > 2 and rar in ('Unique', 'Rare') else '')
             if nm in ('New Item',) or nm.startswith('Example'): nm = 'Raro' if rar == 'Rare' else nm
             tag = '<span class="pill new">Unique</span> ' if rar == 'Unique' else ''
-            rows.append(f'<tr><td>{e(name)}</td><td>{tag}{e(nm)}</td><td>{e(base)}</td></tr>')
+            q, info = trade.item_query(name, rar, lines[1] if rar == 'Unique' else '', base, lines)
+            buy = trade.link(q, 'Comprar') if q else ''
+            hint = trade.describe(info)
+            if hint: buy += f'<small class="buyhint">{e(hint)}</small>'
+            basel = f'<small class="itbase">{e(base)}</small>' if base and base != nm else ''
+            rows.append(f'<tr><td>{e(SLOT_PT.get(name, name))}</td><td><div class="itrow"><div>{tag}{e(nm)}{basel}</div><div class="itbuy">{buy}</div></div></td></tr>')
         if rows:
-            out.append(f'<details class="craft"{" open" if k == 0 else ""}><summary><b>{e(clean(st.get("title")) or "Equipamento")}</b></summary><div class="craft-body"><div class="tbl"><table><thead><tr><th>Slot</th><th>Item</th><th>Base</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div></div></details>')
-    return '<div class="crafts">' + ''.join(out) + '</div>'
+            out.append(f'<details class="craft"{" open" if k == 0 else ""}><summary><b>{e(clean(st.get("title")) or "Equipamento")}</b></summary><div class="craft-body"><div class="tbl fit"><table class="split narrow"><colgroup><col style="width:24%"><col style="width:76%"></colgroup><thead><tr><th>Slot</th><th>Item · comprar pronto</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div></div></details>')
+    return trade.league_bar() + '<div class="crafts">' + ''.join(out) + '</div>'
 
 def pob_button(slug):
     return (f'<button type="button" class="treelink" data-pob="../data/pob/{slug}.txt" aria-controls="pob-{slug}">Copiar código do PoB</button>'

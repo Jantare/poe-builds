@@ -29,6 +29,7 @@ def head(title, desc, depth):
 <link rel="stylesheet" href="{up}assets/style.css">
 <script src="{up}assets/nav.js" defer></script>
 <script src="{up}assets/pobview.js" defer></script>
+<script src="{up}assets/trade.js" defer></script>
 </head>
 <body>
 <header class="topbar"><div class="in">
@@ -119,7 +120,8 @@ def build_page(b, P_tree):
     facts = ''.join(f'<span class="fact">{e(f)}</span>' for f in [f'Classe: {b["cls"]} → {b["asc"]}'] + b['facts'])
     notice = f'<p class="note"><strong>Atenção:</strong> {e(b["notice"])}</p>' if b.get('notice') else ''
     why = ''.join(f'<div><h3>{e(h)}</h3><p>{e(p)}</p></div>' for h, p in b['why'])
-    gear = ''.join(f'<tr><td>{e(r[0])}</td><td>{e(r[1])}</td><td>{e(r[2])}</td><td>{e(r[3])}</td></tr>' for r in b['gear'])
+    import trade
+    gear = ''.join(f'<tr><td>{e(r[0])}</td>' + ''.join(f'<td>{trade.linkify(e(c))}</td>' for c in r[1:4]) + '</tr>' for r in b['gear'])
     craft = ' '.join(craft_link(p) for p in b['craft'])
     acts = ''.join(f'<div class="act"><h3>{e(a)}</h3><label><input type="checkbox" id="{b["slug"]}-{i}"><span>{e(t)}</span></label></div>' for i, (a, t) in enumerate(b['acts']))
     good = ''.join(f'<li>{e(x)}</li>' for x in b['league'][0]); bad = ''.join(f'<li>{e(x)}</li>' for x in b['league'][1])
@@ -138,7 +140,7 @@ def build_page(b, P_tree):
 <section id="porque"><h2>Por que nessa liga</h2><div class="why">{why}</div></section>
 {tree_html}
 <section id="gemas"><h2>Gemas e links</h2>{gem_html(b["gems"], b["cls"], "gemas-" + b["slug"])}</section>
-<section id="equipamento"><h2>Equipamento por orçamento</h2><div class="tbl"><table><thead><tr><th>Slot</th><th><span class="tier t1">Barato</span></th><th><span class="tier t2">Médio</span></th><th><span class="tier t3">Final</span></th></tr></thead><tbody>{gear}</tbody></table></div></section>
+<section id="equipamento"><h2>Equipamento por orçamento</h2>{__import__('trade').league_bar()}<div class="tbl"><table><thead><tr><th>Slot</th><th><span class="tier t1">Barato</span></th><th><span class="tier t2">Médio</span></th><th><span class="tier t3">Final</span></th></tr></thead><tbody>{gear}</tbody></table></div></section>
 <section id="craft"><h2>Craft</h2><p>Abra no simulador já configurado:</p><div class="presets">{craft}</div>
 <p class="note" style="margin-top:12px">O passo a passo geral de craft (fossils, travar afixo, Harvest) está na página do <a href="trickster-spark.html#craft">Trickster Spark</a> e vale para estas peças também.</p></section>
 <section id="atos"><h2>Leveling</h2>
@@ -169,7 +171,7 @@ def spark_page(b, P_tree):
     craft = craft.replace('<h2>Como craftar</h2>', f'<h2>Como craftar</h2>\n  <p><b>Simulador do site:</b></p><div class="presets" style="margin-bottom:12px">{sim}</div>', 1)
     body = '\n'.join([hdr,
         '<nav class="sec" aria-label="Seções"><a href="#novidades">3.30</a><a href="#showcase">Vídeo</a><a href="#porque">Por quê</a><a href="#atos">Leveling</a><a href="#ascensao">Ascensão</a><a href="#arvore">Árvore</a><a href="#gemas">Gemas</a><a href="#equipamento">Equipamento</a><a href="#alvos">Alvos</a><a href="#craft">Craft</a><a href="#liga">Liga</a></nav>',
-        updates_330.section(b['slug'], gen_safe.write_code, gen_safe.pob_button, e), showcase(b['slug'], b['name']), sect('porque'), leveling_section(sect('atos')), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), sect('equipamento'), sect('alvos'), craft, sect('liga')])
+        updates_330.section(b['slug'], gen_safe.write_code, gen_safe.pob_button, e), showcase(b['slug'], b['name']), sect('porque'), leveling_section(sect('atos')), sect('ascensao'), tree_html.split('</section>',1)[1].strip(), sect('gemas'), __import__('trade').linkify_section(sect('equipamento')), sect('alvos'), craft, sect('liga')])
     body = body.replace(re.search(r'<section id="ascensao">.*?</section>', body, re.S).group(0), sect('ascensao'))
     foot = re.search(r'<footer>.*?</footer>', SPARK, re.S).group(0)
     return head(b['name'] + ' · PoE Builds', b['card'], 1) + '<div class="wrap">\n' + body + '\n' + foot + '\n</div>\n<script src="../assets/checklist.js" data-key="trickster-spark-330-checks"></script>\n<script src="../assets/pob.js"></script>\n<script src="../assets/video.js"></script>\n</body></html>\n'
