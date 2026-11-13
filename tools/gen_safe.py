@@ -5,6 +5,7 @@ from treelib import svg, CLASS_IDX
 from safe_content import SAFE, YT
 from videos import showcase
 import updates_330
+import pobview
 e = html.escape
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 clean = lambda s: re.sub(r'\^x[0-9A-Fa-f]{6}|\^\d', '', s or '').strip()
@@ -59,25 +60,24 @@ def build_P(T, b, root):
     return dict(start=start, alloc=alloc, mpick=mpick, asel=asc_nodes, url=url, counts=counts,
                 total=sum(counts.values()) + len(mpick), order=order, specs=specs, final=final_idx)
 
-def gems_html(root):
-    out = []
-    for i, ss in enumerate(root.find('Skills').findall('SkillSet') or [root.find('Skills')]):
-        rows = []
+SLOT_PT = {'Body Armour': 'Peito', 'Helmet': 'Elmo', 'Gloves': 'Luvas', 'Boots': 'Botas', 'Weapon 1': 'Arma', 'Weapon 2': 'Arma 2 / escudo',
+           'Weapon 1 Swap': 'Arma (troca)', 'Weapon 2 Swap': 'Arma 2 (troca)', 'Amulet': 'Amuleto', 'Ring 1': 'Anel', 'Ring 2': 'Anel 2'}
+
+def gems_html(root, cls, key):
+    sets = []
+    for ss in root.find('Skills').findall('SkillSet') or [root.find('Skills')]:
+        groups = []
         for sk in ss.findall('Skill'):
-            gems = [g for g in sk.findall('Gem') if g.get('nameSpec')]
-            if not gems or sk.get('enabled') == 'false': continue
-            gs = []
-            for j, g in enumerate(gems):
-                if g.get('enabled') == 'false': continue
-                cls = 'gem' + (' main' if j == 0 and len(gems) >= 4 else '')
-                gs.append(f'<span class="{cls}">{e(g.get("nameSpec"))}</span>')
+            if sk.get('enabled') == 'false': continue
+            gs = [g.get('nameSpec') for g in sk.findall('Gem') if g.get('nameSpec') and g.get('enabled') != 'false']
             if not gs: continue
-            label = clean(sk.get('label') or sk.get('slot') or '')
-            rows.append(f'<div class="setup"><div class="role">{e(label or "Links")}<small>{len(gs)} gemas</small></div><div class="links">{"<i class=chain></i>".join(gs)}</div></div>')
-        if rows:
-            title = clean(ss.get('title')) or 'Gemas'
-            out.append(f'<details class="craft"{" open" if i < 1 else ""}><summary><b>{e(title)}</b></summary><div class="craft-body"><div class="setups">{"".join(rows)}</div></div></details>')
-    return '<div class="crafts">' + ''.join(out) + '</div>'
+            slot = clean(sk.get('slot') or '')
+            label = clean(sk.get('label') or '')
+            groups.append((gs, label or SLOT_PT.get(slot, slot)))
+        groups.sort(key=lambda g: -len(g[0]))
+        if groups:
+            sets.append((clean(ss.get('title')) or 'Gemas', groups))
+    return pobview.view(key, sets, cls, label='Fase')
 
 def items_html(root):
     it = root.find('Items'); items = {i.get('id'): i for i in it.findall('Item')}
@@ -145,7 +145,7 @@ def page(T, b, head):
   <div class="phases">{phases}</div>
   <h3 style="margin-top:18px">Masteries</h3><div class="tbl" style="margin-top:8px"><table><thead><tr><th>Mastery</th><th>Escolha</th></tr></thead><tbody>{mrows}</tbody></table></div>
 </section>
-<section id="gemas"><h2>Gemas e links por fase</h2><p>Cada bloco é um conjunto de gemas do guia (por ato ou por fase da liga).</p>{gems_html(root)}</section>
+<section id="gemas"><h2>Gemas e links por fase</h2><p>Escolha a fase (ou o ato) no seletor. Passe o mouse ou toque numa gema para ver o nível mínimo e onde conseguir.</p>{gems_html(root, b['cls'], 'gemas-' + b['slug'])}</section>
 <section id="equipamento"><h2>Equipamento do guia</h2><p>"Raro" é item raro com os status do guia; abra o PoB para ver os mods de cada um.</p>{items_html(root)}</section>
 <section id="liga"><h2>Na Covens of Umbra</h2><div class="cols"><div><h3 class="good">Rode</h3><ul>{good}</ul></div><div><h3 class="badc">Cuidado</h3><ul>{bad}</ul></div></div></section>
 <footer>Build de {e(b["author"])}. Dados do <a href="{e(pob)}" target="_blank" rel="noopener">Path of Building do guia</a>; árvore desenhada com os dados 3.29 do Path of Building Community. Confira o guia original para detalhes de leveling e craft.</footer>

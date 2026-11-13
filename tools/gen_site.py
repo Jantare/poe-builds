@@ -28,6 +28,7 @@ def head(title, desc, depth):
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="{up}assets/style.css">
 <script src="{up}assets/nav.js" defer></script>
+<script src="{up}assets/pobview.js" defer></script>
 </head>
 <body>
 <header class="topbar"><div class="in">
@@ -105,17 +106,13 @@ def tree_section(slug, b):
   <div class="tbl" style="margin-top:8px"><table><thead><tr><th>Mastery</th><th>Escolha</th></tr></thead><tbody>{mrows}</tbody></table></div>
 </section>'''
 
-def gem_html(rows):
-    out = []
+def gem_html(rows, cls, key):
+    import pobview
+    groups = []
     for role, sub, gems in rows:
-        gs = []
-        for g in gems:
-            cls = 'gem'
-            if g.endswith('*'): g = g[:-1]; cls += ' main'
-            if g.endswith(':g'): g = g[:-2]; cls += ' g'
-            gs.append(f'<span class="{cls}">{e(g)}</span>')
-        out.append(f'<div class="setup"><div class="role">{e(role)}<small>{e(sub)}</small></div><div class="links">{"<i class=chain></i>".join(gs)}</div></div>')
-    return '<div class="setups">' + ''.join(out) + '</div>'
+        gs = [re.sub(r'(\*|:g)+$', '', g) for g in gems]
+        groups.append((gs, f'{role} · {sub}' if sub else role))
+    return pobview.view(key, [('Gemas', groups)], cls)
 
 def build_page(b, P_tree):
     P, tree_html = P_tree
@@ -140,7 +137,7 @@ def build_page(b, P_tree):
 {showcase(b["slug"], b["name"])}
 <section id="porque"><h2>Por que nessa liga</h2><div class="why">{why}</div></section>
 {tree_html}
-<section id="gemas"><h2>Gemas e links</h2>{gem_html(b["gems"])}</section>
+<section id="gemas"><h2>Gemas e links</h2>{gem_html(b["gems"], b["cls"], "gemas-" + b["slug"])}</section>
 <section id="equipamento"><h2>Equipamento por orçamento</h2><div class="tbl"><table><thead><tr><th>Slot</th><th><span class="tier t1">Barato</span></th><th><span class="tier t2">Médio</span></th><th><span class="tier t3">Final</span></th></tr></thead><tbody>{gear}</tbody></table></div></section>
 <section id="craft"><h2>Craft</h2><p>Abra no simulador já configurado:</p><div class="presets">{craft}</div>
 <p class="note" style="margin-top:12px">O passo a passo geral de craft (fossils, travar afixo, Harvest) está na página do <a href="trickster-spark.html#craft">Trickster Spark</a> e vale para estas peças também.</p></section>

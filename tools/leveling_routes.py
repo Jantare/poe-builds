@@ -2,6 +2,7 @@
 import os, re, html, xml.etree.ElementTree as ET
 from videos import showcase
 import gen_safe
+import pobview
 e = html.escape
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 clean = lambda s: re.sub(r'\^x[0-9A-Fa-f]{6}|\^\d', '', s or '').strip()
@@ -46,26 +47,15 @@ def route_html(r):
     with open(os.path.join(ROOT, 'data/pob', r['xml']), 'rb') as f:
         gen_safe.write_code('lvl-' + r['key'], f.read())
     sets = sets_of(r)
-    chips = ''.join(f'<a href="#{r["key"]}-{i}">{e(act_label(t).split(":")[0])}</a>' for i, (t, _) in enumerate(sets))
-    cards = []
-    for i, (t, rows) in enumerate(sets):
-        lines = []
-        linked = [g for g in rows if len(g) > 1]
-        singles = [g[0] for g in rows if len(g) == 1]
-        for j, g in enumerate(linked[:5]):
-            gs = '<i class=chain></i>'.join(f'<span class="gem{" main" if k == 0 and j == 0 else ""}">{e(x)}</span>' for k, x in enumerate(g))
-            lines.append(f'<div class="links">{gs}</div>')
-        if singles:
-            lines.append('<div class="links"><span class="sub" style="margin-right:4px">Também:</span>' + ''.join(f'<span class="gem">{e(x)}</span>' for x in singles) + '</div>')
-        cards.append(f'<div class="actcard" id="{r["key"]}-{i}"><h4>{e(act_label(t))}</h4>{"".join(lines)}</div>')
+    acts = pobview.view(r['key'], [(act_label(t), [(g, '') for g in rows]) for t, rows in sets], 'Shadow',
+                        extra='<a href="#troca">Troca para Spark →</a>')
     pros = ''.join(f'<li>{e(p)}</li>' for p in r['pros']); cons = ''.join(f'<li>{e(c)}</li>' for c in r['cons'])
     vid = showcase('lvl-' + r['key'], r['name']).replace('<section id="showcase"><h2>Showcase</h2>', '').replace('</section>', '')
     return f'''<div class="route" id="rota-{r["key"]}">
   <div class="mhead"><h3>{e(r["name"])}</h3><div class="tags"><span class="pill {"ok" if r["tag"] == "Recomendada" else "new"}">{e(r["tag"])}</span><span class="pill">{e(r["author"])} · {e(r["league"])}</span></div></div>
   <p>{e(r["intro"])}</p>
   <div class="cols"><div><h4 class="good">A favor</h4><ul>{pros}</ul></div><div><h4 class="badc">Contra</h4><ul>{cons}</ul></div></div>
-  <div class="jump" aria-label="Ir para o ato">{chips}<a href="#troca">Troca para Spark</a></div>
-  <div class="acts2">{"".join(cards)}</div>
+  {acts}
   <div class="routefoot">
     {gen_safe.pob_button('lvl-' + r['key']).replace('Copiar código do PoB', 'Copiar PoB desta rota')}
     <p class="sub">Fonte: <a href="{e(r["guide"])}" target="_blank" rel="noopener">guia de {e(r["author"])}</a> · <a href="https://pobb.in/{e(r["pobb"])}" target="_blank" rel="noopener">PoB no pobb.in</a> · <a href="https://www.youtube.com/watch?v={e(r["video"])}" target="_blank" rel="noopener">vídeo</a></p>
