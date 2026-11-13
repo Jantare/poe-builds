@@ -1,9 +1,9 @@
 /* Links "Comprar" para o site de trade oficial. A busca fica em data-q; aqui juntamos com a liga escolhida.
    O nome da liga no trade só é confirmado quando a liga abre; dá para trocar no seletor (fica salvo neste navegador). */
 (function () {
-  var DEFAULT = 'Covens of Umbra';
+  var DEFAULT = 'Covens';
   var LEAGUES = [DEFAULT, 'Hardcore ' + DEFAULT, 'Standard', 'Hardcore'];
-  var KEY = 'poebuilds.tradeLeague';
+  var KEY = 'poebuilds.tradeLeague2';
   var links = document.querySelectorAll('a.buy[data-q]');
   var sels = document.querySelectorAll('select.tradelg');
   if (!links.length) return;
