@@ -7,6 +7,8 @@ Baú do PoE Builds: mostra quanto vale o seu baú do Path of Exile 1 em Chaos e 
 - Preços: API pública de economia do poe.ninja (cache local de 15 minutos).
 - Configuração, snapshots e histórico ficam na mesma pasta deste arquivo (ou do bau.exe).
 
+- Verificador de preço (opcional): aperte Ctrl+C num item do jogo e o preço aparece perto do mouse (precheck.py).
+
 Uso:  bau.exe  ou  python bau.py   (abre o app no navegador)
       python bau.py --cli          (versão de terminal)
       python bau.py --demo         (gera exemplo.json com itens fictícios e preços reais)
@@ -14,6 +16,8 @@ Só usa a biblioteca padrão do Python 3.8+.
 """
 import json, os, sys, time, getpass, re, urllib.request, urllib.parse, urllib.error, webbrowser
 from datetime import datetime
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import precheck
 
 FROZEN = getattr(sys, 'frozen', False)  # rodando como bau.exe (PyInstaller)
 HERE = os.path.dirname(sys.executable if FROZEN else os.path.abspath(__file__))  # onde ficam config e snapshots
@@ -579,6 +583,7 @@ TOKEN = secrets.token_urlsafe(24)
 LAST_PING = [time.time()]
 JOB = {'running': False, 'done': 0, 'total': 0, 'label': '', 'error': '', 'finished': None}
 LOG = os.path.join(HERE, 'bau.log')
+CHECKER = None  # verificador de preço (precheck.Checker), criado no app_main
 
 
 def log(msg):
@@ -600,6 +605,12 @@ def read_json(path, default):
 def public_config(cfg):
     return {'account': cfg.get('account', ''), 'league': cfg.get('league', ''), 'tabs': cfg.get('tabs', []),
             'has_session': bool(cfg.get('poesessid') or cfg.get('_session_only')), 'session_saved': bool(cfg.get('poesessid'))}
+
+
+def pricecheck_state(cfg):
+    c = CHECKER
+    return {'enabled': bool(c and c.enabled), 'status': c.status if c else 'desligado',
+            'league': cfg.get('league') or 'Standard', 'last': c.last if c else None}
 
 
 def list_snapshots():
@@ -688,7 +699,7 @@ class Handler(BaseHTTPRequestHandler):
             except Exception:
                 pass
             return self._send(200, {'config': public_config(cfg), 'leagues': leagues, 'latest': latest, 'history': hist,
-                                    'snapshots': list_snapshots(), 'job': JOB})
+                                    'snapshots': list_snapshots(), 'job': JOB, 'pricecheck': pricecheck_state(cfg)})
         if path == '/api/snapshot':
             name = urllib.parse.parse_qs(self.path.split('?', 1)[-1]).get('f', [''])[0]
             if name not in list_snapshots():
@@ -696,6 +707,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200, read_json(os.path.join(SNAPS, name), None))
         if path == '/api/progress':
             return self._send(200, JOB)
+        if path == '/api/pricecheck':
+            return self._send(200, pricecheck_state(cfg))
         if path == '/api/ping':
             LAST_PING[0] = time.time()
             return self._send(200, {'ok': True})
@@ -740,6 +753,17 @@ class Handler(BaseHTTPRequestHandler):
                     return self._send(400, {'error': 'Conecte sua conta primeiro.'})
                 threading.Thread(target=refresh_job, args=(cfg,), daemon=True).start()
                 return self._send(200, {'started': True})
+            if path == '/api/pricecheck':
+                lg = (b.get('league') or '').strip()
+                if lg:
+                    cfg['league'] = lg
+                cfg['price_check'] = bool(b.get('enabled'))
+                save_config({k: v for k, v in cfg.items() if not k.startswith('_')})
+                CHECKER.set(cfg['price_check'], cfg.get('league') or 'Standard')
+                return self._send(200, pricecheck_state(cfg))
+            if path == '/api/pricecheck/test':
+                CHECKER.test(precheck.SAMPLE)
+                return self._send(200, {'ok': True})
             if path == '/api/forget':
                 cfg.pop('poesessid', None); cfg.pop('_session_only', None)
                 save_config({k: v for k, v in cfg.items() if not k.startswith('_')})
@@ -765,12 +789,16 @@ def app_main():
     if already_running():
         webbrowser.open(f'http://127.0.0.1:{PORT}/')  # já aberto: só mostra de novo
         return
+    global CHECKER
     Handler.cfg = load_config()
     srv = ThreadingHTTPServer(('127.0.0.1', PORT), Handler)
-    def watchdog():  # fecha sozinho uns minutos depois que a página foi fechada
+    CHECKER = precheck.Checker(load_prices, price_item, log)
+    if Handler.cfg.get('price_check'):
+        CHECKER.set(True, Handler.cfg.get('league') or 'Standard')
+    def watchdog():  # fecha sozinho uns minutos depois que a página foi fechada (menos com o verificador ligado)
         while True:
             time.sleep(30)
-            if time.time() - LAST_PING[0] > 300 and not JOB['running']:
+            if time.time() - LAST_PING[0] > 300 and not JOB['running'] and not CHECKER.enabled:
                 srv.shutdown(); return
     threading.Thread(target=watchdog, daemon=True).start()
     url = f'http://127.0.0.1:{PORT}/'
@@ -781,7 +809,27 @@ def app_main():
     srv.serve_forever()
 
 
+def selftest_precos():
+    """Usado pelo GitHub Actions no .exe: testa a leitura do item e abre a janelinha por 2 segundos."""
+    out = []
+    try:
+        P = {'exchange': {'divine orb': (180.0, 'Currency')}, 'items': {}, 'icons': {}, 'divine': 180.0}
+        r = precheck.evaluate(precheck.SAMPLE, P, 'Standard', price_item)
+        out.append('parse ' + ('ok' if r and r['lines'] and r['lines'][0][1] == '1,00 divine' else 'fail ' + repr(r)))
+        c = precheck.Checker(lambda lg: P, price_item, log)
+        c.P, c.P_league, c.P_time = P, 'Standard', time.time()
+        c.test(precheck.SAMPLE)
+        time.sleep(2.5)
+        out.append('window ' + ('ok' if c.last and c._thread.is_alive() else 'fail'))
+    except Exception as e:
+        out.append('error ' + repr(e))
+    with open(os.path.join(HERE, 'selftest.txt'), 'w', encoding='utf-8') as f:
+        f.write('\n'.join(out))
+
+
 def main():
+    if '--selftest-precos' in sys.argv:
+        return selftest_precos()
     if '--cli' in sys.argv or '--demo' in sys.argv:
         try:
             cli_main()

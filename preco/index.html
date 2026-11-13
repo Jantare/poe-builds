@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verificador de Preço · PoE Builds</title>
+<meta name="description" content="Como ver o preço dos itens do Path of Exile 1 dentro do jogo: o verificador do Meu Baú (Ctrl+C) e o Awakened PoE Trade (Ctrl+D).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/nav.js" defer></script>
+<style>
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:center}
+@media (max-width:820px){.hero{grid-template-columns:1fr}}
+.pop{justify-self:center;background:#0d1320;border:1px solid #a07a4c;border-radius:4px;padding:12px 14px;min-width:240px;box-shadow:0 0 34px rgba(92,170,255,.18);font-family:"Segoe UI",var(--f-body)}
+.pop .t{color:#e2a35a;font-weight:700}
+.pop .r{display:flex;justify-content:space-between;gap:20px;margin-top:6px}
+.pop .r span{color:#9aa6bd}.pop .r b{color:#f0d28c;font-size:17px}
+.pop .s{color:#6f7a90;font-size:11.5px;margin-top:6px}
+.pop .l{color:#5caaff;font-size:13px;text-decoration:underline;margin-top:8px}
+.opt{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:14px}
+.opt>div{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:16px;min-width:0}
+.opt h3{margin:0 0 4px}
+.opt ol{margin:10px 0 0;padding-left:20px;display:grid;gap:8px}
+.keys kbd{font-family:var(--f-mono);font-size:12.5px;background:var(--sunken);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="in">
+  <a class="brand" href="../">PoE Builds</a>
+  <div class="links"><a href="../">Início</a><a href="../#builds">Seguras</a><a href="../#apostas">Apostas</a><a href="../farm/">Farm</a><a href="../craft/">Craft</a><a href="../bau/">Baú</a><a href="./" aria-current="page">Preço</a></div>
+</div></header>
+
+<div class="wrap wide">
+<header class="hero">
+  <div>
+    <div class="eyebrow">Path of Exile 1 · dentro do jogo</div>
+    <h1>Verificador de preço</h1>
+    <p class="lede">Passe o mouse em cima do item, aperte um atalho e o preço aparece por cima do jogo. Tem dois jeitos: o verificador do nosso <b>Meu Baú</b> (simples, só copia o item) e o <b>Awakened PoE Trade</b> (completo, faz preço até de item raro).</p>
+  </div>
+  <div class="pop" aria-hidden="true">
+    <div class="t">Headhunter — Leather Belt</div>
+    <div class="r"><span>Preço</span><b>15,00 divine</b></div>
+    <div class="s">Uniques · poe.ninja · Covens of Umbra</div>
+    <div class="l">Buscar no trade ↗</div>
+  </div>
+</header>
+
+<section id="opcoes">
+  <h2>Qual usar</h2>
+  <div class="tbl fit"><table class="split narrow"><colgroup><col style="width:28%"><col style="width:36%"><col style="width:36%"></colgroup>
+    <thead><tr><th></th><th>Meu Baú</th><th>Awakened PoE Trade</th></tr></thead>
+    <tbody>
+      <tr><td>Atalho</td><td><b>Ctrl+C</b> (o do próprio jogo)</td><td><b>Ctrl+D</b> (segura Ctrl e aperta D)</td></tr>
+      <tr><td>Currency, cartas, essências, fragmentos</td><td>Sim (poe.ninja)</td><td>Sim (poe.ninja e trade)</td></tr>
+      <tr><td>Uniques, gemas, mapas</td><td>Sim (poe.ninja)</td><td>Sim, com filtros de links, nível e qualidade</td></tr>
+      <tr><td>Raros e bases</td><td>Só abre a busca no site de trade</td><td>Sim: busca anúncios parecidos e mostra os preços</td></tr>
+      <tr><td>Instalar</td><td>Não: é o mesmo <code>bau.exe</code></td><td>Sim: instalador para Windows</td></tr>
+      <tr><td>Mexe no jogo?</td><td>Não. Só lê o que você copiou</td><td>Manda o Ctrl+C para o jogo por você</td></tr>
+    </tbody></table></div>
+  <p class="note" style="margin-top:12px"><strong>Recomendação:</strong> para quem está começando, o Meu Baú já resolve currency, cartas e uniques. Quando você começar a vender e comprar raros, instale o Awakened. Se usar os dois ao mesmo tempo, <b>desligue o verificador do Meu Baú</b>: o Ctrl+D do Awakened também copia o item, e apareceriam duas janelas.</p>
+</section>
+
+<section id="meubau">
+  <h2>Opção 1: verificador do Meu Baú</h2>
+  <div class="opt">
+    <div>
+      <h3>Ligar</h3>
+      <ol>
+        <li>Baixe e abra o <a href="https://github.com/Jantare/poe-builds/releases/latest/download/bau.exe">bau.exe</a> (o mesmo do <a href="../bau/">Meu Baú</a>). Ele abre uma página no navegador.</li>
+        <li>No quadro <b>Verificador de preço</b>, escolha a liga e clique em <b>Ligar</b>. Não precisa conectar a conta nem do POESESSID.</li>
+        <li>Clique em <b>Testar com uma Divine Orb</b>: a janelinha deve aparecer perto do mouse.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>Usar no jogo</h3>
+      <ol class="keys">
+        <li>Deixe o jogo em <b>Windowed Fullscreen</b> (Options → Graphics → Display Mode) ou em janela. Em tela cheia exclusiva, a janelinha fica atrás do jogo.</li>
+        <li>Passe o mouse no item e aperte <kbd>Ctrl</kbd>+<kbd>C</kbd>. O preço aparece por 8 segundos; clique nela para fechar.</li>
+        <li>Item raro ou sem preço: clique em <b>Buscar no trade</b> e o site de trade abre com a base já pesquisada.</li>
+      </ol>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:10px">Os preços vêm do poe.ninja e são atualizados a cada 15 minutos. Nos primeiros dias de liga, o poe.ninja pode demorar algumas horas para ter a liga nova. Com o verificador ligado, o app continua aberto mesmo depois de fechar a página; para fechar, abra o bau.exe de novo e clique em <b>Fechar o app</b>.</p>
+</section>
+
+<section id="awakened">
+  <h2>Opção 2: Awakened PoE Trade</h2>
+  <p>Programa gratuito e de código aberto, usado pela maioria dos jogadores há várias ligas. Faz preço de qualquer item, inclusive raros, consultando o site de trade oficial.</p>
+  <div class="opt">
+    <div>
+      <h3>Instalar</h3>
+      <ol>
+        <li>Baixe na <a href="https://snosme.github.io/awakened-poe-trade/download" target="_blank" rel="noopener">página oficial de download</a> (ou nos <a href="https://github.com/SnosMe/awakened-poe-trade/releases/latest" target="_blank" rel="noopener">releases do GitHub</a>). Use só esses links: cópias de outros sites podem ter vírus.</li>
+        <li>Instale e abra. Ele fica no canto da barra de tarefas, perto do relógio.</li>
+        <li>Abra o jogo em <b>Windowed Fullscreen</b>. Na primeira vez, aperte <b>Shift+Space</b> com o jogo aberto para abrir as configurações e escolha a liga.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>Atalhos padrão</h3>
+      <ol class="keys">
+        <li>Segure <kbd>Ctrl</kbd> e aperte <kbd>D</kbd> em cima do item: mostra o preço.</li>
+        <li><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>D</kbd>: abre o preço numa janela fixa, para ajustar os filtros com calma.</li>
+        <li>Em item raro, marque os mods que importam e clique em <b>Search</b>: ele mostra os anúncios parecidos mais baratos.</li>
+      </ol>
+    </div>
+  </div>
+  <p class="note" style="margin-top:12px"><strong>No dia do lançamento:</strong> a versão mais recente do Awakened ainda é a da 3.29 (v3.29.108). Ela costuma funcionar, mas itens e mods novos da 3.30 podem não ser reconhecidos até sair a atualização, que ele baixa sozinho ao abrir.</p>
+</section>
+
+<section id="seguranca">
+  <h2>Segurança</h2>
+  <div class="why">
+    <div><h3>Regras da GGG</h3><p>A GGG permite ferramentas que fazem uma ação por tecla apertada. O verificador do Meu Baú nem manda teclas: você aperta o Ctrl+C e ele só lê o texto copiado.</p></div>
+    <div><h3>Sem login</h3><p>Nenhum dos dois pede sua senha nem o POESESSID para ver preço. Desconfie de qualquer programa que peça.</p></div>
+    <div><h3>Código aberto</h3><p>Os dois têm o código público: <a href="https://github.com/Jantare/poe-builds/blob/main/bau/precheck.py" target="_blank" rel="noopener">verificador do Meu Baú</a> e <a href="https://github.com/SnosMe/awakened-poe-trade" target="_blank" rel="noopener">Awakened PoE Trade</a>.</p></div>
+  </div>
+</section>
+
+<footer>Preços: <a href="https://poe.ninja/" target="_blank" rel="noopener">poe.ninja</a> e <a href="https://www.pathofexile.com/trade" target="_blank" rel="noopener">trade oficial</a>. Não é afiliado à Grinding Gear Games nem ao Awakened PoE Trade.</footer>
+</div>
+</body>
+</html>
