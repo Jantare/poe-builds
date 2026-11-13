@@ -18,6 +18,8 @@ U = {
     'Warden de verdade na 3.30, com raio corpo a corpo como a nossa ideia: Static Strike of Gathering Lightning + Trinity + Nightblade + Inspiration. Sobe com Rain of Arrows e troca para Static Strike. Usa Oath of Summer, Oath of Winter, Experienced Herbalist e Enduring Suffusion. Para seguir uma Warden pronta, este é o PoB mais concreto.')],
    leveling='Rain of Arrows na campanha e Static Strike depois, como no guia do tay6k.'),
  'hierophant-ballista': dict(status='Sem Artillery Ballista na 3.30; o POEGuy tem a versão de Explosive Arrow', items=[
+   ('Atualização do POEGuy (Explosive Arrow Ballista)', 'POEGuy', '12/11', 'kJWbSFeivHU', None, None,
+    'Vídeo novo do POEGuy: segundo o título, a build de Ballista dele não levou nerf e ganhou um buff importante na 3.30. Mesmo Hierophant e mesmos nós de totem da nossa aposta.'),
    ('Explosive Arrow Ballista Hierophant', 'POEGuy', '12/11', 'ds53La1IMD4', 'kQGOsJn7IbQX', 'upd-kQGOsJn7IbQX.xml',
     'O guia de totem de arco mais visto da 3.30. Mesmo Hierophant e mesmos nós de totem; troca a Artillery Ballista por Explosive Arrow com Ballista Totem.')],
    leveling='Holy Flame Totem nos Atos 1–3 (com Ancestral Bond) e Ballista do Ato 3 em diante, como no guia do POEGuy.'),
@@ -30,6 +32,8 @@ U = {
  'earthshatter-berserker': dict(status='Ainda sem guia 3.30 de Earthshatter; o da 3.29 continua sem nerf', items=[],
    leveling='O PoB do The Wanderer começa no nível 75. Na campanha, use slams de leveling como no início do guia de RF do Pohx (Sunder ou Ground Slam + Chance to Bleed + Faster Attacks) até ter o Earthshatter com 4 links.'),
  'poison-srs-necromancer': dict(status='Saíram guias 3.30 de SRS', items=[
+   ('Guia de campanha de SRS (Mobalytics)', 'ExFluent', '12/11', 'RrtlVywToJA', None, None,
+    'Vídeo do ExFluent com o SRS de league start da 3.30 e um guia passo a passo no Mobalytics, do Ato 1 até os mapas (link na descrição). Bom complemento para o leveling desta página.'),
    ('Summon Raging Spirit Necromancer', 'LugoHQ e ExFluent', '11–12/11', 'Az9S_0sLcEE', '09K3EJQY0Jyj', 'upd-09K3EJQY0Jyj.xml',
     'Os dois usam o mesmo PoB da 3.30 (4,5 mil de vida no do LugoHQ). Bom para comparar com o do BalorMage desta página, que tem as árvores de leveling.')],
    leveling='Já incluído: o PoB do BalorMage tem árvores de 12, 30, 50 e 70 pontos e gemas por ato.'),
@@ -45,7 +49,9 @@ U = {
    leveling='Use a rota do Palsteron (acima): árvore por ato e Holy Flame Totem/Fireball na campanha. O Freezing Pulse do ImSidVicious continua como alternativa.'),
  'toxic-rain-pathfinder': dict(status='Atualizado para a versão 3.30 do PathofEvening', items=[],
    leveling='Já incluído: Caustic Arrow (1–12) e Toxic Rain do nível 12 em diante, com árvores do Ato 1 ao endgame.'),
- 'yt-ballista-hierophant': dict(status='PoB atualizado pelo POEGuy em 12/11', items=[],
+ 'yt-ballista-hierophant': dict(status='PoB atualizado pelo POEGuy em 12/11 e vídeo novo sem nerf', items=[
+   ('Atualização da build (vídeo)', 'POEGuy', '12/11', 'kJWbSFeivHU', None, None,
+    'Vídeo novo do POEGuy sobre o starter dele na 3.30. Pelo título, a build não levou nerf e ganhou um buff importante; nas notas da 3.30, a mudança que mais combina é a Artillery Quiver (+1 totem para skills de ataque). O guia escrito no poe-vault (link na descrição) é onde ele atualiza a build.'),],
    leveling='Já incluído: Holy Flame Totem nos Atos 1–3 e Explosive Arrow Ballista do Ato 3 ao 10.'),
  'yt-absolution-necromancer': dict(status='Sem mudanças desde o vídeo (já é da 3.30)', items=[], leveling='Já incluído: árvore e gemas por ato.'),
  'yt-cyclone-necromancer': dict(status='Sem mudanças desde o vídeo (já é da 3.30)', items=[], leveling='Já incluído: minions na campanha e Cyclone com Soulwrest no fim.'),
