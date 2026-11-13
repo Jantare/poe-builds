@@ -166,10 +166,44 @@ COMBOS = [
        'Outside Entities com a Viridian Wildwood (+50% de Tribute) e Blended Realities com a Sacred Flora.',
        'Ritmo mais calmo que a Legion: bom para builds mais lentas ou mais tanques.'],
   build='RF, Earthshatter, Storm Burst, builds de minion.'),
+ dict(key='poeguy', fixed='poeguy-330.txt', name='Blight + Ultimatum + Minério (POEGuy)', tag='Árvore de criador', author='POEGuy',
+  when='Progressão do Atlas segundo o guia dele',
+  video='https://www.youtube.com/watch?v=IRAJSTKWyWM',
+  planner='https://poeplanner.com/atlas-tree/BQAeAACOAGEf-CtjD2XiGaZ0acBFePiUVujcuMo9JN6itLEl-Z0JRJW7LiySQG9doBo4Sgkz_c1TXurzWyt4TyzSSB4aUSiYvPvxASUkwV6dmtg6Psn9MHZ9WkgTCgvMtx19t13lpn2RpsEOSt7-2hSiUrcieYRN19t-A7mjD4MzCEB7YMKqh50qXtaa5br3Mkoh9vtj4QKKvceOOX4306WCUSRqC5HxavCAf-Kzx-euPkYSFNMCVrgVQvuxzWnhWX21llrEhUZdFeBe3xB3ThvgDMsXKNWC6MmIJDKRzsQfru-RiZNh_bXw_RiLC3EfybnE_W2P5RQX2voda_e3nj3VaRjUhpB4Ww9oEoo_CIYGB_vUbEBo5DNvOD77dri51NAoFAAfiwgAAAAAAAADAwAAAAAAAAAAAA==',
+  phases=[('Sustento de mapas', ['Shaping the World', 'Shaping the Skies']),
+          ('Blight', ["Cassia's Pride", 'Rampant Infection', 'Sprawling Veins', 'Immunosuppression', 'Epidemiology', 'Biological Vector', 'Mycelial Swarm', 'Templar Ingenuity']),
+          ('Ultimatum', ['Ruinous Wager', 'Stand Your Ground', 'Prove Yourself Worthy', "Trialmaster's Boon", 'Controlled Chaos', 'Bound for Utzaal', 'Trial by Fire']),
+          ('Minério (Kingsmarch)', ["Prospector's Luck", 'Yield Upon Yield', "Fortune's Favour", 'Mineral Influence', 'Verisium Infusion', 'Lost in Transit']),
+          ('Altares do Eater of Worlds', ['Eldritch Gaze', 'The Shadow of Hunger', 'Rampant Growth'])],
+  threads='Blight e Ultimatum. Os altares do Eater of Worlds podem soltar Blight Threads, e a árvore reforça esses altares (Eldritch Gaze): o ciclo se alimenta.',
+  why=["Blight com o keystone Cassia's Pride: os monstros levam 75% menos dano de você, mas as torres ficam muito mais fortes. Você joga só com as torres, então funciona até com build fraca.",
+       'Ultimatum com Ruinous Wager: os monstros causam 50% menos dano, mas você falha com 7 de Ruin. Recompensa maior por rodada.',
+       'Minério: mais Ore Deposits nos mapas para os envios de Kingsmarch (gold e itens).',
+       'Não tem Legion nem Ritual: é outra linha de farm, boa para variar ou se o preço de Blighted Maps e catalisadores estiver alto.'],
+  build='Qualquer build no Blight (as torres fazem o trabalho). No Ultimatum, builds tanques.'),
 ]
 
 def combo_html(c):
     ph = [p for _, p in c['phases']]
+    if c.get('fixed'):  # árvore de um criador: nós exatos, sem recalcular caminho
+        ids = open(os.path.join(ROOT, 'data', 'atlas', c['fixed'])).read().split(',')
+        alloc = {ATLAS.start: 0, **{k: 1 for k in ids}}
+        byname = {ATLAS.N[k]['name']: k for k in ids}
+        badges = {byname[t]: i for i, grp in enumerate(ph, 1) for t in grp if t in byname}
+        cum = [len(ids)]
+        RENDER(ATLAS, alloc, badges, os.path.join(IMG, f'combo-{c["key"]}.webp'), max_w=2200)
+        rows = ''.join(f'<tr><td><span class="num">{i + 1}</span> <b>{e(n)}</b></td><td>{names(g)}.</td></tr>' for i, (n, g) in enumerate(c['phases']))
+        why = ''.join(f'<li>{e(w)}</li>' for w in c['why'])
+        return f'''<div class="route" id="combo-{c["key"]}">
+  <div class="mhead"><h3>{e(c["name"])}</h3><div class="tags"><span class="pill new">{e(c["tag"])}</span><span class="pill">{len(ids)} de 150 pontos</span></div></div>
+  <p class="sub">{e(c["when"])} · árvore de <a href="{e(c["video"])}" target="_blank" rel="noopener">{e(c["author"])}</a> (<a href="{e(c["planner"])}" target="_blank" rel="noopener">poeplanner</a>)</p>
+  <p><b>Threads:</b> {e(c["threads"])}</p>
+  <h4 style="margin-top:6px">O que ela faz</h4><ul class="atl">{why}</ul>
+  <div class="tbl fit" style="margin-top:10px"><table class="split narrow"><colgroup><col style="width:30%"><col style="width:70%"></colgroup><thead><tr><th>Bloco</th><th>Nós principais</th></tr></thead><tbody>{rows}</tbody></table></div>
+  <p style="margin-top:10px"><a class="treelink" href="{ATLAS.url(alloc)}" target="_blank" rel="noopener">Abrir no site oficial</a></p>
+  <figure class="atlasimg"><a href="img/combo-{c["key"]}.webp" target="_blank" rel="noopener"><img src="img/combo-{c["key"]}.webp" alt="Árvore do Atlas de {e(c["author"])}; o número em cada nó é o bloco da tabela." loading="lazy"></a><figcaption>Nós exatos da árvore do {e(c["author"])}. O número em cada nó é o bloco da tabela. Nos nós de escolha, a opção não vem no link. Toque para ampliar.</figcaption></figure>
+  <p class="sub" style="margin-top:8px"><b>Builds:</b> {e(c["build"])}</p>
+</div>'''
     alloc, per = ATLAS.plan(ph)
     cum = [sum(per[:i + 1]) for i in range(len(per))]
     badges = {}
