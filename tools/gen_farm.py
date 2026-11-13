@@ -258,3 +258,15 @@ else:
 if '<a href="#combos">' not in h:
     h = h.replace('<a href="#atlas">Atlas</a>', '<a href="#atlas">Atlas</a><a href="#combos">Combos</a>', 1)
 open(ip, 'w').write(h); print('combos', len(COMBOS))
+
+# ---- reserva o espaço das imagens (width/height) para a página não pular enquanto elas carregam ----
+import re as _re, glob as _glob
+from PIL import Image as _Image
+def _size(m):
+    src = m.group(1)
+    if 'width=' in m.group(0): return m.group(0)
+    w, h = _Image.open(os.path.join(ROOT, 'farm', src)).size
+    return f'<img src="{src}" width="{w}" height="{h}"'
+for f in _glob.glob(os.path.join(ROOT, 'farm', '*.html')):
+    t = open(f).read(); n = _re.sub(r'<img src="(img/[^"]+)"(?: width="\d+" height="\d+")?', _size, t)
+    if n != t: open(f, 'w').write(n)

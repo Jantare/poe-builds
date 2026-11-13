@@ -20,7 +20,14 @@
     targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top <= line) cur = i; });
     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = links.length - 1;
     links.forEach(function (a, i) {
-      if (i === cur) { a.setAttribute('aria-current', 'true'); if (sec.scrollWidth > sec.clientWidth) a.scrollIntoView({ block: 'nearest', inline: 'nearest' }); }
+      if (i === cur) {
+        a.setAttribute('aria-current', 'true');
+        if (sec.scrollWidth > sec.clientWidth) {
+          var l = a.offsetLeft - sec.offsetLeft, r = l + a.offsetWidth;
+          if (l < sec.scrollLeft) sec.scrollLeft = l - 12;
+          else if (r > sec.scrollLeft + sec.clientWidth) sec.scrollLeft = r - sec.clientWidth + 12;
+        }
+      }
       else a.removeAttribute('aria-current');
     });
   }
