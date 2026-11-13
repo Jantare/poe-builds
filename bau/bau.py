@@ -339,6 +339,10 @@ def norm(s):
     return re.sub(r'\s+', ' ', (s or '').strip().lower())
 
 
+APP_VERSION = '2026.11.13b'
+CURRENT_LEAGUES = ['Covens', 'Hardcore Covens']  # liga da vez: aparece mesmo se a GGG e o poe.ninja falharem
+
+
 def list_leagues():
     """Ligas de trade: lista oficial da GGG (tem a liga nova desde o primeiro minuto) + as do poe.ninja."""
     out = []
@@ -354,7 +358,13 @@ def list_leagues():
                 out.append(l['id'])
     except Exception:
         pass
-    return out or ['Standard']
+    for i, lg in enumerate(CURRENT_LEAGUES):
+        if lg not in out:
+            out.insert(i, lg)
+    for lg in ('Standard', 'Hardcore'):
+        if lg not in out:
+            out.append(lg)
+    return out
 
 
 def load_prices(league):
@@ -713,7 +723,7 @@ class Handler(BaseHTTPRequestHandler):
             hist = read_json(os.path.join(SNAPS, 'history.json'), [])
             latest = read_json(os.path.join(SNAPS, 'latest.json'), None)
             leagues = list_leagues()
-            return self._send(200, {'config': public_config(cfg), 'leagues': leagues, 'latest': latest, 'history': hist,
+            return self._send(200, {'version': APP_VERSION, 'config': public_config(cfg), 'leagues': leagues, 'latest': latest, 'history': hist,
                                     'snapshots': list_snapshots(), 'job': JOB, 'pricecheck': pricecheck_state(cfg)})
         if path == '/api/snapshot':
             name = urllib.parse.parse_qs(self.path.split('?', 1)[-1]).get('f', [''])[0]

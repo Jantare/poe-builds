@@ -413,7 +413,9 @@ th.num{text-align:right}
       $('toolbar').hidden = false;
       $('acc').value = c.account || ''; 
       var lgs = (st.leagues || []).slice(); if (c.league && lgs.indexOf(c.league) < 0) lgs.unshift(c.league); if (!lgs.length) lgs = ['Standard'];
-      $('lg').innerHTML = lgs.map(function (l) { return '<option' + (l === c.league ? ' selected' : '') + '>' + esc(l) + '</option>'; }).join('');
+      LGS = lgs;
+      $('eyebrow').textContent = 'App local · só no seu computador · versão ' + (st.version || 'antiga');
+      lgOptions($('lg'), c.league);
       $('sess').placeholder = c.has_session ? 'Já conectado (deixe vazio para manter)' : 'Cole aqui (32 letras e números)';
       $('sync').textContent = st.latest ? 'Sincronizado ' + ago(st.latest.time) + ' · ' + st.latest.league : '';
       pcRender(st.pricecheck, lgs);
@@ -423,10 +425,21 @@ th.num{text-align:right}
       return st;
     });
   }
-  var PC = null;
+  var PC = null, LGS = [];
+  function lgOptions(sel, cur) {
+    var l = LGS.slice(); if (cur && l.indexOf(cur) < 0) l.unshift(cur);
+    sel.innerHTML = l.map(function (x) { return '<option' + (x === cur ? ' selected' : '') + '>' + esc(x) + '</option>'; }).join('') + '<option value="__other">Outra liga…</option>';
+  }
+  function lgOther(sel, cur) {
+    if (sel.value !== '__other') return true;
+    var v = (window.prompt('Nome da liga, como aparece no jogo (ex.: Covens):', '') || '').trim();
+    if (!v) { sel.value = cur; return false; }
+    if (LGS.indexOf(v) < 0) LGS.unshift(v);
+    lgOptions(sel, v); return true;
+  }
   function pcRender(pc, lgs) {
     if (!pc) return; PC = pc; $('pcbox').hidden = false;
-    if (lgs) $('pclg').innerHTML = lgs.map(function (l) { return '<option' + (l === pc.league ? ' selected' : '') + '>' + esc(l) + '</option>'; }).join('');
+    if (lgs) lgOptions($('pclg'), pc.league);
     $('pcstate').textContent = pc.status; $('pcstate').className = 'pcstate' + (pc.enabled ? ' on' : '');
     $('pctoggle').textContent = pc.enabled ? 'Desligar' : 'Ligar';
     var l = pc.last;
@@ -451,7 +464,7 @@ th.num{text-align:right}
   }
   if (LOCAL) {
     document.querySelector('#sitelinks a').setAttribute('aria-current', 'page');
-    $('eyebrow').textContent = 'App local · só no seu computador';
+    $('eyebrow').textContent = 'App local · só no seu computador · versão antiga? feche e abra de novo';
     $('refresh').addEventListener('click', refresh);
     $('openconf').addEventListener('click', function () { $('connect').hidden ? openConnect() : ($('connect').hidden = true); });
     $('showsess').addEventListener('click', function () { var i = $('sess'); i.type = i.type === 'password' ? 'text' : 'password'; this.textContent = i.type === 'password' ? 'Mostrar' : 'Esconder'; });
@@ -484,7 +497,9 @@ th.num{text-align:right}
     $('pctoggle').addEventListener('click', function () {
       api('/api/pricecheck', { enabled: !(PC && PC.enabled), league: $('pclg').value }).then(function (pc) { pcRender(pc); }).catch(function (e) { showErr(e.message); });
     });
+    $('lg').addEventListener('change', function () { lgOther(this, (STATE && STATE.config.league) || 'Standard'); });
     $('pclg').addEventListener('change', function () {
+      if (!lgOther(this, PC ? PC.league : 'Standard')) return;
       if (PC && PC.enabled) api('/api/pricecheck', { enabled: true, league: $('pclg').value }).then(function (pc) { pcRender(pc); });
     });
     $('pctest').addEventListener('click', function () { api('/api/pricecheck/test', {}).then(function () { setTimeout(pcPoll, 1500); }); });
