@@ -235,8 +235,8 @@ button.treelink:disabled{opacity:.5;cursor:wait}
 .novideo{border:1px dashed var(--wood);border-radius:10px;padding:18px;color:var(--muted);font-size:14px}
 figure.showcase{margin:0}
 ol.steps{margin:0;padding-left:0;list-style:none;counter-reset:st;display:grid;gap:8px}
-ol.steps li{counter-increment:st;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:8px;padding:10px 12px;font-size:14.5px}
-ol.steps li::before{content:counter(st);font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--accent);text-shadow:0 0 10px var(--glow);line-height:1.2}
+ol.steps li{counter-increment:st;position:relative;padding-left:46px!important;background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:8px;padding:10px 12px;font-size:14.5px}
+ol.steps li::before{content:counter(st);position:absolute;left:14px;top:9px;font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--accent);text-shadow:0 0 10px var(--glow);line-height:1.2}
 ul.atl{margin:0;padding-left:18px;display:grid;gap:6px}
 .mlink{font-weight:600}
 .fit td:first-child{white-space:normal}
