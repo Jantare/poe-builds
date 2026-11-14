@@ -8,6 +8,7 @@ VIDEOS = {
  'yt-ballista-hierophant': ('zt5mwZTlRVI', 'Vídeo do POEGuy (3.30).'),
  'yt-absolution-necromancer': ('zotrvisDIuU', 'Vídeo do Travic (3.30).'),
  'yt-cyclone-necromancer': ('8X_geKpgCs8', 'Vídeo do Duleblade (3.30).'),
+ 'yt-blight-trickster': ('T6ChrWMQGZo', 'Vídeo do Ky (3.28): guia de league start da Blight of Contagion Trickster.'),
  'yt-animate-weapon-necromancer': ('WbDGNiNTJzI', 'Vídeo do Aleshxile (3.30).'),
  'yt-spark-saboteur': ('fN0Z-JV152M', 'Vídeo do Duleblade (3.30): parte 2 do Spark Saboteur, com mapa e Eater of Worlds.'),
  'trickster-spark': ('UIWNhYm03yg', 'Vídeo de referência: Spark Trickster contra Ubers (liga 3.26). Mostra a skill e o estilo; não é a nossa build exata.'),

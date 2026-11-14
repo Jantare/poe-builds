@@ -43,6 +43,14 @@ SAFE = [
 ]
 
 YT = [
+ dict(slug='yt-blight-trickster', xml='yt-blight.xml', name='Blight of Contagion Trickster', cls='Shadow', asc='Trickster',
+  author='Ky', guide='https://www.youtube.com/watch?v=T6ChrWMQGZo', pobb='ofemZTWLOhKh', views='49,1 mil',
+  phases=[[0,1,2,3,4,5,6,7,8],[9,10,11],[12,13]],
+  card='DoT de Chaos com Blight of Contagion e Contagion. Começa de Blight no Ato 1, sem troca de skill, e termina com CI, 8,2 mil de ES e 100% de suppress.',
+  lede='Blight of Contagion espalha um DoT de Chaos em área enquanto você canaliza, e a Contagion espalha o dano pelo pack. Você começa de Blight e Essence Drain no Ato 1, pega a Blight of Contagion no Ato 4 e só muda a árvore e os itens até o endgame, com Chaos Inoculation, Ghost Dance e Wicked Ward.',
+  change='Guia da 3.28 (PoB com a árvore 3.27). Nada da build levou nerf na 3.30, e a Trickster foi buffada: Heartstopper reduz 75% do dano de DoT (antes 50%), One Step Ahead garante 105% de velocidade e Spellbreaker previne mais dano suprimido.',
+  why=[('Sem troca de skill','Blight e Essence Drain desde o Ato 1; a Blight of Contagion entra no Ato 4. Árvore pronta para cada ato.'),('Defesa','No PoB final: Chaos Inoculation, 8,2 mil de ES, 100% de spell suppression, Ghost Dance e Wicked Ward.'),('Clear sem mirar','DoT em área: você canaliza a Blight e a Contagion espalha. Não depende de crítico nem de acertar projétil.'),('Barata no começo','O autor diz que dá para começar os mapas com equipamento simples e ir subindo pela ordem de upgrades dele.')],
+  league=(['Legion e Ritual: muitos monstros parados em área','Mapas de todo tipo com o DoT espalhando'],['Bosses no começo dos mapas vermelhos: o autor avisa que o dano de alvo único fica fraco até ter cluster jewels','Mapas com regeneração de monstros ou redução de DoT'])),
  dict(slug='yt-ballista-hierophant', xml='yt-ballista.xml', name='Explosive Arrow Ballista Hierophant', cls='Templar', asc='Hierophant',
   author='POEGuy', guide='https://www.youtube.com/watch?v=ds53La1IMD4', pobb='kQGOsJn7IbQX', views='60,8 mil',
   phases=[[0,1],[2],[3,4]],
