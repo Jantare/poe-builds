@@ -142,7 +142,7 @@ def build_page(b, P_tree):
 <section id="gemas"><h2>Gemas e links</h2>{gem_html(b["gems"], b["cls"], "gemas-" + b["slug"])}</section>
 <section id="equipamento"><h2>Equipamento por orçamento</h2>{__import__('trade').league_bar()}<div class="tbl"><table><thead><tr><th>Slot</th><th><span class="tier t1">Barato</span></th><th><span class="tier t2">Médio</span></th><th><span class="tier t3">Final</span></th></tr></thead><tbody>{gear}</tbody></table></div></section>
 <section id="craft"><h2>Craft</h2><p>Abra no simulador já configurado:</p><div class="presets">{craft}</div>
-<p class="note" style="margin-top:12px">O passo a passo geral de craft (fossils, travar afixo, Harvest) está na página do <a href="trickster-spark.html#craft">Trickster Spark</a> e vale para estas peças também.</p></section>
+<p class="note" style="margin-top:12px">Para o passo a passo geral de craft (fossils, travar afixo, Harvest), use o <a href="../craft/">Simulador de Craft</a> do site e os <a href="https://maxroll.gg/poe/resources/crafting-resources" target="_blank" rel="noopener">guias de craft do Maxroll</a>.</p></section>
 <section id="atos"><h2>Leveling</h2>
   <div class="progress"><div class="meter"><i id="bar"></i></div><span id="count">0 de 0</span><button class="reset" id="reset" type="button">Limpar</button></div>
   <div class="acts" id="acts">{acts}</div></section>

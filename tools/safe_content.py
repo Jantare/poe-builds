@@ -75,12 +75,4 @@ YT = [
   change='Feita para a 3.30. O Summon Stone Golem de suporte ficou um pouco mais fraco (16% de defesas em vez de 20%).',
   why=[('Barata','O autor apresenta como build de orçamento baixo.'),('Block alto','75% de block de ataque e 78% de feitiço no PoB.'),('Até o Maven','Segundo o título do vídeo, chega no Maven.'),('Minions de longe','Você fica atrás e as armas atiram.')],
   league=(['Bosses com Fate: você fica longe','Mapas de todo tipo'],['Mapas com redução de block ou de dano de minion'])),
- dict(slug='yt-spark-saboteur', xml='yt-spark-saboteur.xml', name='Spark Saboteur (triggerbot)', cls='Shadow', asc='Saboteur',
-  author='Duleblade', guide='https://www.youtube.com/watch?v=fN0Z-JV152M', pobb='sRdSgfUWKvQn', views='10,9 mil',
-  phases=[[1],[0]],
-  card='Spark que se lança sozinho: Arcanist Brand dispara o Spark, que não gasta mana. Mesma base da nossa Trickster (Shadow, CI e Energy Shield), mas com Saboteur.',
-  lede='Spark de Saboteur em "triggerbot": a Arcanist Brand fica presa no inimigo e lança o Spark sozinha, então você só anda e reposiciona a brand. Chaos Inoculation com Energy Shield, como a nossa Trickster Spark. O autor está com 50–70 divines no personagem do vídeo; o PoB que ele indica para seguir é de ~50 divines.',
-  change='Feita para a 3.30 (vídeo de 4/11, parte 2 da teoria do autor). O PoB ainda usa a árvore 3.29, porque o Path of Building não tem a 3.30.',
-  why=[('Spark sem mana','O autor diz que resolveu a mana: o Spark custa 0 de mana no PoB.'),('Defesa','6,6 mil de ES e 93% de spell suppression no PoB de ~50 divines, com CI e Ghost Reaver.'),('Mapas','Segundo o autor, o mapping está ótimo. Ele levou até o Eater of Worlds.'),('Ascensão','Like Clockwork, Perfect Crime, Shrapnel Specialist e Huntleader (linhagem de Farrul, que o autor pegou como 4º ponto). Na entrada dos mapas, Bitter Heresy.')],
-  league=(['Mapas: a Arcanist Brand limpa enquanto você anda','Mesmos itens de ES/CI da Trickster Spark'],['Boss: o próprio autor diz que ainda precisa melhorar','Precisa de equipamento caro (Watcher\'s Eye, Forbidden Flame) na versão final'])),
 ]

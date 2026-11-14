@@ -15,9 +15,6 @@ ASC_PT = {
  'Divine Guidance': '30% mais mana e 10% do dano recebido sai da mana antes da vida.',
 }
 BUILDS = [
- dict(slug='trickster-spark', cls='Shadow', asc='Trickster', name='Trickster Spark', tag='Não recomendada',
-  card='Spark crítico com CI e Energy Shield. Limpa a tela rápido, usa a velocidade do Trickster e treina para o Shadow do PoE 2.',
-  spark=True),
  dict(slug='trickster-ed', cls='Shadow', asc='Trickster', name='Trickster ED + Contagion', tag='Segura',
   card='DoT de Chaos com Chaos Inoculation. Contagion espalha pelo mapa e Essence Drain derrete boss. Você já jogou na liga passada.',
   lede='Essence Drain para alvo único e Contagion para espalhar o DoT de pack em pack. Defesa de Energy Shield com Chaos Inoculation e o Heartstopper buffado.',

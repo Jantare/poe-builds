@@ -8,10 +8,10 @@
 
   // Presets: build links (base, ilvl, method, targets "group:tier")
   var PRESETS = [
-    ['Spark · elmo Hubris', 'Hubris Circlet', 84, 'chaos', 'LocalEnergyShield:2,LocalEnergyShieldPercent:2'],
-    ['Spark · Rune Dagger +1', 'Copper Kris', 84, 'chaos', 'GlobalIncreaseSpellSkillGemLevel:1'],
-    ['Spark · luvas supressão', 'Murder Mitts', 84, 'chaos', 'ChanceToSuppressSpells:3,LocalEvasionAndEnergyShield:3'],
-    ['Spark · botas', 'Murder Boots', 84, 'chaos', 'MovementVelocity:2,ChanceToSuppressSpells:3'],
+    ['ES/CI · elmo Hubris', 'Hubris Circlet', 84, 'chaos', 'LocalEnergyShield:2,LocalEnergyShieldPercent:2'],
+    ['ES/CI · Rune Dagger +1', 'Copper Kris', 84, 'chaos', 'GlobalIncreaseSpellSkillGemLevel:1'],
+    ['ES/CI · luvas supressão', 'Murder Mitts', 84, 'chaos', 'ChanceToSuppressSpells:3,LocalEvasionAndEnergyShield:3'],
+    ['ES/CI · botas', 'Murder Boots', 84, 'chaos', 'MovementVelocity:2,ChanceToSuppressSpells:3'],
     ['ED · Vaal Regalia', 'Vaal Regalia', 84, 'chaos', 'LocalEnergyShieldPercent:2,LocalEnergyShield:2'],
     ['Ballista · aljava', 'Artillery Quiver', 84, 'chaos', 'IncreasedLife:3'],
     ['Jewel de ES e crítico', 'Cobalt Jewel', 84, 'chaos', 'EnergyShieldForJewel:1,SpellCritMultiplierForJewel:1']

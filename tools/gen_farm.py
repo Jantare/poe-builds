@@ -118,7 +118,7 @@ HUB = f'''<!-- atlas:start -->
     <div><h3>Threads em todo lugar</h3><p><b>Amplified Artefacts</b> (raros), <b>Chittering Champions</b> (boss) e <b>Significant Troves</b> (uniques) aumentam a Thread que cai. <b>Subtle Manipulations</b>: 20% de chance de não gastar as Threads.</p></div>
   </div>
   <h3 style="margin-top:16px">Plano recomendado: Legion + Beyond + Ritual ({cum[-1]} de 150 pontos)</h3>
-  <p class="sub">Combina com as builds de clear do site (Spark, RF, Toxic Rain, SRS). Pegue na ordem: cada fase já funciona sozinha.</p>
+  <p class="sub">Combina com as builds de clear do site (RF, Storm Burst, Toxic Rain, SRS). Pegue na ordem: cada fase já funciona sozinha.</p>
   <div class="tbl fit"><table class="split narrow"><colgroup><col style="width:30%"><col style="width:70%"></colgroup><thead><tr><th>Fase</th><th>O que pegar</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p style="margin-top:12px"><a class="treelink" href="{ATLAS.url(alloc)}" target="_blank" rel="noopener">Abrir o plano completo no site oficial</a></p>
   <figure class="atlasimg"><a href="img/plano.webp" target="_blank" rel="noopener"><img src="img/plano.webp" alt="Árvore do Atlas com o plano completo aceso; o número em cada nó é a fase da tabela." loading="lazy"></a><figcaption>Arte oficial da árvore do Atlas. O número em cada nó é a fase da tabela. Nos nós de escolha, selecione a opção indicada. Toque para ampliar.</figcaption></figure>
@@ -146,7 +146,7 @@ COMBOS = [
        'Os altares de Ritual revivem monstros que você já matou no mapa. A Legion solta dezenas de raros de uma vez, então o Ritual revive esses raros e dá muito Tribute (Exacting Tribute reduz a perda de Tribute dos revividos).',
        'Harvest leve: na 3.30 ele acontece dentro do mapa, sem descer no bosque, então não atrasa. Dois nós baratos (Call of the Grove e Doubling Season) fazem ele aparecer mais e render mais Lifeforce.',
        'Fechamento: Outside Entities com a Viridian Wildwood (+50% de Tribute no Ritual), Blood Feud (exército da Legion), Subtle Manipulations (20% de chance de não gastar as Threads) e Significant Troves (mais Threads dos uniques).'],
-  build='Spark, RF, Toxic Rain, SRS: builds de clear que matam a Legion rápido e aguentam o último altar.'),
+  build='RF, Storm Burst, Toxic Rain, SRS e Absolution: builds que matam a Legion rápido e aguentam o último altar.'),
  dict(key='shrines', name='Começo sem gastar: Shrines → Legion', tag='Primeiros dias', when='Atlas branco e amarelo, antes de ter Threads sobrando',
   phases=[('Base de sustento', AP.BASE), ('Shrines', SHR), ('Legion', S['legion'][0])],
   threads='Nenhuma no começo: os Shrines vêm só da árvore. Quando sobrarem Legion Threads (das Regiões Moldadas e dos altares do Eater), entram aos poucos.',
@@ -173,7 +173,7 @@ COMBOS = [
   why=['Cada monstro morto pode abrir um portal de Beyond. A Legion mata dezenas de monstros de uma vez, então os portais aparecem em sequência.',
        'Na 3.30 os demônios raros e uniques do Beyond soltam a currency boa, e matar o boss do Beyond dá Demonic Power por 60s.',
        'Cuidado: os uniques do Beyond batem forte. Pegue Height of Horror e True Terrors só quando a build aguentar.'],
-  build='Spark e Toxic Rain (muito clear). Precisa de defesa razoável.'),
+  build='Toxic Rain, RF e Absolution (muito clear). Precisa de defesa razoável.'),
  dict(key='ritual-harvest', name='Ritual + Harvest', tag='Mais tranquilo', when='Mapas vermelhos',
   phases=[('Base de sustento', AP.BASE), ('Ritual', S['ritual'][0]), ('Harvest', S['harvest'][0]), ('Fechamento', ['Outside Entities', 'Blended Realities', 'Rich Soil', 'Verdant Lands'])],
   threads='Ritual Threads (8 para 3 slots de Vessel). Harvest e Wildwood vêm da árvore.',
