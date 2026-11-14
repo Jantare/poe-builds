@@ -182,7 +182,7 @@ for b in BUILDS:
     PT = tree_section(b['slug'], b)
     page = spark_page(b, PT) if b.get('spark') else build_page(b, PT)
     open(os.path.join(ROOT, 'builds', b['slug'] + '.html'), 'w', encoding='utf-8').write(page)
-    tagcls = {'Recomendada': 'ok', 'Segura': 'ok', 'Aposta nova': 'new', 'Conceito': 'warn', 'Boss': 'ok'}[b['tag']]
+    tagcls = {'Não recomendada': 'bad', 'Recomendada': 'ok', 'Segura': 'ok', 'Aposta nova': 'new', 'Conceito': 'warn', 'Boss': 'ok'}[b['tag']]
     cards.append(f'<a class="card" href="builds/{b["slug"]}.html"><span class="cls">{e(b["cls"])} · {e(b["asc"])}</span><h3>{e(b["name"])}</h3><p>{e(b["card"])}</p><span class="pill {tagcls}">{e(b["tag"])}</span></a>')
     print(b['slug'], PT[0]['total'], 'pontos')
 

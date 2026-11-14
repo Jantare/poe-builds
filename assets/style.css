@@ -324,3 +324,6 @@ td a.buy{margin:2px 0}
 .rxrow code{font-variant-ligatures:none;font-feature-settings:"liga" 0,"calt" 0;flex:1;min-width:0;overflow-x:auto;white-space:nowrap;font-family:var(--f-mono);font-size:13.5px;background:var(--sunken);border:1px solid var(--line);border-radius:6px;padding:7px 9px;color:#f0d28c}
 .rxcopy{font:inherit;font-weight:600;font-size:13px;padding:7px 12px;border:0;border-radius:6px;background:var(--accent);color:#06101c;cursor:pointer;flex:none}
 .rx p{margin:0}
+.pill.bad{color:var(--bad);border-color:var(--bad)}
+.note.bad{background:rgba(120,30,30,.35);border-left-color:var(--bad);color:#f1c9c4}
+.note.bad strong{color:#ffd6d0}

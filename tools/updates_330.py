@@ -1,5 +1,8 @@
 """Verificação 3.30 de cada build (12/11): o que a comunidade lançou e como fazer o leveling.
 Cada item: (título, autor, data, vídeo, pobb, xml em data/pob ou None, texto)."""
+NINJA = {'trickster-spark': 'Spark em 86º lugar, com 34 personagens (0,08%), e nenhum deles é Trickster. A Spark of the Nova tem 7.', 'trickster-ed': 'Essence Drain em 68º, com 55 personagens: 24 Occultist, 17 Witch e 14 Shadow (ainda sem ascensão). Nenhum Trickster no topo.', 'trickster-fireball': 'Fireball of Radiation em 210º, com 4 personagens. Quase ninguém testou ainda.', 'warden-tinturas': 'A Static Strike é a skill mais jogada da liga (5.163 personagens, 11,8%), mas com Guardian (1.722) e Slayer (1.621). A Warden tem só 133 personagens no total.', 'hierophant-ballista': 'Artillery Ballista em 22º, com 329 personagens, quase todos Deadeye (273). A versão de Hierophant aparece pouco.', 'rf-chieftain': 'Righteous Fire em 5º, com 1.628 personagens, 875 deles Chieftain. Continua uma das mais jogadas.', 'earthshatter-berserker': 'Earthshatter em 35º, com 181 personagens, 131 deles Berserker.', 'poison-srs-necromancer': 'Summon Raging Spirit em 11º, com 752 personagens: 439 Necromancer e 225 Witch (ainda nos atos).', 'stormburst-hierophant': 'Storm Burst em 10º, com 786 personagens, 714 deles Hierophant. Uma das mais fortes da liga até agora.', 'toxic-rain-pathfinder': 'Toxic Rain em 33º, com 192 personagens, 121 deles Pathfinder.', 'yt-ballista-hierophant': 'Explosive Arrow em 23º, com 300 personagens, 193 deles Hierophant.', 'yt-absolution-necromancer': 'Absolution em 4º, com 2.383 personagens, 1.451 deles Necromancer. Uma das mais jogadas da liga.', 'yt-cyclone-necromancer': 'Cyclone em 21º, com 345 personagens, mas quase todos Slayer (286). A versão de Necromancer aparece pouco.', 'yt-animate-weapon-necromancer': 'Animate Weapon em 60º (69 personagens) e a versão of Ranged Arms em 77º (41).', 'yt-spark-saboteur': 'Spark em 86º, com 34 personagens, e nenhum Saboteur entre eles. A Saboteur tem 122 personagens no total.'}
+WARN = {'trickster-spark': 'Não recomendada. Testamos no começo da liga e não rendeu, e quase ninguém está jogando Spark na 3.30 (veja os números abaixo). Para começar a liga, prefira uma das builds mais jogadas: Righteous Fire, Storm Burst, Absolution ou SRS.', 'yt-spark-saboteur': 'Não recomendada por enquanto: é a mesma skill da Trickster Spark, que não rendeu no começo da liga.'}
+
 U = {
  'trickster-spark': dict(status='Rotas de leveling adicionadas; nova alternativa de Spark com Saboteur', items=[
    ('Alternativa: Spark Saboteur (triggerbot)', 'Duleblade', '4/11', 'fN0Z-JV152M', 'sRdSgfUWKvQn', None,
@@ -78,9 +81,13 @@ def section(slug, write_code, pob_button, esc):
   <p>{esc(text)}</p>
   <p class="sub"><a href="https://www.youtube.com/watch?v={esc(vid)}" target="_blank" rel="noopener">Vídeo</a>{f' · <a href="https://www.poebuilds.cc/poe1/build/{esc(vid)}" target="_blank" rel="noopener">Guia no poebuilds.cc</a> · <a href="https://pobb.in/{esc(pobb)}" target="_blank" rel="noopener">PoB no pobb.in</a>' if pobb else ' · sem PoB no vídeo'}</p>
   {btn}</div>''')
+    warn = f'<p class="note bad"><strong>⚠ {esc(WARN[slug])}</strong></p>' if slug in WARN else ''
+    ninja = f'<p class="note"><strong>No poe.ninja (14/11, primeiro dia, 43.630 personagens):</strong> {esc(NINJA[slug])} Muita gente ainda está nos atos, então os números mudam nos próximos dias.</p>' if slug in NINJA else ''
     return f'''<section id="novidades">
   <h2>Atualização 3.30</h2>
+  {warn}
   <p class="note"><strong>{esc(u["status"])}.</strong> Verificado em 13/11 (dia do lançamento) nos guias e vídeos da 3.30. O Path of Building ainda não tem a árvore 3.30: os PoBs usam a árvore 3.29.</p>
+  {ninja}
   <p><b>Leveling:</b> {esc(u["leveling"])}</p>
   {"".join(cards)}
 </section>'''

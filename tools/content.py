@@ -15,7 +15,7 @@ ASC_PT = {
  'Divine Guidance': '30% mais mana e 10% do dano recebido sai da mana antes da vida.',
 }
 BUILDS = [
- dict(slug='trickster-spark', cls='Shadow', asc='Trickster', name='Trickster Spark', tag='Recomendada',
+ dict(slug='trickster-spark', cls='Shadow', asc='Trickster', name='Trickster Spark', tag='Não recomendada',
   card='Spark crítico com CI e Energy Shield. Limpa a tela rápido, usa a velocidade do Trickster e treina para o Shadow do PoE 2.',
   spark=True),
  dict(slug='trickster-ed', cls='Shadow', asc='Trickster', name='Trickster ED + Contagion', tag='Segura',
