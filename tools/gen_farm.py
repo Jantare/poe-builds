@@ -102,7 +102,7 @@ steps = [
  ('2. Legion', 'Mapas amarelos', S['legion'][0], 'Sinistral Threads: escolha Legion.', 'legion.html'),
  ('3. Beyond', 'Mapas amarelos/vermelhos', S['beyond'][0], 'Outside Entities: escolha Demonic Evocator.', 'beyond.html'),
  ('4. Ritual', 'Mapas vermelhos', S['ritual'][0], 'Dextral Threads: escolha Ritual.', 'ritual.html'),
- ('5. Fechamento', 'Endgame', EXTRA, 'Blood Feud: escolha Karui ou Vaal.', None),
+ ('5. Fechamento', 'Endgame', EXTRA, 'Blood Feud: escolha Maraketh (Emblem e Crystal mais caros da Legion).', None),
 ]
 rows = ''.join(f'<tr><td><span class="num">{i + 1}</span> <b>{t[3:]}</b><br><span class="sub">{w}<br>{per[i]} pontos (total {cum[i]})</span></td>'
                f'<td>{names(n)}. {d}{f" <a href={chr(34)}{l}#atlas{chr(34)}>Detalhes →</a>" if l else ""}</td></tr>'
@@ -145,7 +145,7 @@ COMBOS = [
   why=['Shrines custam só 12 pontos e deixam o clear mais rápido e mais seguro desde o primeiro mapa: mais Shrines (Supplication), buffs 30% mais fortes com um efeito extra (Syncretism) e packs a mais perto deles (Drawn to Power).',
        'Os altares de Ritual revivem monstros que você já matou no mapa. A Legion solta dezenas de raros de uma vez, então o Ritual revive esses raros e dá muito Tribute (Exacting Tribute reduz a perda de Tribute dos revividos).',
        'Harvest leve: na 3.30 ele acontece dentro do mapa, sem descer no bosque, então não atrasa. Dois nós baratos (Call of the Grove e Doubling Season) fazem ele aparecer mais e render mais Lifeforce.',
-       'Fechamento: Outside Entities com a Viridian Wildwood (+50% de Tribute no Ritual), Blood Feud (exército da Legion), Subtle Manipulations (20% de chance de não gastar as Threads) e Significant Troves (mais Threads dos uniques).'],
+       'Fechamento: Outside Entities com a Viridian Wildwood (+50% de Tribute no Ritual), Blood Feud (escolha Maraketh), Subtle Manipulations (20% de chance de não gastar as Threads) e Significant Troves (mais Threads dos uniques).'],
   build='RF, Storm Burst, Toxic Rain, SRS e Absolution: builds que matam a Legion rápido e aguentam o último altar.'),
  dict(key='shrines', name='Começo sem gastar: Shrines → Legion', tag='Primeiros dias', when='Atlas branco e amarelo, antes de ter Threads sobrando',
   phases=[('Base de sustento', AP.BASE), ('Shrines', SHR), ('Legion', S['legion'][0])],

@@ -88,7 +88,7 @@ PT = {
  'Extra Provisions': 'Cada Legion tem um War Hoard a mais e os baús dão uma recompensa extra.',
  'Chain of Command': '+4 sargentos por encontro (mais recompensas).',
  'Battle-Tested': 'Monstros com recompensa têm chance de ganhar mais 1 ou 2 recompensas.',
- 'Blood Feud': 'Escolha um exército: +100% de chance de aparecer e +30% de Enshrouding Crystal dos generais. Karui ou Vaal são boas escolhas gerais.',
+ 'Blood Feud': 'Escolha um exército: +100% de chance de aparecer e +30% de Enshrouding Crystal dos generais. Na 3.30 escolha <b>Maraketh</b>: o Maraketh Emblem e o Maraketh Enshrouding Crystal são os que valem (os outros exércitos dão poucos chaos).',
  'Spoils of War': 'Baús quebrados passam as recompensas para os monstros que soltam (mais difíceis).',
  'Occult Devotion': 'Mapa com Ritual sempre tem 4 altares.',
  'Blood Pact': 'Os altares oferecem 30% mais recompensas.',

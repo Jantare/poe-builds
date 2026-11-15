@@ -8,6 +8,12 @@ ASSETS = os.path.join(HERE, '..', 'data', 'atlas', 'assets')
 ZOOM = '0.2972'
 S = float(ZOOM)
 FONT = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+if not os.path.exists(FONT):  # Windows/Mac: a mesma DejaVu que vem com o matplotlib
+    try:
+        import matplotlib
+        FONT = os.path.join(os.path.dirname(matplotlib.__file__), 'mpl-data', 'fonts', 'ttf', 'DejaVuSans-Bold.ttf')
+    except ImportError:
+        pass
 A16 = [0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330]
 A40 = [0, 10, 20, 30, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 135, 140, 150, 160, 170, 180, 190, 200, 210, 220, 225, 230, 240, 250, 260, 270, 280, 290, 300, 310, 315, 320, 330, 340, 350]
 LINE_OFF = (78, 70, 56, 255)
