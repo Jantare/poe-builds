@@ -136,6 +136,14 @@ open(ip, 'w').write(h); print('hub', per, cum[-1], per2)
 
 # ---- hub: farm combinations (between combos markers) ----
 SHR = ['Supplication', 'Syncretism', 'Drawn to Power', 'False Prophets']
+# Análise de 15/11 (poe.ninja: preços e Atlas de ~29,8 mil personagens que mapeiam; árvores publicadas por Fubgun e Path of Chigurh)
+VERDICT_LR = '''<div class="note"><p><strong>Ainda vale a pena? (15/11, 3º dia da liga)</strong></p>
+  <ul class="atl">
+  <li><b>Legion: sim, e com pouca concorrência.</b> Só ~2,6% de quem mapeia pega os nós de Legion, mas o Fubgun usa uma árvore Shrines/Legion e o Path of Chigurh colocou Legion na tier list dele. O que paga é o Maraketh: Emblem ~110c e Enshrouding Crystal ~45c (o Afarud Crystal também vale ~35c). Os outros Emblems ficam em 14–32c e a Legion Thread custa ~0,6c, então use as suas em vez de vender.</li>
+  <li><b>Ritual: vale como bilhete premiado, não como renda fixa.</b> Quase todo o valor está em duas Omens: Omen of Fortune ~968c (~7,3 div, +78% na semana) e Omen of Connections ~381c (~2,9 div). Depois delas, a melhor é a Amelioration, com ~14c. Só ~7% pega os nós de Ritual. Na 3.30 o Tribute subiu muito na árvore (até +54% e menos perda nos revividos), mas as Threads deixam o encontro mais difícil. Mantenha o Ritual só se a build aguentar o último altar e adie (defer) tudo que não for Fortune ou Connections.</li>
+  <li><b>O que a maioria faz:</b> Shrines (~100%), altares do Exarch e do Eater (~20%), Strongbox (~17%), Abyss (~15%), Harvest (~14%) e Blight (~12%). Se o Ritual não estiver rendendo, troque a fase 4 por Abyss ou Strongbox e mantenha Shrines → Legion.</li>
+  </ul>
+  <p class="sub">Os números mudam todo dia: veja os preços de agora no <a href="../mercado/#farm">Mercado</a>.</p></div>'''
 COMBOS = [
  dict(key='legion-ritual', name='Shrines → Legion → Ritual (+ Harvest leve)', tag='O nosso combo', when='Do primeiro mapa ao endgame',
   phases=[('Base de sustento', AP.BASE), ('Shrines', ['Supplication', 'Syncretism', 'Drawn to Power']), ('Legion', S['legion'][0]), ('Ritual', S['ritual'][0]),
@@ -146,7 +154,8 @@ COMBOS = [
        'Os altares de Ritual revivem monstros que você já matou no mapa. A Legion solta dezenas de raros de uma vez, então o Ritual revive esses raros e dá muito Tribute (Exacting Tribute reduz a perda de Tribute dos revividos).',
        'Harvest leve: na 3.30 ele acontece dentro do mapa, sem descer no bosque, então não atrasa. Dois nós baratos (Call of the Grove e Doubling Season) fazem ele aparecer mais e render mais Lifeforce.',
        'Fechamento: Outside Entities com a Viridian Wildwood (+50% de Tribute no Ritual), Blood Feud (escolha Maraketh), Subtle Manipulations (20% de chance de não gastar as Threads) e Significant Troves (mais Threads dos uniques).'],
-  build='RF, Storm Burst, Toxic Rain, SRS e Absolution: builds que matam a Legion rápido e aguentam o último altar.'),
+  build='RF, Storm Burst, Toxic Rain, SRS e Absolution: builds que matam a Legion rápido e aguentam o último altar.',
+  verdict=VERDICT_LR),
  dict(key='shrines', name='Começo sem gastar: Shrines → Legion', tag='Primeiros dias', when='Atlas branco e amarelo, antes de ter Threads sobrando',
   phases=[('Base de sustento', AP.BASE), ('Shrines', SHR), ('Legion', S['legion'][0])],
   threads='Nenhuma no começo: os Shrines vêm só da árvore. Quando sobrarem Legion Threads (das Regiões Moldadas e dos altares do Eater), entram aos poucos.',
@@ -231,6 +240,7 @@ def combo_html(c):
     return f'''<div class="route" id="combo-{c["key"]}">
   <div class="mhead"><h3>{e(c["name"])}</h3><div class="tags"><span class="pill ok">{e(c["tag"])}</span><span class="pill">{cum[-1]} de 150 pontos</span></div></div>
   <p class="sub">{e(c["when"])}</p>
+  {c.get("verdict", "")}
   <p><b>Threads:</b> {e(c["threads"])}</p>
   <h4 style="margin-top:6px">Por que combina</h4><ul class="atl">{why}</ul>
   <div class="tbl fit" style="margin-top:10px"><table class="split narrow"><colgroup><col style="width:30%"><col style="width:70%"></colgroup><thead><tr><th>Fase</th><th>Nós</th></tr></thead><tbody>{rows}</tbody></table></div>
