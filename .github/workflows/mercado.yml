@@ -1,0 +1,40 @@
+name: Preços do mercado (poe.ninja)
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'   # a cada 30 minutos
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mercado
+  cancel-in-progress: true
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Buscar preços no poe.ninja
+        run: python tools/fetch_prices.py "$RUNNER_TEMP/mercado.json"
+
+      - name: Publicar no ramo mercado-data (um commit só, sem histórico)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/pub" && cp "$RUNNER_TEMP/mercado.json" "$RUNNER_TEMP/pub/"
+          cd "$RUNNER_TEMP/pub"
+          git init -q -b mercado-data
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mercado.json
+          git commit -qm "Preços $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -f "https://x-access-token:${TOKEN}@github.com/${REPO}.git" mercado-data

@@ -19,7 +19,7 @@ HEAD = '''<!doctype html>
 <body>
 <header class="topbar"><div class="in">
   <a class="brand" href="../">PoE Builds</a>
-  <div class="links"><a href="../">Início</a><a href="../#builds">Seguras</a><a href="../#youtube">YouTube</a><a href="../#apostas">Apostas</a><a href="./" aria-current="page">Farm</a><a href="../craft/">Craft</a><a href="../bau/">Baú</a><a href="../#ferramentas">Ferramentas</a></div>
+  <div class="links"><a href="../">Início</a><a href="../#builds">Seguras</a><a href="../#youtube">YouTube</a><a href="../#apostas">Apostas</a><a href="./" aria-current="page">Farm</a><a href="../craft/">Craft</a><a href="../bau/">Baú</a><a href="../mercado/">Mercado</a><a href="../#ferramentas">Ferramentas</a></div>
 </div></header>
 '''
 import atlas_plan as AP

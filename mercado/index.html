@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mercado · PoE Builds</title>
+<meta name="description" content="Preços da liga no poe.ninja, atualizados a cada 30 minutos: itens mais caros, o que cada farm solta e variação da semana.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/nav.js" defer></script>
+<style>
+.mhero{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:6px}
+.stat{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:10px 14px;min-width:0}
+.stat span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.stat b{font-family:var(--f-mono);font-size:20px;color:#f0d28c}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.ctrl input,.ctrl select{font:inherit;font-size:14px;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);min-width:0}
+.ctrl input{flex:1 1 220px}
+.seg{display:inline-flex;background:var(--sunken);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:12.5px;font-weight:600;padding:6px 10px;border:0;background:none;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:#fff}
+.farms{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.farm{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:12px;min-width:0}
+.farm h3{margin:0 0 8px}
+.rows{display:grid;gap:4px}
+.row{display:grid;grid-template-columns:26px minmax(0,1fr) auto auto;gap:8px;align-items:center;font-size:13.5px;padding:4px 6px;border-radius:6px;background:var(--bg)}
+.row img{width:24px;height:24px;object-fit:contain}
+.row .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .pr{font-family:var(--f-mono);color:#f0d28c;text-align:right;white-space:nowrap}
+.ch{font-family:var(--f-mono);font-size:11.5px;text-align:right;min-width:52px;white-space:nowrap}
+.ch.up{color:var(--ok)}.ch.down{color:var(--bad)}.ch.flat{color:var(--muted)}
+table.mk{min-width:0;width:100%}
+table.mk td{vertical-align:middle;font-size:13.5px}
+table.mk td.ic{width:34px}table.mk td.ic img{width:28px;height:28px;object-fit:contain;display:block}
+table.mk td.num{font-family:var(--f-mono);text-align:right;white-space:nowrap}
+table.mk td.nm small{display:block;color:var(--muted);font-size:11.5px}
+table.mk a{color:var(--fg);text-decoration:none}table.mk a:hover{color:var(--accent);text-decoration:underline}
+.few{font-size:10.5px;color:var(--warn);border:1px solid var(--warn);border-radius:999px;padding:0 6px;margin-left:6px;white-space:nowrap}
+@media (max-width:640px){table.mk th.hide,table.mk td.hide{display:none}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="in">
+  <a class="brand" href="../">PoE Builds</a>
+  <div class="links"><a href="../">Início</a><a href="../#builds">Seguras</a><a href="../#youtube">YouTube</a><a href="../farm/">Farm</a><a href="../craft/">Craft</a><a href="../bau/">Baú</a><a href="../preco/">Preço</a><a href="./" aria-current="page">Mercado</a></div>
+</div></header>
+
+<div class="wrap wide">
+<header>
+  <div class="eyebrow">Path of Exile 1 · preços do poe.ninja</div>
+  <h1>Mercado</h1>
+  <p class="lede">Os itens mais caros da liga e o que cada farm solta, com a variação dos últimos 7 dias. Os preços são atualizados sozinhos a cada 30 minutos.</p>
+  <div class="mhero">
+    <div class="stat"><span>Liga</span><b id="lg">…</b></div>
+    <div class="stat"><span>1 Divine</span><b id="div">…</b></div>
+    <div class="stat"><span>Atualizado</span><b id="upd">…</b></div>
+    <div class="seg" role="group" aria-label="Moeda"><button type="button" id="u-c" aria-pressed="false">Chaos</button><button type="button" id="u-d" aria-pressed="true">Divine</button></div>
+  </div>
+  <p class="err" id="err" hidden></p>
+</header>
+
+<nav class="sec" aria-label="Seções"><a href="#farm">Do seu farm</a><a href="#top">Mais caros</a><a href="#cat">Por categoria</a></nav>
+
+<section id="farm">
+  <h2>Do seu farm</h2>
+  <p>O que vale mais em cada mecânica dos combos de farm do site. Use para saber o que vender, o que guardar e o que adiar no Ritual.</p>
+  <div class="farms" id="farms"></div>
+</section>
+
+<section id="top">
+  <h2>Mais caros da liga</h2>
+  <p class="sub">Só entram itens com pelo menos 5 ofertas, para não contar preço de um anúncio só.</p>
+  <div class="ctrl"><input type="search" id="q1" placeholder="Filtrar (ex.: Mageblood, Omen, Runegraft)" aria-label="Filtrar os mais caros"></div>
+  <div class="tbl fit"><table class="mk"><thead><tr><th></th><th>Item</th><th class="num">Preço</th><th class="num hide">7 dias</th><th class="num hide">Ofertas</th></tr></thead><tbody id="toprows"></tbody></table></div>
+</section>
+
+<section id="cat">
+  <h2>Por categoria</h2>
+  <div class="ctrl">
+    <select id="cats" aria-label="Categoria"></select>
+    <input type="search" id="q2" placeholder="Filtrar nesta categoria" aria-label="Filtrar na categoria">
+  </div>
+  <div class="tbl fit"><table class="mk"><thead><tr><th></th><th>Item</th><th class="num">Preço</th><th class="num hide">7 dias</th><th class="num hide">Ofertas / volume</th></tr></thead><tbody id="catrows"></tbody></table></div>
+</section>
+
+<footer>Dados: <a href="https://poe.ninja/" target="_blank" rel="noopener">poe.ninja</a>, copiados para este site a cada 30 minutos. Clique num item para buscar no trade oficial. Não é afiliado à Grinding Gear Games nem ao poe.ninja.</footer>
+</div>
+
+<script>
+(function () {
+  var SRC = 'https://raw.githubusercontent.com/Jantare/poe-builds/mercado-data/mercado.json';
+  var D = null, UNIT = 'd';
+  try { UNIT = localStorage.getItem('poebuilds.mkunit') || 'd'; } catch (e) {}
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fmt(c) {
+    if (UNIT === 'd' && D.divine && c >= D.divine * 0.95) { var d = c / D.divine; return (d >= 100 ? d.toFixed(0) : d.toFixed(2)).replace('.', ',') + ' div'; }
+    return (c >= 100 ? Math.round(c).toLocaleString('pt-BR') : c >= 10 ? c.toFixed(1).replace('.', ',') : c.toFixed(2).replace('.', ',')) + ' c';
+  }
+  function chg(v) {
+    if (v === null || v === undefined || isNaN(v)) return '<span class="ch flat">—</span>';
+    var c = v > 1 ? 'up' : v < -1 ? 'down' : 'flat';
+    return '<span class="ch ' + c + '">' + (v > 0 ? '+' : '') + Math.round(v) + '%</span>';
+  }
+  function trade(r, k) {
+    var noLink = /Gemas|Cluster|Mapas$|Blighted/.test(k || r.k || '');
+    if (noLink) return null;
+    var uniq = /Uniques|Relics/.test(k || r.k || '');
+    var q = { query: { status: { option: 'online' } }, sort: { price: 'asc' } };
+    if (uniq) { q.query.name = r.n.replace(/ \(\dL\)$/, ''); if (r.b) q.query.type = r.b; } else q.query.type = r.n;
+    return 'https://www.pathofexile.com/trade/search/' + encodeURIComponent(D.league) + '?q=' + encodeURIComponent(JSON.stringify(q));
+  }
+  function img(r) { return r.i ? '<img src="' + esc(r.i) + '" alt="" loading="lazy">' : ''; }
+  function trow(r, k) {
+    var u = trade(r, k), name = esc(r.n);
+    if (u) name = '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + name + '</a>';
+    var few = (r.o !== undefined && r.o < 5) ? '<span class="few">poucas ofertas</span>' : '';
+    var sub = (k ? '' : '<small>' + esc(r.k || '') + '</small>');
+    var vol = r.o !== undefined ? r.o : (r.v ? Math.round(r.v).toLocaleString('pt-BR') : '—');
+    return '<tr><td class="ic">' + img(r) + '</td><td class="nm">' + name + few + sub + '</td><td class="num">' + fmt(r.c) + '</td><td class="num hide">' + chg(r.ch) + '</td><td class="num hide">' + vol + '</td></tr>';
+  }
+  function renderFarm() {
+    var order = ['Legion', 'Ritual', 'Harvest', 'Threads', 'Pinnacles'];
+    var tips = { Legion: 'Junte splinters e faça emblemas: o Maraketh vale mais.', Ritual: 'Adie (defer) as Omens caras até ter Tribute.', Harvest: 'Sacred Lifeforce é a que vale.', Threads: 'Baratas: use nos mapas em vez de vender.', Pinnacles: 'Invitations e fragmentos: venda ou pague o carry.' };
+    $('farms').innerHTML = order.filter(function (f) { return D.farm[f] && D.farm[f].length; }).map(function (f) {
+      return '<div class="farm"><h3>' + f + '</h3><p class="sub" style="margin:0 0 8px">' + esc(tips[f] || '') + '</p><div class="rows">' + D.farm[f].slice(0, 10).map(function (r) {
+        var u = trade(r, r.k);
+        var nm = u ? '<a href="' + esc(u) + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">' + esc(r.n) + '</a>' : esc(r.n);
+        return '<div class="row">' + img(r) + '<span class="nm" title="' + esc(r.n) + '">' + nm + '</span><span class="pr">' + fmt(r.c) + '</span>' + chg(r.ch) + '</div>';
+      }).join('') + '</div></div>';
+    }).join('');
+  }
+  function renderTop() {
+    var q = $('q1').value.trim().toLowerCase();
+    $('toprows').innerHTML = D.top.filter(function (r) { return !q || r.n.toLowerCase().indexOf(q) >= 0 || (r.k || '').toLowerCase().indexOf(q) >= 0; }).slice(0, 100).map(function (r) { return trow(r); }).join('');
+  }
+  function renderCat() {
+    var k = $('cats').value, q = $('q2').value.trim().toLowerCase();
+    $('catrows').innerHTML = (D.cats[k] || []).filter(function (r) { return !q || r.n.toLowerCase().indexOf(q) >= 0; }).map(function (r) { return trow(r, k); }).join('');
+  }
+  function renderAll() {
+    $('lg').textContent = D.league; $('div').textContent = Math.round(D.divine) + ' chaos';
+    var m = Math.round((Date.now() - new Date(D.updated).getTime()) / 60000);
+    $('upd').textContent = m < 1 ? 'agora' : m < 60 ? 'há ' + m + ' min' : 'há ' + Math.round(m / 60) + ' h';
+    $('u-c').setAttribute('aria-pressed', UNIT === 'c'); $('u-d').setAttribute('aria-pressed', UNIT === 'd');
+    renderFarm(); renderTop(); renderCat();
+  }
+  function setUnit(u) { UNIT = u; try { localStorage.setItem('poebuilds.mkunit', u); } catch (e) {} renderAll(); }
+  $('u-c').addEventListener('click', function () { setUnit('c'); });
+  $('u-d').addEventListener('click', function () { setUnit('d'); });
+  $('q1').addEventListener('input', renderTop);
+  $('q2').addEventListener('input', renderCat);
+  $('cats').addEventListener('change', renderCat);
+  function load() {
+    fetch(SRC + '?t=' + Math.floor(Date.now() / 300000), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }).then(function (d) {
+      var first = !D; D = d;
+      if (first) $('cats').innerHTML = Object.keys(D.cats).map(function (k) { return '<option>' + esc(k) + '</option>'; }).join('');
+      $('err').hidden = true; renderAll();
+    }).catch(function (e) { $('err').hidden = false; $('err').textContent = 'Não consegui carregar os preços agora (' + e.message + '). Tente recarregar daqui a pouco.'; });
+  }
+  load(); setInterval(load, 10 * 60000);
+})();
+</script>
+</body>
+</html>
