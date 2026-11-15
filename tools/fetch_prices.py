@@ -48,6 +48,49 @@ def league():
     return 'Standard'
 
 
+GEM_TOP = 40
+
+
+def gem_trade(l):
+    """Busca do trade oficial para esta variação da gema (nível, qualidade, corrompida)."""
+    if l.get('tradeFilter'):
+        return l['tradeFilter']['query']
+    f = {}
+    if l.get('gemLevel'): f['gem_level'] = {'min': l['gemLevel']}
+    if l.get('gemQuality'): f['quality'] = {'min': l['gemQuality']}
+    f['corrupted'] = {'option': bool(l.get('corrupted'))}
+    return {'type': l['name'], 'filters': {'misc_filters': {'filters': f}}}
+
+
+def gems(lines):
+    """Grupos da seção Gemas: Empower/Enlighten/Enhance (e Awakened), outras excepcionais (Greater etc.),
+    transfiguradas, corrompidas 21/23 e as gemas novas da liga (Trarthus)."""
+    groups = {'eee': [], 'excepcionais': [], 'transfiguradas': [], 'corrompidas': [], 'liga': []}
+    for l in lines:
+        kind = (l.get('metadata') or {}).get('gemKind')
+        lv, q, cor = l.get('gemLevel') or 0, l.get('gemQuality') or 0, bool(l.get('corrupted'))
+        sp = l.get('sparkLine') or l.get('lowConfidenceSparkLine') or {}
+        r = {'n': l['name'], 'c': round(l.get('chaosValue') or 0, 1), 'ch': sp.get('totalChange'),
+             'o': l.get('listingCount') or l.get('count') or 0, 'i': l.get('icon', ''),
+             'lv': lv, 'q': q, 'cor': cor, 't': gem_trade(l)}
+        if l['name'].replace('Awakened ', '') in ('Empower Support', 'Enlighten Support', 'Enhance Support'):
+            groups['eee'].append(r)
+        elif kind == 'exceptional':
+            groups['excepcionais'].append(r)
+        elif kind == 'trarthus':
+            groups['liga'].append(r)
+        elif kind == 'transfigured' and not cor:
+            groups['transfiguradas'].append(r)
+        if cor and (lv >= 21 or q >= 23) and kind != 'exceptional':
+            groups['corrompidas'].append(r)
+    out = {}
+    for k, rows in groups.items():
+        # preço de 1 anúncio só engana: as listas mostram primeiro o que tem ofertas suficientes
+        rows.sort(key=lambda r: (r['o'] < 3, -r['c']))
+        out[k] = rows[:GEM_TOP]
+    return out
+
+
 def main(out):
     lg = league()
     cats, divine = {}, None
@@ -66,10 +109,13 @@ def main(out):
                          'v': round(l.get('volumePrimaryValue') or 0, 1),
                          'i': ('https://web.poecdn.com' + m['image']) if m.get('image') else ''})
         cats[label] = rows
+    gemlines = []
     for t, label in ITEMS.items():
         d = get('economy/stash/current/item/overview', league=lg, type=t)
         if not d or not d.get('lines'):
             continue
+        if t == 'SkillGem':
+            gemlines = d['lines']
         rows = []
         for l in d['lines']:
             n = l['name']
@@ -95,7 +141,7 @@ def main(out):
             seen.add(r['n']); uniq.append(r)
         farm[f] = uniq[:25]
     data = {'league': lg, 'updated': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'divine': round(divine or 0, 1),
-            'top': top, 'farm': farm, 'cats': {k: v[:TOP] for k, v in cats.items()}}
+            'top': top, 'farm': farm, 'gems': gems(gemlines), 'cats': {k: v[:TOP] for k, v in cats.items()}}
     with open(out, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
     print(lg, 'divine', data['divine'], 'categorias', len(cats), 'top', len(top))

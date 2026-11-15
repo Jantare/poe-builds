@@ -3,3 +3,4 @@ __pycache__/
 bau/.cache/
 bau/snapshots/
 bau/bau_config.json
+mercado/_teste.json

@@ -37,6 +37,9 @@ table.mk td.num{font-family:var(--f-mono);text-align:right;white-space:nowrap}
 table.mk td.nm small{display:block;color:var(--muted);font-size:11.5px}
 table.mk a{color:var(--fg);text-decoration:none}table.mk a:hover{color:var(--accent);text-decoration:underline}
 .few{font-size:10.5px;color:var(--warn);border:1px solid var(--warn);border-radius:999px;padding:0 6px;margin-left:6px;white-space:nowrap}
+.gseg{flex-wrap:wrap}
+.gv{font-family:var(--f-mono);font-size:11.5px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.gv.cor{color:var(--bad)}
 @media (max-width:640px){table.mk th.hide,table.mk td.hide{display:none}}
 </style>
 </head>
@@ -60,7 +63,7 @@ table.mk a{color:var(--fg);text-decoration:none}table.mk a:hover{color:var(--acc
   <p class="err" id="err" hidden></p>
 </header>
 
-<nav class="sec" aria-label="Seções"><a href="#farm">Do seu farm</a><a href="#top">Mais caros</a><a href="#cat">Por categoria</a></nav>
+<nav class="sec" aria-label="Seções"><a href="#farm">Do seu farm</a><a href="#top">Mais caros</a><a href="#gemas">Gemas</a><a href="#cat">Por categoria</a></nav>
 
 <section id="farm">
   <h2>Do seu farm</h2>
@@ -73,6 +76,17 @@ table.mk a{color:var(--fg);text-decoration:none}table.mk a:hover{color:var(--acc
   <p class="sub">Só entram itens com pelo menos 5 ofertas, para não contar preço de um anúncio só.</p>
   <div class="ctrl"><input type="search" id="q1" placeholder="Filtrar (ex.: Mageblood, Omen, Runegraft)" aria-label="Filtrar os mais caros"></div>
   <div class="tbl fit"><table class="mk"><thead><tr><th></th><th>Item</th><th class="num">Preço</th><th class="num hide">7 dias</th><th class="num hide">Ofertas</th></tr></thead><tbody id="toprows"></tbody></table></div>
+</section>
+
+<section id="gemas">
+  <h2>Gemas</h2>
+  <p>Gemas que valem dinheiro: as que caem do farm (Empower, Enlighten, Enhance e as excepcionais), as transfiguradas e as corrompidas 21/23. Os preços são da variação exata (nível, qualidade e se é corrompida). Clique para abrir a busca no trade oficial com esses filtros.</p>
+  <div class="ctrl">
+    <div class="seg gseg" role="group" aria-label="Tipo de gema" id="gtabs"></div>
+    <input type="search" id="q3" placeholder="Filtrar (ex.: Empower, Ethereal Knives)" aria-label="Filtrar gemas">
+  </div>
+  <p class="sub" id="gtip"></p>
+  <div class="tbl fit"><table class="mk"><thead><tr><th></th><th>Gema</th><th class="num">Preço</th><th class="num hide">7 dias</th><th class="num hide">Ofertas</th></tr></thead><tbody id="gemrows"></tbody></table></div>
 </section>
 
 <section id="cat">
@@ -90,6 +104,8 @@ table.mk a{color:var(--fg);text-decoration:none}table.mk a:hover{color:var(--acc
 <script>
 (function () {
   var SRC = 'https://raw.githubusercontent.com/Jantare/poe-builds/mercado-data/mercado.json';
+  var TEST = new URLSearchParams(location.search).get('src');  // teste local: ?src=_teste.json
+  if (TEST && /^[\w.-]+\.json$/.test(TEST)) SRC = TEST;
   var D = null, UNIT = 'd';
   try { UNIT = localStorage.getItem('poebuilds.mkunit') || 'd'; } catch (e) {}
   var $ = function (id) { return document.getElementById(id); };
@@ -139,12 +155,48 @@ table.mk a{color:var(--fg);text-decoration:none}table.mk a:hover{color:var(--acc
     var k = $('cats').value, q = $('q2').value.trim().toLowerCase();
     $('catrows').innerHTML = (D.cats[k] || []).filter(function (r) { return !q || r.n.toLowerCase().indexOf(q) >= 0; }).map(function (r) { return trow(r, k); }).join('');
   }
+  var GEMG = [
+    ['eee', 'Empower / Enlighten / Enhance', 'Caem de monstros e baús no farm. Nível 3 e 4 valem muito mais que o 1; as Awakened são as mais caras.'],
+    ['excepcionais', 'Excepcionais', 'Outras gemas raras de drop (Greater Multistrike, Greater Ancestral Call…). Não venda sem olhar o preço.'],
+    ['transfiguradas', 'Transfiguradas', 'Gemas transfiguradas nível 20 sem corromper. Dá para conseguir no Lab (Divine Font) ou com Dedication to the Goddess.'],
+    ['corrompidas', 'Corrompidas 21/23', 'Nível 21 ou qualidade 23, depois da Vaal Orb. São as que mais valem para quem joga a build.'],
+    ['liga', 'Da liga (Trarthus)', 'Gemas novas da 3.30.']
+  ];
+  var GTAB = 'eee';
+  try { GTAB = localStorage.getItem('poebuilds.gemtab') || 'eee'; } catch (e) {}
+  function gemTrade(r) {
+    var q = { query: { status: { option: 'online' } }, sort: { price: 'asc' } };
+    if (r.t) for (var k in r.t) q.query[k] = r.t[k];
+    return 'https://www.pathofexile.com/trade/search/' + encodeURIComponent(D.league) + '?q=' + encodeURIComponent(JSON.stringify(q));
+  }
+  function renderGems() {
+    var sec = $('gemas');
+    if (!D.gems) { sec.hidden = true; return; }
+    sec.hidden = false;
+    var groups = GEMG.filter(function (g) { return D.gems[g[0]] && D.gems[g[0]].length; });
+    if (!groups.some(function (g) { return g[0] === GTAB; })) GTAB = groups.length ? groups[0][0] : 'eee';
+    $('gtabs').innerHTML = groups.map(function (g) { return '<button type="button" data-g="' + g[0] + '" aria-pressed="' + (g[0] === GTAB) + '">' + esc(g[1]) + '</button>'; }).join('');
+    var cur = groups.filter(function (g) { return g[0] === GTAB; })[0];
+    $('gtip').textContent = cur ? cur[2] : '';
+    var q = $('q3').value.trim().toLowerCase();
+    $('gemrows').innerHTML = (D.gems[GTAB] || []).filter(function (r) { return !q || r.n.toLowerCase().indexOf(q) >= 0; }).map(function (r) {
+      var v = 'nível ' + r.lv + (r.q ? ' · ' + r.q + '%' : '');
+      var few = r.o < 3 ? '<span class="few">poucas ofertas</span>' : '';
+      return '<tr><td class="ic">' + img(r) + '</td><td class="nm"><a href="' + esc(gemTrade(r)) + '" target="_blank" rel="noopener">' + esc(r.n) + '</a>' + few + '<small>' + v + (r.cor ? ' · <span class="gv cor" style="margin:0">corrompida</span>' : '') + '</small></td><td class="num">' + fmt(r.c) + '</td><td class="num hide">' + chg(r.ch) + '</td><td class="num hide">' + r.o + '</td></tr>';
+    }).join('');
+  }
+  $('gtabs').addEventListener('click', function (ev) {
+    var b = ev.target.closest('button[data-g]'); if (!b) return;
+    GTAB = b.getAttribute('data-g'); try { localStorage.setItem('poebuilds.gemtab', GTAB); } catch (e) {}
+    renderGems();
+  });
+  $('q3').addEventListener('input', renderGems);
   function renderAll() {
     $('lg').textContent = D.league; $('div').textContent = Math.round(D.divine) + ' chaos';
     var m = Math.round((Date.now() - new Date(D.updated).getTime()) / 60000);
     $('upd').textContent = m < 1 ? 'agora' : m < 60 ? 'há ' + m + ' min' : 'há ' + Math.round(m / 60) + ' h';
     $('u-c').setAttribute('aria-pressed', UNIT === 'c'); $('u-d').setAttribute('aria-pressed', UNIT === 'd');
-    renderFarm(); renderTop(); renderCat();
+    renderFarm(); renderTop(); renderGems(); renderCat();
   }
   function setUnit(u) { UNIT = u; try { localStorage.setItem('poebuilds.mkunit', u); } catch (e) {} renderAll(); }
   $('u-c').addEventListener('click', function () { setUnit('c'); });
