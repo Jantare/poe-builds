@@ -120,7 +120,7 @@ table.mk a{color:var(--fg);text-decoration:none}table.mk a:hover{color:var(--acc
     return '<span class="ch ' + c + '">' + (v > 0 ? '+' : '') + Math.round(v) + '%</span>';
   }
   function trade(r, k) {
-    var noLink = /Gemas|Cluster|Mapas$|Blighted/.test(k || r.k || '');
+    var noLink = /Gemas|Cluster|Mapas$|Blighted|Wickerman/.test(k || r.k || '');
     if (noLink) return null;
     var uniq = /Uniques|Relics/.test(k || r.k || '');
     var q = { query: { status: { option: 'online' } }, sort: { price: 'asc' } };

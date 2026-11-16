@@ -26,7 +26,7 @@ def parse(text):
         return None
     blocks = [b.strip().splitlines() for b in SEP.split(text)]
     it = {'cls': '', 'rarity': '', 'name': '', 'base': '', 'stack': 1, 'level': 0, 'quality': 0,
-          'tier': 0, 'ilvl': 0, 'corrupted': False, 'sockets': '', 'unid': False}
+          'tier': 0, 'ilvl': 0, 'corrupted': False, 'sockets': '', 'unid': False, 'mods': []}
     names = []
     for line in blocks[0]:
         if line.startswith('Item Class:'):
@@ -64,6 +64,8 @@ def parse(text):
                 it['corrupted'] = True
             elif l == 'Unidentified':
                 it['unid'] = True
+            elif l and ':' not in l and not l.startswith(('Take this', 'Place into', 'Right click', 'Note')):
+                it['mods'].append(re.sub(r'\s*\((implicit|crafted|fractured|enchant)\)$', '', l))  # usado nas partes do Wickerman
     return it
 
 
@@ -81,7 +83,7 @@ def to_api_item(it):
         sockets += [{'group': g}] * len(grp.split('-'))
     return {'name': it['name'], 'typeLine': it['base'], 'baseType': it['base'],
             'frameType': FRAME.get(it['rarity'], 0), 'properties': props, 'sockets': sockets,
-            'corrupted': it['corrupted']}
+            'corrupted': it['corrupted'], 'implicitMods': it.get('mods', [])}
 
 
 def trade_url(it, league):

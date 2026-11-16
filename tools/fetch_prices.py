@@ -17,7 +17,7 @@ ITEMS = {
     'UniqueWeapon': 'Uniques: armas', 'UniqueArmour': 'Uniques: armaduras', 'UniqueAccessory': 'Uniques: acessórios',
     'UniqueFlask': 'Uniques: frascos', 'UniqueJewel': 'Uniques: jewels', 'UniqueRelic': 'Relics', 'SkillGem': 'Gemas',
     'ClusterJewel': 'Cluster Jewels', 'Map': 'Mapas', 'UniqueMap': 'Mapas únicos', 'Invitation': 'Invitations',
-    'BlightedMap': 'Blighted Maps', 'Wombgift': 'Wombgifts',
+    'BlightedMap': 'Blighted Maps', 'Wombgift': 'Wombgifts', 'Viscera': 'Wickerman (partes)',
 }
 TOP = 60
 FARM = {  # o que cada farm do site solta (busca por pedaço do nome)
@@ -121,6 +121,7 @@ def main(out):
             n = l['name']
             if l.get('links'): n += f" ({l['links']}L)"
             if t == 'SkillGem': n += f" {l.get('gemLevel', '')}/{l.get('gemQuality') or 0}" + (' corr.' if l.get('corrupted') else '')
+            if t == 'Viscera' and l.get('variant'): n += f" ({l['variant']})"  # a mesma parte muda de preço pelo modificador
             if t == 'Map' and l.get('mapTier'): n += f" T{l['mapTier']}" if 'Tier' not in n else ''
             sp = l.get('sparkLine') or l.get('lowConfidenceSparkLine') or {}
             rows.append({'n': n, 'c': round(l.get('chaosValue') or 0, 1), 'ch': sp.get('totalChange'),
@@ -141,7 +142,7 @@ def main(out):
             seen.add(r['n']); uniq.append(r)
         farm[f] = uniq[:25]
     data = {'league': lg, 'updated': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'divine': round(divine or 0, 1),
-            'top': top, 'farm': farm, 'gems': gems(gemlines), 'cats': {k: v[:TOP] for k, v in cats.items()}}
+            'top': top, 'farm': farm, 'gems': gems(gemlines), 'cats': {k: v[:400 if k.startswith('Wickerman') else TOP] for k, v in cats.items()}}  # partes: lista longa para achar a sua no filtro
     with open(out, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
     print(lg, 'divine', data['divine'], 'categorias', len(cats), 'top', len(top))

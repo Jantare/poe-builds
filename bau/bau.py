@@ -35,7 +35,8 @@ EXCHANGE_TYPES = ['Currency', 'Fragment', 'Omen', 'DivinationCard', 'Essence', '
                   'EnshroudingCrystal', 'DjinnCoin', 'Thread', 'SoulCore']
 ITEM_TYPES = ['UniqueWeapon', 'UniqueArmour', 'UniqueAccessory', 'UniqueFlask', 'UniqueJewel', 'UniqueTincture',
               'UniqueRelic', 'SkillGem', 'ImbuedGem', 'ClusterJewel', 'Map', 'BlightedMap', 'UniqueMap', 'ValdoMap',
-              'Invitation', 'Memory', 'IncursionTemple', 'Incubator', 'Vial', 'Wombgift', 'ForbiddenJewel', 'ScryingOrb']
+              'Invitation', 'Memory', 'IncursionTemple', 'Incubator', 'Vial', 'Wombgift', 'ForbiddenJewel', 'ScryingOrb',
+              'Viscera']
 CATEGORY = {  # nome mostrado no site
     'Currency': 'Currency', 'Fragment': 'Fragmentos', 'Omen': 'Omens', 'DivinationCard': 'Cartas', 'Essence': 'Essências',
     'Fossil': 'Fossils', 'Resonator': 'Fossils', 'Oil': 'Óleos', 'DeliriumOrb': 'Delirium', 'Astrolabe': 'Atlas',
@@ -45,7 +46,7 @@ CATEGORY = {  # nome mostrado no site
     'UniqueJewel': 'Uniques', 'UniqueTincture': 'Uniques', 'UniqueRelic': 'Uniques', 'SkillGem': 'Gemas', 'ImbuedGem': 'Gemas',
     'ClusterJewel': 'Jewels', 'Map': 'Mapas', 'BlightedMap': 'Mapas', 'UniqueMap': 'Mapas', 'ValdoMap': 'Mapas',
     'Invitation': 'Fragmentos', 'Memory': 'Atlas', 'IncursionTemple': 'Mapas', 'Incubator': 'Outros', 'Vial': 'Outros',
-    'Wombgift': 'Outros', 'ForbiddenJewel': 'Jewels', 'ScryingOrb': 'Outros'}
+    'Wombgift': 'Outros', 'ForbiddenJewel': 'Jewels', 'ScryingOrb': 'Outros', 'Viscera': 'Wickerman'}
 
 
 class BauError(Exception):
@@ -339,7 +340,7 @@ def norm(s):
     return re.sub(r'\s+', ' ', (s or '').strip().lower())
 
 
-APP_VERSION = '2026.11.13b'
+APP_VERSION = '2026.11.16'
 CURRENT_LEAGUES = ['Covens', 'Hardcore Covens']  # liga da vez: aparece mesmo se a GGG e o poe.ninja falharem
 
 
@@ -411,11 +412,32 @@ def links(item):
     return max(groups.values()) if groups else 0
 
 
+def mod_template(text):
+    """'+6 to Maximum Rage' -> '+# to maximum rage' (igual ao 'variant' do poe.ninja)."""
+    text = re.sub(r'\[([^\]|]*)\|([^\]]*)\]', r'\2', text or '')  # [Tag|Texto] -> Texto
+    text = re.sub(r'\[([^\]]*)\]', r'\1', text)
+    text = re.sub(r'\(\d+(?:\.\d+)?-\d+(?:\.\d+)?\)', '#', text)  # faixas (8-12)
+    return norm(re.sub(r'\d+(?:\.\d+)?', '#', text))
+
+
+def price_viscera(item, cands):
+    """Partes do Wickerman: a mesma parte (ex.: Coven Queen's Crown) tem preços bem diferentes por modificador."""
+    mods = (item.get('implicitMods') or []) + (item.get('explicitMods') or [])
+    tmpls = {mod_template(m) for l in mods for m in str(l).splitlines()}
+    hit = [l for l in cands if l.get('variant') and mod_template(l['variant']) in tmpls]
+    pool = hit or [l for l in cands if not l.get('variant')] or cands
+    return min(l.get('chaosValue') or 0 for l in pool)
+
+
 def price_item(item, P):
     """Devolve (preço unitário em chaos, categoria)."""
     name, tl = item.get('name') or '', item.get('typeLine') or ''
     base = item.get('baseType') or tl
     frame = item.get('frameType')
+    # partes do Wickerman (Viscera): preço pelo nome + modificador
+    vis = [l for l in (P['items'].get(norm(tl)) or P['items'].get(norm(base)) or []) if l.get('_type') == 'Viscera']
+    if vis and (frame == 15 or not name):
+        return price_viscera(item, vis), 'Wickerman'
     # currency, fragmentos, cartas, essências etc.
     for key in (norm(tl), norm(base)):
         if key in P['exchange']:
