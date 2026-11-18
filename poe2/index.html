@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PoE 2 · PoE Builds</title>
+<meta name="description" content="Nosso plano para o Path of Exile 2 1.0: build Spark, o que muda na 1.0, farm de Ritual + Breach atrás de Headhunter e Mageblood, mecânicas e Atlas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/nav.js" defer></script>
+<style>
+.loop{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;counter-reset:s;padding:0;margin:0;list-style:none}
+.loop li{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:12px;min-width:0}
+.loop li::before{counter-increment:s;content:counter(s);font-family:var(--f-display);font-weight:700;font-size:22px;color:var(--accent);text-shadow:0 0 12px var(--glow);display:block;margin-bottom:4px}
+.loop b{display:block;margin-bottom:4px;color:#eae4d3}
+.loop p{font-size:13.5px;margin:0;color:var(--muted)}
+@media (max-width:860px){.loop{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.loop{grid-template-columns:1fr}}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:720px){.plans{grid-template-columns:1fr}}
+.mcard{background:linear-gradient(180deg,#121a2c,var(--surface));border:1px solid var(--wood);border-radius:10px;padding:14px;display:grid;gap:8px;min-width:0;align-content:start}
+.mhead{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
+.mhead h3{font-family:var(--f-display);font-size:19px;color:#eae4d3;margin:0}
+.mcard ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+.mcard p{margin:0;font-size:14px}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat div{background:var(--surface);border:1px solid var(--wood);border-radius:8px;padding:10px 12px;min-width:0}
+.stat b{display:block;font-family:var(--f-display);font-size:22px;color:var(--accent)}
+.stat span{font-size:13px;color:var(--muted)}
+table.split{table-layout:fixed}
+table.split td{overflow-wrap:anywhere}
+table.split td:first-child{font-weight:500;color:#cfd8e8}
+.check{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.check li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px}
+.check li::before{content:"☐ ";color:var(--accent)}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="in">
+  <a class="brand" href="../">PoE Builds</a>
+  <div class="links"><a href="../">Início</a><a href="./" aria-current="page">PoE 2</a><a href="../farm/">Farm</a><a href="../craft/">Craft</a><a href="../bau/">Baú</a><a href="../mercado/">Mercado</a></div>
+</div></header>
+
+<div class="wrap wide">
+<header>
+  <div class="eyebrow">Path of Exile 2 · rumo à 1.0 (11 de dezembro)</div>
+  <h1>Nosso PoE 2</h1>
+  <p class="lede">Tudo o que levantamos sobre o PoE 2: a build que vamos jogar, o que muda na 1.0, a nossa farm de Ritual + Breach atrás de Headhunter e Mageblood, as mecânicas e como fechar o Atlas rápido.</p>
+  <p class="note"><strong>Atualizado em 18/11/2026.</strong> O jogo está na 0.5.5 (liga Forbidden Rites). As notas de patch da 1.0 saem cerca de uma semana antes do lançamento (~4/12). Tudo marcado como <span class="pill warn">conferir</span> depende delas.</p>
+</header>
+<nav class="sec" aria-label="Seções"><a href="#plano">Plano</a><a href="#spark">Spark</a><a href="#um-ponto-zero">1.0</a><a href="#farm">Nossa farm</a><a href="#hhmb">HH e MB</a><a href="#mecanicas">Mecânicas</a><a href="#moeda">Moeda</a><a href="#atlas">Atlas</a><a href="#conferir">Conferir</a></nav>
+
+<section id="plano"><h2>O plano</h2>
+<p>Critério para começar a liga: <b>jogar com a skill final desde o começo e não depender de moeda</b>. Por isso a Gemling Spark ficou de fora: ela sobe de nível com outra skill (Twister) e só vira Spark com dinheiro.</p>
+<div class="plans">
+  <div class="mcard"><div class="mhead"><h3>Plano A · Spark Stormweaver</h3><span class="pill ok">Seguro</span></div>
+    <ul><li>Sorceress Stormweaver com Spark desde a primeira área.</li><li>Endgame: crítico + <b>Cast on Critical com Comet</b>.</li><li>Já jogamos e gostamos. Mapeia rápido, combina com Ritual + Breach.</li><li>Risco: o CoC depende de quanto crítico o equipamento vai dar na 1.0.</li></ul></div>
+  <div class="mcard"><div class="mhead"><h3>Plano B · Shadow Assassin Spark</h3><span class="pill new">Aposta</span></div>
+    <ul><li>Classe nova da 1.0 (Dex/Int): começa entre Ranger e Sorceress, perto dos nós de caster.</li><li>Sobe de nível com outra skill e vira <b>Spark no endgame</b>.</li><li>No PoE 2 as gemas não são presas à classe: o Gemling já joga Spark.</li><li>Só vale se vier <b>adaga com crítico base bom para caster</b> e o Spark não for nerfado.</li></ul></div>
+</div>
+</section>
+
+<section id="spark"><h2>Spark Stormweaver (animeprincess)</h2>
+<p>Referência: o guia de league start da <b>animeprincess</b> (YouTube @anime.princess), marcado para a 0.5.5.</p>
+<ol class="loop">
+  <li><b>Orb + Spark</b><p>Orb of Storms com Unleash solta 3 orbes de uma vez (botão esquerdo). Cada Spark (botão direito) faz os orbes soltarem raios em cadeia.</p></li>
+  <li><b>Boss</b><p>Frost Bomb e Elemental Weakness antes (exposição), Sigil of Power no chão e depois o combo.</p></li>
+  <li><b>Ascendência</b><p>Constant Gale → Strike Twice → Shaper of Storms → Storm's Recollection.</p></li>
+  <li><b>Equipamento</b><p>Cajado de raio é o mais importante: + nível de spells, cast speed, % de dano de spell. Depois, vida, ES e resistências.</p></li>
+  <li><b>Mana</b><p>Efficiency II nas gemas, anoint Conservative Casting, Mana Remnants com Storm's Recollection.</p></li>
+  <li><b>Endgame</b><p>Troca para crítico + CoC Comet e depois para CI (só Energy Shield).</p></li>
+</ol>
+<h3>Como foi na 0.5.5 (poe.ninja, Forbidden Rites, 18/11)</h3>
+<div class="stat">
+  <div><b>3,4%</b><span>da liga joga Stormweaver (4.248 personagens, 8º lugar). A Gemling lidera com 32%.</span></div>
+  <div><b>88% / 86%</b><span>dos Stormweavers usam Spark / Comet. Cast on Critical em 80%, crítico em 97%.</span></div>
+  <div><b>39%</b><span>usam Orb of Storms: forte na campanha, sai no endgame.</span></div>
+  <div><b>19.487</b><span>personagens com Spark: Gemling 29%, Infernalist 24%, Stormweaver 19%.</span></div>
+</div>
+<p class="sub">Arma no endgame: varinha + cetro (47%), cajado (25%), varinha + focus (24%).</p>
+</section>
+
+<section id="um-ponto-zero"><h2>O que muda na 1.0</h2><div class="why">
+  <div><h3>Crítico sai da árvore</h3><p>A <b>chance</b> de crítico sai da árvore; o dano crítico fica. Ela vem do equipamento e da base da arma. Citaram ~60% como possível. Jewels de crítico ficam mais fracas. <span class="pill warn">conferir</span></p></div>
+  <div><h3>Atlas com ~75 pontos</h3><p>Antes eram mais de 300. Agora são cerca de 70–75 nós mais fortes, com escolha múltipla. Pontos vêm de mapas especiais; ~50 ao matar o pinnacle. Dá para viajar direto ao hub de cada mecânica.</p></div>
+  <div><h3>Mais de 100 uniques</h3><p>80+ reworkados e 40+ novos, muitos com skill própria e crítico base alto. A ideia é que achar unique volte a valer a pena.</p></div>
+  <div><h3>Shadow</h3><p>Adagas, traps e stealth (dash que deixa invisível; recarga zera a cada kill). Ascendências: <b>Assassin</b> (dano crítico) e <b>Infiltrator</b> (traps).</p></div>
+  <div><h3>Duelist</h3><p>Espadas. A skill principal é o <b>Cyclone</b>, com dois modos: Blood (mais dano) e Sand (mais área). Precisa de duas espadas ou espada de duas mãos.</p></div>
+  <div><h3>Liga Conquerors of Wraeclast</h3><p>Exércitos, castelo e facções (Karui, Ezomyte, Maraketh). Segurar castelo dá bônus de Item Rarity. O Athela roda mapas para você com tablets.</p></div>
+  <div><h3>Gemas</h3><p>Penetração de Fogo/Gelo/Raio vira <b>Elemental Penetration</b>. Suportes deixam de ser só de spell ou só de ataque. Chain não reduz mais o primeiro acerto.</p></div>
+  <div><h3>Outros</h3><p>Atos 5 e 6, ~60 jewel sockets dentro dos clusters, Death Recap e ~25% de ganho de CPU.</p></div>
+</div></section>
+
+<section id="farm"><h2>Nossa farm: Ritual + Breach</h2>
+<p>As duas mecânicas escalam com <b>densidade (pack size)</b>: mais monstros = mais tribute no Ritual (mais favores e rerolls) e mais Hiveblood na Breach. A Spark limpa rápido, então encaixa perfeito.</p>
+<div class="plans">
+  <div class="mcard"><div class="mhead"><h3>Ritual</h3><span class="pill ok">Uniques e Omens</span></div>
+    <ul><li>Desde a 0.5, a janela do Ritual no endgame só oferece <b>Unique ou Omen</b>.</li><li>Com os uniques novos da 1.0, a janela deve valer mais.</li><li>Omens são a base do craft caro: guardar e vender no meio da liga.</li><li>Mageblood e Headhunter saem daqui.</li></ul></div>
+  <div class="mcard"><div class="mhead"><h3>Breach</h3><span class="pill ok">Genesis Tree</span></div>
+    <ul><li>Hiveblood alimenta a Genesis Tree, que fabrica anéis, amuletos, cintos e catalisadores.</li><li>Com o crítico vindo do equipamento, item com crítico e mods de caster deve ficar mais procurado.</li><li>Catalisadores são venda fácil.</li><li>É o jeito mais rápido de fechar resistência no começo.</li></ul></div>
+</div>
+<h3>Plano por fase da liga</h3>
+<div class="tbl fit"><table class="split"><colgroup><col style="width:28%"><col style="width:72%"></colgroup><thead><tr><th>Quando</th><th>O que fazer</th></tr></thead><tbody>
+<tr><td>Semana 1</td><td><b>Vender rápido todo unique novo</b> que sair do Ritual. É quando valem mais, porque todo mundo quer testar as skills novas. Não guardar esperando subir.</td></tr>
+<tr><td>Semana 1–2</td><td>Fechar o Atlas (agora são ~75 pontos) e pegar os nós de Ritual e Breach.</td></tr>
+<tr><td>Meio da liga</td><td>Vender os Omens guardados, quando a galera começa a craftar endgame. Breach focada em itens com crítico e mods de caster.</td></tr>
+<tr><td>Sempre</td><td>Mapas com mais pack size (cidades têm mais), nível 80+, e caçar HH/MB.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="hhmb"><h2>Headhunter e Mageblood</h2>
+<p>O objetivo para ficar rico. O que funcionava na 0.5:</p>
+<ol class="loop">
+  <li><b>Nó que puxa cinto</b><p>Na 0.5.5 havia um nó de Ritual com seleção que puxava os drops para cintos, onde estão HH e MB. <span class="pill warn">conferir na 1.0</span></p></li>
+  <li><b>Defer</b><p>Patient Devotion: guardar favor custa metade. Não perde o chase quando o tribute não dá.</p></li>
+  <li><b>Não rolar por cima</b><p>Apareceu HH ou MB na janela, guarda. Nunca rerola.</p></li>
+  <li><b>Sem tablet de Omen</b><p>Tablet de "mais chance de Omen" troca vaga de unique por Omen barato e dilui o chase.</p></li>
+  <li><b>Cidade e nível 80+</b><p>Cidade tem o maior pack size (mais tribute). Nível 80+ melhora unique e Omen.</p></li>
+  <li><b>Orb of Chance</b><p>Utility Belt branco → Mageblood. Heavy Belt branco → Headhunter. Omen of Chance protege a base. ~0,3% de chance.</p></li>
+</ol>
+<p class="note"><strong>Realismo:</strong> HH e MB são loteria. Na 0.5.5 caíram logo nos primeiros dias, mas ninguém consegue garantir. O dinheiro constante vem do resto: uniques novos, Omens e itens da Breach. Montar o Atlas mirando HH/MB e ir pagando a conta com o resto.</p>
+</section>
+
+<section id="mecanicas"><h2>Mecânicas do endgame (0.5.5)</h2>
+<div class="tbl fit"><table class="split"><colgroup><col style="width:24%"><col style="width:40%"><col style="width:36%"></colgroup><thead><tr><th>Mecânica</th><th>O que é</th><th>Para que serve</th></tr></thead><tbody>
+<tr><td>Fortress</td><td>Sobe quando você termina a 1ª Precursor Tower. Arbiter of Divinity no centro.</td><td>Progressão principal e pontos do Atlas.</td></tr>
+<tr><td>Abyss (leste)</td><td>Fendas no mapa, Abyssal Pits/Depths. Facções Amanamu, Ulaman, Kulemak.</td><td>Moeda bruta: Divine, Omens, Desecrated Bones. Craft preciso no Well of Souls.</td></tr>
+<tr><td>Breach (sul)</td><td>Mãos no mapa; Hiveborn dão Hiveblood. Bosses Tul &amp; Esh e Xesht.</td><td>Genesis Tree: anéis, amuletos, cintos, catalisadores.</td></tr>
+<tr><td>Ritual (oeste)</td><td>Círculo com altar e tribute. Rite of the Nameless, King in the Mists, Bodach.</td><td>Uniques e Omens. HH e MB.</td></tr>
+<tr><td>Delirium (sudoeste)</td><td>Névoa, Simulacrum de 7 ondas.</td><td>Anoint de amuleto, jewels, splinters.</td></tr>
+<tr><td>Expedition / Runes of Aldur (sudeste)</td><td>Oceano com logbooks e ilhas. Bosses Medved → Vorana → Uhtred → Olroth.</td><td>A farm mais forte da 0.5, mas pede build que mate rare muito modificado.</td></tr>
+<tr><td>Fate of the Vaal (nordeste)</td><td>Cidade Vaal, Atziri, dupla corrupção.</td><td>Craft de endgame. Costuma ser pulada.</td></tr>
+<tr><td>Masters</td><td>Doryani, Hilda e Jado. Troca a qualquer hora.</td><td>Doryani: revive extra. Hilda: rogue exiles e uniques. Jado: missões e itens excepcionais.</td></tr>
+<tr><td>Tablets</td><td>Colocam uma mecânica em todos os mapas na área da torre.</td><td>É como você escolhe o que farmar.</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="moeda"><h2>Como a galera fez moeda na 0.5.5</h2>
+<p class="note"><strong>Cuidado:</strong> os valores em divine/hora vêm de sites que vendem moeda e costumam exagerar. Vale a ordem, não o número.</p>
+<div class="plans">
+  <div class="mcard"><div class="mhead"><h3>No Atlas</h3></div>
+    <ul><li><b>Expedition</b>: top players com 100+ div no 1º dia. Pede build forte.</li><li><b>Abyss de Omens</b> (Amanamu): o mais constante. Nunca pular Lightless Void.</li><li><b>Breach / Genesis Tree</b>: catalisadores, amuletos e cintos.</li><li><b>Ritual com defer</b>: guardar favor bom, nunca rolar por cima de chase.</li><li><b>Rogue Exile / Heart of the Well</b>: o mais tranquilo para começar.</li></ul></div>
+  <div class="mcard"><div class="mhead"><h3>Fora do Atlas</h3></div>
+    <ul><li><b>Delirium nos mapas de passagem</b>: abre o espelho e vai no boss. Splinter de graça.</li><li><b>Fragmentos de Citadel</b> (Copper, Iron, Stone) e Halls do Matriarch/Patriarch.</li><li><b>Craft barato</b> de luva/capacete com resistência: menos de 10 ex, vende por 20–45 ex.</li><li><b>Vender uniques na 1ª semana</b>, quando valem mais.</li></ul></div>
+</div>
+</section>
+
+<section id="atlas"><h2>Fechar o Atlas rápido</h2>
+<p>Rota da 0.5.5. Na 1.0 o Atlas fica bem menor (~75 pontos), mas a lógica deve continuar.</p>
+<ol class="loop">
+  <li><b>Corre no boss</b><p>Rare e conteúdo de liga rendem pouco antes da árvore pronta. Vai direto no boss do mapa.</p></li>
+  <li><b>Hilda primeiro</b><p>1ª missão (Beast Contract): 25% de chance do boss virar "powerful" e dropar waystone 1 tier acima.</p></li>
+  <li><b>Tower → Fortress</b><p>Caminho mais curto até os Enigma Chambers. As regiões se completam depois.</p></li>
+  <li><b>Sustento primeiro</b><p>Nós de drop de waystone e de tablet antes de tudo.</p></li>
+  <li><b>Para no T11</b><p>Item nível 75 basta para quase tudo. Correr para o T15 sem equipamento é o erro clássico.</p></li>
+  <li><b>Arbiter + Tower Relay</b><p>Cada kill do Arbiter of Divinity completa uma região inteira. Precursor Towers fazer à mão no final.</p></li>
+</ol>
+<p class="sub">Doryani vende waystone 1 tier abaixo do maior que você completou. 3ª ascendência pelo Trial of the Sekhemas (Barya nível 60), 4ª perto do nível 85.</p>
+</section>
+
+<section id="conferir"><h2>Conferir nas notas de patch (~4/12)</h2>
+<ul class="check">
+  <li>Números do Spark e do Cast on Critical sem chance de crítico na árvore.</li>
+  <li>Se existe adaga com crítico base bom para caster (decide o Plano B).</li>
+  <li>Nós de spell/Int perto do início do Shadow e o que o Assassin dá.</li>
+  <li>Se Ritual e Breach mudaram, e como ficaram os nós deles no Atlas novo.</li>
+  <li>Se o nó que puxa cinto no Ritual continua.</li>
+  <li>Se Mageblood e Headhunter foram mexidos, e se Orb of Chance + Omen of Chance continuam iguais.</li>
+  <li>Se os 100+ uniques novos diluem o pool da janela do Ritual.</li>
+  <li>Se a liga Conquerors of Wraeclast (Item Rarity do castelo, Athela) ajuda a nossa farm.</li>
+  <li>Guias de Spark para a 1.0 (animeprincess, Maxroll), que devem sair entre 4/12 e 11/12.</li>
+</ul>
+</section>
+
+<footer>Fontes: <a href="https://mobalytics.gg/poe-2/builds/animeprincess-stormweaver-sorc-league-starter" target="_blank" rel="noopener">animeprincess (Mobalytics)</a>, <a href="https://poe.ninja/poe2/builds/forbiddenrites?class=Stormweaver" target="_blank" rel="noopener">poe.ninja</a>, <a href="https://maxroll.gg/poe2/news/everything-new-in-path-of-exile-2-1-0" target="_blank" rel="noopener">Maxroll 1.0</a>, <a href="https://mobalytics.gg/poe-2/guides/1-0-livestream-exilecon-content-summary" target="_blank" rel="noopener">Mobalytics ExileCon</a>, <a href="https://www.elyxir.gg/news/path-of-exile-2/path-of-exile-2-crit-changes-gear-jewels-and-the-new-passive-tree" target="_blank" rel="noopener">Elyxir (crítico)</a>, <a href="https://outputlag.com/news/path-of-exile-2-1-0-reworks-around-70-uniques-with-built-in-skills-and-adds-over-40-new-ones/" target="_blank" rel="noopener">OutputLag (uniques)</a>, <a href="https://domistae.github.io/poe2-leveling/poe2_endgame_guide.html" target="_blank" rel="noopener">Domistae (endgame 0.5.5)</a>, <a href="https://www.mtmmo.com/news/2324--poe-2-055-forbidden-rites-best-currency-farm-strats-atlas--offatlas" target="_blank" rel="noopener">MTMMO (farms)</a>, <a href="https://www.aoeah.com/news/4608--best-poe-2-05-ritual-farming-strategy--guide" target="_blank" rel="noopener">AoEAH (Ritual)</a>, <a href="https://timesaver.gg/blog/poe2-orb-of-chance-guide" target="_blank" rel="noopener">Timesaver (Orb of Chance)</a>, <a href="https://www.pathofexile.com/forum/view-thread/3932540" target="_blank" rel="noopener">notas oficiais 0.5.0</a>.</footer>
+</div>
+</body>
+</html>
