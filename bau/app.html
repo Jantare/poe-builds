@@ -76,8 +76,8 @@ details.filt .pop{position:absolute;z-index:5;top:110%;left:0;background:var(--s
 .r0{color:#c8c8c8}.r1{color:#8888ff}.r2{color:#ffff77}.r3{color:#af6025}.r4{color:#1ba29b}.r5{color:#aa9e82}.r6{color:#d9e6f2}
 .tabcell{display:flex;align-items:center;gap:6px}
 .tabcell i{width:10px;height:10px;border-radius:2px;display:inline-block}
-.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
-th.num{text-align:right}
+.cnum{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+th.cnum{text-align:right}
 .unpriced{color:var(--muted)}
 .more{display:block;margin:10px auto;font:inherit;font-weight:600;padding:8px 16px;border-radius:6px;border:1px solid var(--accent);background:none;color:var(--accent);cursor:pointer}
 .drop{border:2px dashed var(--wood-hi);border-radius:12px;padding:22px;text-align:center;display:grid;gap:10px;justify-items:center;background:rgba(17,38,74,.25)}
@@ -222,7 +222,7 @@ th.num{text-align:right}
         <span class="meta" id="meta"></span>
       </div>
       <div class="items"><table>
-        <thead><tr><th><input type="checkbox" id="all" checked aria-label="Selecionar todos"></th><th data-k="name">Nome</th><th data-k="tab">Aba</th><th data-k="qty" class="num">Quantidade</th><th data-k="price" class="num">Preço</th><th data-k="total" class="num" aria-sort="descending">Total</th></tr></thead>
+        <thead><tr><th><input type="checkbox" id="all" checked aria-label="Selecionar todos"></th><th data-k="name">Nome</th><th data-k="tab">Aba</th><th data-k="qty" class="cnum">Quantidade</th><th data-k="price" class="cnum">Preço</th><th data-k="total" class="cnum" aria-sort="descending">Total</th></tr></thead>
         <tbody id="rows"></tbody>
       </table></div>
       <button type="button" class="more" id="more" hidden>Mostrar mais</button>
@@ -340,9 +340,9 @@ th.num{text-align:right}
       return '<tr><td><input type="checkbox" data-id="' + it._id + '"' + (S.off[it._id] ? '' : ' checked') + ' aria-label="Selecionar ' + esc(it.name) + '"></td>' +
         '<td><div class="nmcell">' + (it.icon ? '<img src="' + esc(it.icon) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">' : '<i class="noicon"></i>') + '<span class="r' + (it.rarity || 0) + '">' + esc(it.name) + '</span></div></td>' +
         '<td><span class="tabcell"><i style="background:' + esc(t.color || '#777') + '"></i>' + esc(t.name || it.tab) + '</span></td>' +
-        '<td class="num">' + Number(it.qty).toLocaleString('pt-BR') + '</td>' +
-        '<td class="num' + (it.price ? '' : ' unpriced') + '">' + (it.price ? fmt(it.price) : 'sem preço') + '</td>' +
-        '<td class="num' + (it.total ? '' : ' unpriced') + '">' + (it.total ? fmt(it.total) : '—') + '</td></tr>';
+        '<td class="cnum">' + Number(it.qty).toLocaleString('pt-BR') + '</td>' +
+        '<td class="cnum' + (it.price ? '' : ' unpriced') + '">' + (it.price ? fmt(it.price) : 'sem preço') + '</td>' +
+        '<td class="cnum' + (it.total ? '' : ' unpriced') + '">' + (it.total ? fmt(it.total) : '—') + '</td></tr>';
     }).join('');
     $('more').hidden = items.length <= S.limit;
     $('all').checked = items.every(function (it) { return !S.off[it._id]; });
