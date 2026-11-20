@@ -45,7 +45,10 @@ Este arquivo é lido automaticamente em toda sessão nova. Ele existe para ningu
 ## PoE 2 (rumo à 1.0, 11/12/2026) — página `poe2/`
 - Notas da 1.0 saem ~4/12: tudo marcado "conferir" depende delas.
 - **Plano A: Spark Stormweaver** (Sorceress) — Spark desde a primeira área; endgame crítico + **Cast on Critical com Comet**, depois CI. Referência: guia da animeprincess (0.5.5). Ascendência: Constant Gale → Strike Twice → Shaper of Storms → Storm's Recollection. Risco: crítico sai da árvore na 1.0 (vem do equipamento).
-- **Plano B: Shadow Assassin Spark** (classe nova Dex/Int) — aposta, depende das adagas e de o Spark não ser nerfado.
+- **Plano B: Shadow (classe nova Dex/Int)** — tudo ainda é ideia até as notas da 1.0. A classe é adaga + stealth + armadilhas + Impale (não magia), então Shadow Spark ficou improvável; o mais forte nas demos foi **armadilhas** (Fire/Poison/Void Trap + Detonate + Contingency Plan, explodindo ao sair do stealth) com a adaga só para mover (Shroud, Viper Strike) no weapon swap.
+  - Fontes: resumo da ExileCon dia 2 (https://pathofexile.gg/exilecon-2026-day-2) e Talkative Tri "ALL 21 PoE2 1.0 Shadow Skills" (vW0LN5QsU5A, demo da Tailândia; nomes das skills podem estar mal traduzidos).
+  - Ranking das demos: 1 armadilhas, 2 veneno na adaga, 3 stealth, 4 adaga física/Sombras, 5 Blade Vortex (fraca). Eclipse (skill final) com dano baixo. Dúvida: armadilha é explosão — falta ver se limpa mapa rápido.
+  - Ainda não está na página `poe2/` (usuário preferiu esperar as notas).
 - **Farm planejada: Ritual + Breach** (escalam com densidade) atrás de **Headhunter e Mageblood**; Omens e uniques novos do Ritual, catalisadores e Genesis Tree da Breach. Atlas da 1.0 com ~75 pontos.
 
 ## Pendências
